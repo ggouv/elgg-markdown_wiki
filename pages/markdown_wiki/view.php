@@ -1,0 +1,44 @@
+<?php
+/**
+ *	Elgg-markdown_wiki plugin
+ *	@package elgg-markdown_wiki
+ *	@author Emmanuel Salomon @ManUtopiK
+ *	@license GNU Affero General Public License, version 3 or late
+ *	@link https://github.com/ManUtopiK/elgg-markdown_wiki
+ *
+ *	Elgg-markdown_wiki view markdown_wiki page
+ **/
+
+$markdown_wiki_guid = get_input('guid');
+$markdown_wiki = get_entity($markdown_wiki_guid);
+if (!$markdown_wiki) {
+	forward();
+}
+
+elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
+
+gatekeeper();
+
+$container = elgg_get_page_owner_entity();
+if (!$container) {
+}
+
+$title = $markdown_wiki->title;
+
+if (elgg_instanceof($page_owner, 'group')) {
+	elgg_push_breadcrumb($title, "markdown_wiki/group/$markdown_wiki_owner->guid/all");
+} else {
+	elgg_push_breadcrumb($title, "markdown_wiki/owner/$markdown_wiki_owner->username");
+}
+
+$content = elgg_view_entity($markdown_wiki, array('full_view' => true));
+$content .= elgg_view_comments($markdown_wiki);
+
+$body = elgg_view_layout('content', array(
+	'filter' => '',
+	'content' => $content,
+	'title' => $title,
+	'sidebar' => elgg_view('markdown_wiki/sidebar'),
+));
+
+echo elgg_view_page($title, $body);
