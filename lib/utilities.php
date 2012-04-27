@@ -52,15 +52,10 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0
 
 function markdow_wiki_to_html($text) {
 	$text = Markdown($text);
-global $fb; $fb->info($text);
 	$text = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $text);
-$fb->info($text);
 	return $text;
 }
 function _title_id_callback($matches) {
-	global $fb;
-$fb->info($matches);
-
 	$title = strip_tags($matches[3]);
 	$title = preg_replace("`\[.*\]`U", "", $title);
 	$title = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', $title);

@@ -7,3 +7,14 @@
  *
  *	Elgg-markdown_wiki CSS file
  **/
+
+.elgg-output.diff ins {
+	color: green;
+	background: #dfd;
+	text-decoration: none;
+}
+.elgg-output.diff del {
+	color: red;
+	background: #fdd;
+	text-decoration: none;
+}

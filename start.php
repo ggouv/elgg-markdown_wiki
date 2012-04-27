@@ -19,6 +19,7 @@ function markdown_wiki_init() {
 	// register a library of helper functions
 	$root = dirname(__FILE__);
 	elgg_register_library('markdown_wiki:utilities', "$root/lib/utilities.php");
+	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
 
 	// Extend the main CSS and JS file
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
