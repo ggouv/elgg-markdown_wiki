@@ -25,11 +25,11 @@ function markdown_wiki_init() {
 	elgg_extend_view('js/elgg', 'markdown_wiki/js');
 
 	// Add a menu item to the main site menu
-	$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), 'markdown_wiki/all');
+	$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), 'wiki/all');
 	elgg_register_menu_item('site', $item);
 
 	// Register a page handler, so we can have nice URLs
-	elgg_register_page_handler('markdown_wiki', 'markdown_wiki_page_handler');
+	elgg_register_page_handler('wiki', 'markdown_wiki_page_handler');
 
 	// Register entity type for search
 	elgg_register_entity_type('object', 'markdown_wiki');
@@ -45,7 +45,7 @@ function markdown_wiki_init() {
 	// where key is the array key below
 	elgg_set_config('markdown_wiki', array(
 		'title' => 'text',
-		'description' => 'longtext',
+		'description' => 'markdown',
 		'tags' => 'tags',
 		'access_id' => 'access',
 	));
@@ -55,25 +55,26 @@ function markdown_wiki_init() {
 /**
  * Dispatcher for elgg-markdown_wiki plugin.
  * URLs take the form of :
- *  All:			markdown_wiki/all
- *  User's:			markdown_wiki/owner/<username>
- *  Friend's:		markdown_wiki/friends/<username>
- *  View page:		markdown_wiki/view/<guid>/<title>
- *  New page:		markdown_wiki/add/<guid> (container: user, group, parent)
- *  Edit page:		markdown_wiki/edit/<guid>
- *  Group:			markdown_wiki/group/<guid>
+ *  All:			wiki/all
+ *  User's:			wiki/owner/<username>
+ *  Friend's:		wiki/friends/<username>
+ *  View page:		wiki/view/<guid>/<title>
+ *  New page:		wiki/add/<guid> (container: user, group, parent)
+ *  Edit page:		wiki/edit/<guid>
+ *  Group:			wiki/group/<guid>
  *
  * @param array $page
  */
 function markdown_wiki_page_handler($page) {
 
 	elgg_load_library('markdown_wiki:utilities');
+	elgg_load_library('elgg:markdown');
 
 	if (!isset($page[0])) {
 		$page[0] = 'all';
 	}
 
-	elgg_push_breadcrumb(elgg_echo('markdown_wiki'), 'markdown_wiki/all');
+	elgg_push_breadcrumb(elgg_echo('markdown_wiki'), 'wiki/all');
 
 	$base_dir = dirname(__FILE__) . '/pages/markdown_wiki';
 
@@ -99,6 +100,10 @@ function markdown_wiki_page_handler($page) {
 			set_input('guid', $page[1]);
 			include "$base_dir/edit.php";
 			break;
+		case 'history':
+			set_input('guid', $page[1]);
+			include "$base_dir/history.php";
+			break;
 		case 'group':
 			include "$base_dir/group.php";
 			break;
@@ -117,5 +122,5 @@ function markdown_wiki_page_handler($page) {
  */
 function markdown_wiki_url($entity) {
 	$title = elgg_get_friendly_title($entity->title);
-	return "markdown_wiki/view/$entity->guid/$title";
+	return "wiki/view/$entity->guid/$title";
 }

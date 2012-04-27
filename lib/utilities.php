@@ -49,3 +49,26 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0
 
 	return $values;
 }
+
+function markdow_wiki_to_html($text) {
+	$text = Markdown($text);
+global $fb; $fb->info($text);
+	$text = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $text);
+$fb->info($text);
+	return $text;
+}
+function _title_id_callback($matches) {
+	global $fb;
+$fb->info($matches);
+
+	$title = strip_tags($matches[3]);
+	$title = preg_replace("`\[.*\]`U", "", $title);
+	$title = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', $title);
+	$title = htmlentities($title, ENT_COMPAT, 'utf-8');
+	$title = preg_replace( "`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);`i", "\\1", $title );
+	$title = preg_replace( "`&([a-z])(elig);`i", "\\1e", $title );
+	$title = preg_replace( array("`[^a-z0-9]`i","`[-]+`") , "-", $title);
+	$title = strtolower($title);
+
+	return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
+}

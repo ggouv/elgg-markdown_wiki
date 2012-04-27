@@ -22,7 +22,7 @@ foreach ($variables as $name => $type) {
 }
 
 // Get guids
-$markdown_wiki_guid = (int)get_input('page_guid');
+$markdown_wiki_guid = (int)get_input('markdown_wiki_guid');
 $container_guid = (int)get_input('container_guid');
 
 elgg_make_sticky_form('markdown_wiki');
@@ -53,10 +53,6 @@ if (sizeof($input) > 0) {
 
 // need to add check to make sure user can write to container
 $markdown_wiki->container_guid = $container_guid;
-
-if ($parent_guid) {
-	$markdown_wiki->parent_guid = $parent_guid;
-}
 
 if ($markdown_wiki->save()) {
 

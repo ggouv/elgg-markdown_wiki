@@ -19,7 +19,7 @@ $english = array(
 	'markdown_wiki:owner' => "%s's wiki pages",
 	'markdown_wiki:friends' => "Friends' wiki pages",
 	'markdown_wiki:all' => "All site wiki pages",
-	'markdown_wiki:add' => "Add wiki page",
+	'wiki:add' => "Add wiki page",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
 
@@ -34,6 +34,11 @@ $english = array(
 	/**
 	 * Status and error messages
 	 */
+
+	/**
+	 * Object
+	 */
+	'markdown_wiki:strapline' => 'Last updated %s by %s',
 
 );
 

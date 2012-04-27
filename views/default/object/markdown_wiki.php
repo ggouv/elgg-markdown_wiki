@@ -12,9 +12,19 @@
 
 $full = elgg_extract('full_view', $vars, FALSE);
 $markdown_wiki = elgg_extract('entity', $vars, FALSE);
+$revision = elgg_extract('revision', $vars, FALSE);
 
 if (!$markdown_wiki) {
 	return TRUE;
+}
+
+if ($revision) {
+	$annotation = $revision;
+} else {
+	$annotation = $markdown_wiki->getAnnotations('markdown_wiki', 1, 0, 'desc');
+	if ($annotation) {
+		$annotation = $annotation[0];
+	}
 }
 
 $editor = get_entity($annotation->owner_guid);
@@ -44,7 +54,7 @@ if ($comments_count != 0) {
 
 $metadata = elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
-	'handler' => 'markdown_wiki',
+	'handler' => 'wiki',
 	'sort_by' => 'priority',
 	'class' => 'elgg-menu-hz',
 ));
@@ -57,7 +67,7 @@ if (elgg_in_context('widgets')) {
 }
 
 if ($full) {
-	$content = $markdown_wiki->description;
+	$content = markdow_wiki_to_html($annotation->value);
 	$body = elgg_view('output/longtext', array('value' => $content));
 
 	$params = array(
