@@ -25,7 +25,7 @@ unset($vars['value']);
 
 //$text = filter_tags($text);
 
-$text = autop($text);
+//$text = autop($text);
 
 $attributes = elgg_format_attributes($vars);
 

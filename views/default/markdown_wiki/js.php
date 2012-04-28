@@ -18,6 +18,23 @@ elgg.provide('elgg.markdown_wiki');
 
 elgg.markdown_wiki.init = function() {
 	$(document).ready(function() {
+		var nbrDiff = $('.elgg-output .diff').length -1;
+		$('#diff-'+nbrDiff).show();
+		var lastVal = nbrDiff;
+
+		// Create the slider:
+		$("#slider").slider({
+			orientation: 'vertical',
+			value: nbrDiff,
+			min: 0,
+			max: nbrDiff,
+			animate: true,
+			slide: function(event, ui) {
+				$('#diff-'+lastVal).hide();
+				$('#diff-'+ui.value).show();
+				lastVal = ui.value;
+			}
+		});
 
 	});
 }

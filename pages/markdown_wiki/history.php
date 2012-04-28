@@ -41,29 +41,20 @@ $annotations = elgg_get_annotations(array(
 	'subtypes' => 'markdown_wiki',
 	'annotation_names' => 'markdown_wiki',
 	'guids' => $markdown_wiki_guid,
-	//'order_by' => 'time_created desc',
 	'limit' => 20,
 	));
-global $fb; $fb->info($annotations);
-/*
-$diff = new FineDiff($annotations[0]->value, $annotations[1]->value);
-$diffHTML = $diff->renderDiffToHTML();
-$diffHTML = _add_class_callback($diffHTML, '0');*/
-for($i=2; $i <= count($annotations)-1; $i++) {
-	if ($i == 0) {
-		$diff = new FineDiff($annotations[$i]->value, $annotations[$i+1]->value);
-	} else {
-		$diff = new FineDiff($annotations[$i]->value, $diffHTML);
-	}
-	$diffHTML = $diff->renderDiffToHTML();
-	$diffHTML = _add_class_callback($diffHTML, $i);
-//$fb->info($diffHTML);
+
+$diffHTML = '';
+for($i=count($annotations)-1; $i >0; $i--) {
+	$diff[$i] = new FineDiff($annotations[$i-1]->value, $annotations[$i]->value, array(
+		FineDiff::paragraphDelimiters,
+		FineDiff::sentenceDelimiters,
+		FineDiff::wordDelimiters,
+		FineDiff::characterDelimiters
+		));
+	$diffHTML .= "<div id='diff-$i' class='diff'>" . $diff[$i]->renderDiffToHTML() . '</div>';
 }
-function _add_class_callback($diffHTML, $i) {
-	$diffHTML = preg_replace("/<ins>/", "<ins class='$i'>", $diffHTML);
-	$diffHTML = preg_replace("/<del>/", "<del class='$i'>", $diffHTML);
-	return $diffHTML;
-}
+$diffHTML .= "<div id='diff-0' class='diff'>" . $annotations[0]->value . '</div>';
 
 $diff_annotation = $annotations[count($annotations)-1];
 $diff_annotation->value = $diffHTML;
@@ -72,7 +63,7 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/sidebar'),
+	'sidebar' => elgg_view('markdown_wiki/history_sidebar'),
 ));
 
 echo elgg_view_page($title, $body);

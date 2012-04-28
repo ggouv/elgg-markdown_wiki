@@ -28,7 +28,7 @@ $menu = elgg_view_menu('annotation', array(
 	'class' => 'elgg-menu-hz float-alt',
 ));
 
-$text = elgg_view("output/markdown_wiki_text", array("value" => $annotation->value, "class" => "diff"));
+$text = elgg_view("output/markdown_wiki_text", array("value" => $annotation->value, "class" => "diff-output"));
 
 $friendlytime = elgg_view_friendly_time($annotation->time_created);
 
