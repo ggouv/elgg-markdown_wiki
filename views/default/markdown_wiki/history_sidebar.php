@@ -8,5 +8,13 @@
  *
  *	Elgg-markdown_wiki history sidebar
  **/
-
-echo '<div id="sliderContainer"><div id="slider"></div><div class="clear"></div></div>';
+$diffOwner = $vars['diffOwner'];
+echo <<<HTML
+<div id="sliderContainer">
+	<div id="slider"></div>
+	<div class="clear"></div>
+</div>
+<div id="ownerContainer" class="mll">
+	$diffOwner
+</div>
+HTML;

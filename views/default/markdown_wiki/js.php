@@ -20,6 +20,7 @@ elgg.markdown_wiki.init = function() {
 	$(document).ready(function() {
 		var nbrDiff = $('.elgg-output .diff').length -1;
 		$('#diff-'+nbrDiff).show();
+		$('#owner-'+nbrDiff).css('opacity', '1');
 		var lastVal = nbrDiff;
 
 		// Create the slider:
@@ -32,6 +33,8 @@ elgg.markdown_wiki.init = function() {
 			slide: function(event, ui) {
 				$('#diff-'+lastVal).hide();
 				$('#diff-'+ui.value).show();
+				$('#owner-'+lastVal).css('opacity', '0.5');
+				$('#owner-'+ui.value).css('opacity', '1');
 				lastVal = ui.value;
 			}
 		});

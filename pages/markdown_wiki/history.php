@@ -43,18 +43,34 @@ $annotations = elgg_get_annotations(array(
 	'guids' => $markdown_wiki_guid,
 	'limit' => 20,
 	));
-
-$diffHTML = '';
-for($i=count($annotations)-1; $i >0; $i--) {
-	$diff[$i] = new FineDiff($annotations[$i-1]->value, $annotations[$i]->value, array(
-		FineDiff::paragraphDelimiters,
-		FineDiff::sentenceDelimiters,
-		FineDiff::wordDelimiters,
-		FineDiff::characterDelimiters
-		));
-	$diffHTML .= "<div id='diff-$i' class='diff'>" . $diff[$i]->renderDiffToHTML() . '</div>';
+global $fb; $fb->info($annotations);
+$diffHTML = $diffOwner = '';
+for($i=count($annotations)-1; $i>=0; $i--) {
+	if ($i != 0) {
+		$diff[$i] = new FineDiff($annotations[$i-1]->value, $annotations[$i]->value, array(
+			FineDiff::paragraphDelimiters,
+			FineDiff::sentenceDelimiters,
+			FineDiff::wordDelimiters,
+			FineDiff::characterDelimiters
+			));
+		$diffHTML .= "<div id='diff-$i' class='diff'>" . $diff[$i]->renderDiffToHTML() . '</div>';
+	} else {
+		$diffHTML .= "<div id='diff-0' class='diff'>" . $annotations[0]->value . '</div>';
+	}
+	$owner = get_entity($annotations[$i]->owner_guid);
+	$icon = elgg_view_entity_icon($owner, 'tiny');
+	$owner_link = "<a href=\"{$owner->getURL()}\">$owner->name</a>";
+	$friendlytime = elgg_view_friendly_time($annotations[$i]->time_created);
+$body = <<<HTML
+<div class="mbn">
+	$owner_link
+	<span class="elgg-subtext">
+		$friendlytime
+	</span>
+</div>
+HTML;
+	$diffOwner .= "<div id='owner-$i' class='owner'>" . elgg_view_image_block($icon, $body) . '</div>';
 }
-$diffHTML .= "<div id='diff-0' class='diff'>" . $annotations[0]->value . '</div>';
 
 $diff_annotation = $annotations[count($annotations)-1];
 $diff_annotation->value = $diffHTML;
@@ -63,7 +79,7 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/history_sidebar'),
+	'sidebar' => elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner)),
 ));
 
 echo elgg_view_page($title, $body);

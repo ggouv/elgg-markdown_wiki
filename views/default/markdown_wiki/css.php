@@ -5,7 +5,7 @@
  *	@license GNU Affero General Public License, version 3 or late
  *	@link https://github.com/ManUtopiK/elgg-markdown_wiki
  *
- *	Elgg-markdown_wiki CSS file
+ *	Elgg-markdown_wiki plugin CSS file
  **/
 .elgg-output.diff-output {
 	white-space: pre-line;
@@ -24,6 +24,13 @@
 .elgg-output .diff {
 	position: absolute;
 	display:none;
+}
+
+#ownerContainer {
+	position: absolute;
+}
+#ownerContainer .owner {
+	opacity: 0.5;
 }
 
 #slider{
