@@ -9,7 +9,6 @@
  *	Elgg-markdown_wiki object file
  **/
 
-
 $full = elgg_extract('full_view', $vars, FALSE);
 $markdown_wiki = elgg_extract('entity', $vars, FALSE);
 $revision = elgg_extract('revision', $vars, FALSE);
@@ -68,7 +67,7 @@ if (elgg_in_context('widgets')) {
 
 if ($full) {
 	$content = markdow_wiki_to_html($annotation->value);
-	$body = elgg_view('output/longtext', array('value' => $content));
+	$body = elgg_view('output/longtext', array('value' => $content, 'class' => 'markdown-body'));
 
 	$params = array(
 		'entity' => $markdown_wiki,

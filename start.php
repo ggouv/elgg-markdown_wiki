@@ -22,8 +22,9 @@ function markdown_wiki_init() {
 	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
 
 	// Extend the main CSS and JS file
-	elgg_extend_view('css/elgg', 'markdown_wiki/css');
 	elgg_extend_view('js/elgg', 'markdown_wiki/js');
+	elgg_extend_view('css/elgg', 'markdown_wiki/css');
+	elgg_register_css('markdown', "/mod/elgg-markdown_wiki/views/default/markdown_wiki/markdown.css");
 
 	// Add a menu item to the main site menu
 	$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), 'wiki/all');

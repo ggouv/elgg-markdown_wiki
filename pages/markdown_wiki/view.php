@@ -9,6 +9,8 @@
  *	Elgg-markdown_wiki view markdown_wiki page
  **/
 
+elgg_load_css('markdown');
+
 $markdown_wiki_guid = get_input('guid');
 $markdown_wiki = get_entity($markdown_wiki_guid);
 if (!$markdown_wiki) {
