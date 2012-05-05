@@ -53,9 +53,9 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 			FineDiff::wordDelimiters,
 			FineDiff::characterDelimiters
 			));
-		$diffHTML .= "<div id='diff-$i' class='diff'>" . $diff[$i]->renderDiffToHTML() . '</div>';
+		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diff[$i]->renderDiffToHTML() . '</div>';
 	} else {
-		$diffHTML .= "<div id='diff-0' class='diff'>" . $annotations[0]->value . '</div>';
+		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . $annotations[0]->value . '</div>';
 	}
 	$owner = get_entity($annotations[$i]->owner_guid);
 	$icon = elgg_view_entity_icon($owner, 'tiny');
