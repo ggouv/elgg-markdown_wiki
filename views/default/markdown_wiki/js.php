@@ -19,7 +19,7 @@ elgg.provide('elgg.markdown_wiki');
 elgg.markdown_wiki.init = function() {
 	$(document).ready(function() {
 		var nbrDiff = $('.elgg-output .diff').length -1;
-		$('#diff-'+nbrDiff).show();
+		$('#diff-'+nbrDiff).removeClass('hidden');
 		$('#owner-'+nbrDiff).css('opacity', '1');
 		var lastVal = nbrDiff;
 
@@ -31,14 +31,15 @@ elgg.markdown_wiki.init = function() {
 			max: nbrDiff,
 			animate: true,
 			slide: function(event, ui) {
-				$('#diff-'+lastVal).hide();
-				$('#diff-'+ui.value).show();
+				$('#diff-'+lastVal).addClass('hidden');
+				$('#diff-'+ui.value).removeClass('hidden');
 				$('#owner-'+lastVal).css('opacity', '0.5');
 				$('#owner-'+ui.value).css('opacity', '1');
+				var OwnerOffset = $('#owner-'+ui.value).position();
+				$('#ownerContainer').animate({top: (nbrDiff-ui.value)*(400/nbrDiff) - OwnerOffset.top});
 				lastVal = ui.value;
 			}
 		});
-
 	});
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.init);
