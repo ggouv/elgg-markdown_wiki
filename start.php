@@ -52,6 +52,9 @@ function markdown_wiki_init() {
 		'access_id' => 'access',
 	));
 
+	// Add id for each title anchor
+	elgg_register_plugin_hook_handler('format', 'markdown:after', 'markdown_wiki_id_title_plugin_hook');
+
 }
 
 /**
@@ -125,4 +128,29 @@ function markdown_wiki_page_handler($page) {
 function markdown_wiki_url($entity) {
 	$title = elgg_get_friendly_title($entity->title);
 	return "wiki/view/$entity->guid/$title";
+}
+
+/**
+ * Plugin hook hander that add id for each title (h1, h2...) at the markdown output
+ * So, we can do url like http://YourElgg/wiki/view/EntityGuid/EntityTitle#idTitle
+ * 
+ * @return string
+ */
+function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $params) {
+
+	function _title_id_callback($matches) {
+		$title = strip_tags($matches[3]);
+		$title = preg_replace("`\[.*\]`U", "", $title);
+		$title = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', $title);
+		$title = htmlentities($title, ENT_COMPAT, 'utf-8');
+		$title = preg_replace( "`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);`i", "\\1", $title );
+		$title = preg_replace( "`&([a-z])(elig);`i", "\\1e", $title );
+		$title = preg_replace( array("`[^a-z0-9]`i","`[-]+`") , "-", $title);
+		$title = strtolower($title);
+
+		return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
+	}
+
+	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $params['text']);
+	return $result;
 }

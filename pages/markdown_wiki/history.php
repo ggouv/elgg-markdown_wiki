@@ -80,6 +80,7 @@ $body = elgg_view_layout('content', array(
 	'content' => $content,
 	'title' => $title,
 	'sidebar' => elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner)),
+	'class' => 'fixed-sidebar',
 ));
 
 echo elgg_view_page($title, $body);

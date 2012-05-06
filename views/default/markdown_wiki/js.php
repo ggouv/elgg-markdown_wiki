@@ -36,7 +36,7 @@ elgg.markdown_wiki.init = function() {
 				$('#owner-'+lastVal).css('opacity', '0.5');
 				$('#owner-'+ui.value).css('opacity', '1');
 				var OwnerOffset = $('#owner-'+ui.value).position();
-				$('#ownerContainer').animate({top: (nbrDiff-ui.value)*(400/nbrDiff) - OwnerOffset.top});
+				$('#ownerContainer').stop().animate({top: (nbrDiff-ui.value)*(400/nbrDiff) - OwnerOffset.top});
 				lastVal = ui.value;
 			}
 		});
