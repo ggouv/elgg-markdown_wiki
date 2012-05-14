@@ -63,7 +63,7 @@ function markdown_wiki_init() {
  *  All:			wiki/all
  *  User's:			wiki/owner/<username>
  *  Friend's:		wiki/friends/<username>
- *  View page:		wiki/view/<guid>/<title>
+ *  View page:		wiki/view/<guid>/<title> or wiki/view/<title>
  *  New page:		wiki/add/<guid> (container: user, group, parent)
  *  Edit page:		wiki/edit/<guid>
  *  Group:			wiki/group/<guid>
@@ -95,7 +95,21 @@ function markdown_wiki_page_handler($page) {
 			include "$base_dir/friends.php";
 			break;
 		case 'view':
-			set_input('guid', $page[1]);
+			if (is_numeric($page[1])) {
+				set_input('guid', $page[1]);
+			} else {/*
+				$query = elgg_get_entities(array(
+					'type' => 'object',
+					'subtypes' => 'markdown_wiki',
+					'wheres' => 'title = `' . stripslashes($page[1]) . '`',
+					//'metadata_name' => 'title',
+					//'metadata_value' => stripslashes($page[1]),
+					'limit' => 0
+				));*/
+$query = get_markdown_wiki_guid_by_title($page[1]);
+				set_input('guid', '223');
+				global $fb; $fb->info($query);
+			}
 			include "$base_dir/view.php";
 			break;
 		case 'add':

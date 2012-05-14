@@ -50,7 +50,14 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0
 	return $values;
 }
 
-function markdow_wiki_to_html($text) {
+/**
+ * Format a markdown_wiki text object to html
+ *
+ * @param string with markdown syntax
+ *
+ * @return html
+ */
+function markdown_wiki_to_html($text) {
 
 	$params = array('text' => $text);
 	$result = elgg_trigger_plugin_hook('format', 'markdown:all', $params, NULL);
@@ -67,4 +74,44 @@ function markdow_wiki_to_html($text) {
 	$result = elgg_trigger_plugin_hook('format', 'markdown:after', $params, $result);
 
 	return $result;
+}
+
+/**
+ * Get markdown_wiki by title
+ *
+ * @param string $title The title's markdown_wiki
+ *
+ * @return ElggObject|false Depending on success
+ */
+function get_markdown_wiki_guid_by_title($title) {
+	global $CONFIG, $MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE;
+
+	$title = sanitise_string($title);
+	$access = get_access_sql_suffix('e');
+$subtype_id = get_subtype_id('object', 'markdown_wiki');
+/*
+	// Caching
+	if ((isset($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))
+	&& (retrieve_cached_entity($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))) {
+		return retrieve_cached_entity($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]);
+	}
+*/
+	$query = "SELECT e.* from {$CONFIG->dbprefix}objects_entity u
+		join {$CONFIG->dbprefix}entities e on e.guid=u.guid
+		where e.subtype='$subtype_id' and u.title='$title' and $access ";
+/*
+	$query = "SELECT e.* from {$CONFIG->dbprefix}users_entity u
+		join {$CONFIG->dbprefix}entities e on e.guid=u.guid
+		where u.username='$username' and $access ";
+*/
+	$entity = get_data($query);
+global $fb; $fb->info($query);
+$fb->info(get_subtype_id('object', 'markdown_wiki'));
+/*	if ($entity) {
+		$MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title] = $entity->guid;
+	} else {
+		$entity = false;
+	}
+*/
+	return $entity;
 }
