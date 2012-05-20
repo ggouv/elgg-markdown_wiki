@@ -43,7 +43,7 @@ $annotations = elgg_get_annotations(array(
 	'guids' => $markdown_wiki_guid,
 	'limit' => 20,
 	));
-global $fb; $fb->info($annotations);
+
 $diffHTML = $diffOwner = '';
 for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {

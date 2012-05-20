@@ -38,7 +38,10 @@ $english = array(
 	/**
 	 * Object
 	 */
-	'markdown_wiki:strapline' => 'Last updated %s by %s',
+	'item:object:markdown_wiki' => "Article",
+    'river:create:object:markdown_wiki' => "%s submited article %s",
+    'river:comment:object:markdown_wiki' => "%s commented on the article %s",
+	'markdown_wiki:strapline' => "Last updated %s by %s",
 
 );
 
