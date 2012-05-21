@@ -51,6 +51,17 @@ elgg.markdown_wiki.init = function() {
 				value: valString.substr(valString.indexOf('owner-') + "owner-".length),
 			});
 		});
+		
+		$('#ownerContainer').bind('mousewheel DOMMouseScroll', function(e) {
+			var delta = e.wheelDelta || -e.detail;
+			var OwnerContainerOffset = $(this).position();
+			var max = $(this).height() - $('.history-module .elgg-body').height();
+			var top = OwnerContainerOffset.top + ( delta < 0 ? -1 : 1 ) * 30;
+			if ( top > 0 ) top =0;
+			if ( top < -max ) top = -max; 
+			$(this).css({top: top});
+			e.preventDefault();
+		});
 	});
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.init);

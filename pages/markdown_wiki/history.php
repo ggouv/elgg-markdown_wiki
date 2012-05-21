@@ -68,7 +68,9 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	$time = ucwords(htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$i]->time_created)));
 	$summary = $values[$i]['summary'];
 	$array_diff = $values[$i]['diff'];
-	$diff_text = '<ins>&nbsp;+' . $array_diff[0] . '&nbsp;</ins><del>&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
+	$diff_text = '';
+	if ( $array_diff[0] != 0 ) $diff_text .= '<ins>&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';
+	if ( $array_diff[1] != 0 ) $diff_text .= '<del>&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
 	
 $diffOwner .= <<<HTML
 <div id='owner-$i' class='owner pam hidden'>

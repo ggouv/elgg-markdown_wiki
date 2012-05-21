@@ -32,7 +32,7 @@
 }
 #sliderContainer{
 	float: left;
-	margin: 16px 0 20px 10px;
+	margin: 16px 0 40px 10px;
 }
 .ui-slider {
 	position: relative;
