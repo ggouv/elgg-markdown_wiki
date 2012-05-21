@@ -10,12 +10,12 @@
 .elgg-output.diff-output {
 	white-space: pre-line;
 }
-.elgg-output.diff-output ins {
+.elgg-output.diff-output ins, .history-module ins {
 	color: green;
 	background-color: #dfd;
 	text-decoration: none;
 }
-.elgg-output.diff-output del {
+.elgg-output.diff-output del, .history-module del {
 	color: red;
 	background-color: #fdd;
 	text-decoration: none;
@@ -62,7 +62,7 @@
 }
 #ownerContainer {
 	position: absolute;
-	margin-left: 40px;
+	margin-left: 30px;
 }
 #ownerContainer .owner {
 	opacity: 0.5;

@@ -13,6 +13,9 @@ elgg_load_library('markdown_wiki:fineDiff');
 
 $markdown_wiki_guid = get_input('guid');
 
+$user = elgg_get_logged_in_user_entity();
+setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupper($user->language));
+
 $markdown_wiki = get_entity($markdown_wiki_guid);
 if (!$markdown_wiki) {
 
@@ -22,8 +25,6 @@ $container = $markdown_wiki->getContainerEntity();
 if (!$container) {
 
 }
-
-elgg_set_page_owner_guid($container->getGUID());
 
 if (elgg_instanceof($container, 'group')) {
 	elgg_push_breadcrumb($container->name, "pages/group/$container->guid/all");
@@ -36,18 +37,23 @@ elgg_push_breadcrumb(elgg_echo('markdown_wiki:history'));
 
 $title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:history');
 
-$annotations = elgg_get_annotations(array(
+$annotations = array_reverse(elgg_get_annotations(array(
 	'types' => 'object',
 	'subtypes' => 'markdown_wiki',
 	'annotation_names' => 'markdown_wiki',
 	'guids' => $markdown_wiki_guid,
-	'limit' => 20,
-	));
+	'order_by' => 'time_created desc',
+	'limit' => 50,
+	)));
 
+foreach($annotations as $key => $annotation) {
+	$values[] = unserialize($annotation->value);
+}
+global $fb; $fb->info($value);
 $diffHTML = $diffOwner = '';
 for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
-		$diff[$i] = new FineDiff($annotations[$i-1]->value, $annotations[$i]->value, array(
+		$diff[$i] = new FineDiff($values[$i-1]['text'], $values[$i]['text'], array(
 			FineDiff::paragraphDelimiters,
 			FineDiff::sentenceDelimiters,
 			FineDiff::wordDelimiters,
@@ -55,21 +61,23 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 			));
 		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diff[$i]->renderDiffToHTML() . '</div>';
 	} else {
-		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . $annotations[0]->value . '</div>';
+		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . $values[0]['text'] . '</div>';
 	}
 	$owner = get_entity($annotations[$i]->owner_guid);
-	$icon = elgg_view_entity_icon($owner, 'tiny');
-	$owner_link = "<a href=\"{$owner->getURL()}\">$owner->name</a>";
-	$friendlytime = elgg_view_friendly_time($annotations[$i]->time_created);
-$body = <<<HTML
-<div class="mbn">
-	$owner_link
+	$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
+	$time = ucwords(htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$i]->time_created)));
+	$summary = $values[$i]['summary'];
+	$array_diff = $values[$i]['diff'];
+	$diff_text = '<ins>&nbsp;+' . $array_diff[0] . '&nbsp;</ins><del>&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
+	
+$diffOwner .= <<<HTML
+<div id='owner-$i' class='owner prm'>
+	$summary<br/>
 	<span class="elgg-subtext">
-		$friendlytime
+		$diff_text $owner_link $time
 	</span>
 </div>
 HTML;
-	$diffOwner .= "<div id='owner-$i' class='owner'>" . elgg_view_image_block($icon, $body) . '</div>';
 }
 
 $diff_annotation = $annotations[count($annotations)-1];

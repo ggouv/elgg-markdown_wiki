@@ -9,10 +9,13 @@
  *	Elgg-markdown_wiki edit action
  **/
 
+elgg_load_library('markdown_wiki:fineDiff');
+elgg_load_library('markdown_wiki:utilities');
+
 $variables = elgg_get_config('markdown_wiki');
 $input = array();
 foreach ($variables as $name => $type) {
-	$input[$name] = get_input($name);
+	if ($name != 'summary') $input[$name] = get_input($name);
 	if ($name == 'title') {
 		$input[$name] = strip_tags($input[$name]);
 	}
@@ -39,10 +42,12 @@ if ($markdown_wiki_guid) {
 		forward(REFERER);
 	}
 	$new_markdown_wiki = false;
+	$old_description = $markdown_wiki->description;
 } else {
 	$markdown_wiki = new ElggObject();
 	$markdown_wiki->subtype = 'markdown_wiki';
 	$new_markdown_wiki = true;
+	$old_description = '';
 }
 
 if (sizeof($input) > 0) {
@@ -51,15 +56,28 @@ if (sizeof($input) > 0) {
 	}
 }
 
-// need to add check to make sure user can write to container
+// @todo need to add check to make sure user can write to container
 $markdown_wiki->container_guid = $container_guid;
 
 if ($markdown_wiki->save()) {
 
 	elgg_clear_sticky_form('markdown_wiki');
 
+	// set diff
+	$compare = new FineDiff($old_description, $markdown_wiki->description, array(
+		FineDiff::paragraphDelimiters,
+		FineDiff::sentenceDelimiters,
+		FineDiff::wordDelimiters,
+		FineDiff::characterDelimiters
+	));	
+	$array_change = array(
+		'text' => $markdown_wiki->description,
+		'diff' => calc_diff_markdown_wiki($compare->renderDiffToHTML()),
+		'summary' => get_input('summary')
+	);
+	
 	// Now save description as an annotation
-	$markdown_wiki->annotate('markdown_wiki', $markdown_wiki->description, $markdown_wiki->access_id);
+	$markdown_wiki->annotate('markdown_wiki', serialize($array_change), $markdown_wiki->access_id);
 
 	system_message(elgg_echo('markdown_wiki:saved'));
 

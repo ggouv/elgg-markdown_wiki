@@ -50,31 +50,6 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0
 	return $values;
 }
 
-/**
- * Format a markdown_wiki text object to html
- *
- * @param string with markdown syntax
- *
- * @return html
- */
-function markdown_wiki_to_html($text) {
-
-	$params = array('text' => $text);
-	$result = elgg_trigger_plugin_hook('format', 'markdown:all', $params, NULL);
-	if ($result) {
-		return $result;
-	}
-
-	$params = array('text' => $text);
-	$result = elgg_trigger_plugin_hook('format', 'markdown:before', $params, $text);
-
-	$result = Markdown($text);
-
-	$params = array('text' => $result);
-	$result = elgg_trigger_plugin_hook('format', 'markdown:after', $params, $result);
-
-	return $result;
-}
 
 /**
  * Get markdown_wiki by title
@@ -114,4 +89,50 @@ $fb->info(get_subtype_id('object', 'markdown_wiki'));
 	}
 */
 	return $entity;
+}
+
+
+/**
+ * Format a markdown_wiki text object to html
+ *
+ * @param string with markdown syntax
+ *
+ * @return html
+ */
+function markdown_wiki_to_html($text) {
+
+	$params = array('text' => $text);
+	$result = elgg_trigger_plugin_hook('format', 'markdown:all', $params, NULL);
+	if ($result) {
+		return $result;
+	}
+
+	$params = array('text' => $text);
+	$result = elgg_trigger_plugin_hook('format', 'markdown:before', $params, $text);
+
+	$result = Markdown($text);
+
+	$params = array('text' => $result);
+	$result = elgg_trigger_plugin_hook('format', 'markdown:after', $params, $result);
+
+	return $result;
+}
+
+
+/**
+ * Calcul diff when edit a markdown_wiki text object
+ *
+ * @param string a markdown_wiki description
+ *
+ * @return array(chars added, chars deleted)
+ */
+function calc_diff_markdown_wiki($text) {
+	preg_match_all('#<ins>(.*)</ins>#U', $text, $ins);
+	
+	preg_match_all('#<del>(.*)</del>#U', $text, $del);
+
+	return array(
+		strlen(implode($ins[1])),
+		strlen(implode($del[1])),
+	);
 }

@@ -42,6 +42,9 @@ $english = array(
     'river:create:object:markdown_wiki' => "%s submited article %s",
     'river:comment:object:markdown_wiki' => "%s commented on the article %s",
 	'markdown_wiki:strapline' => "Last updated %s by %s",
+	
+	'markdown_wiki:history:date' => "By %s at",
+	'markdown_wiki:history:date_format' => "%e %B %Y à %H:%M",
 
 );
 

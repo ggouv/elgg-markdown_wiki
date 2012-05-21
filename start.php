@@ -48,6 +48,7 @@ function markdown_wiki_init() {
 	elgg_set_config('markdown_wiki', array(
 		'title' => 'text',
 		'description' => 'markdown',
+		'summary' => 'text',
 		'tags' => 'tags',
 		'access_id' => 'access',
 	));
