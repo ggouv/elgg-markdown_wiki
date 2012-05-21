@@ -38,11 +38,12 @@ if (!$container) {
 
 $title = $markdown_wiki->title;
 
-if (elgg_instanceof($page_owner, 'group')) {
-	elgg_push_breadcrumb($title, "markdown_wiki/group/$markdown_wiki_owner->guid/all");
+if (elgg_instanceof($container, 'group')) {
+	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");
 } else {
-	elgg_push_breadcrumb($title, "markdown_wiki/owner/$markdown_wiki_owner->username");
+	elgg_push_breadcrumb($container->name, "wiki/owner/$container->username");
 }
+elgg_push_breadcrumb($title);
 
 $content = elgg_view_entity($markdown_wiki, array('full_view' => true));
 $content .= elgg_view_comments($markdown_wiki);

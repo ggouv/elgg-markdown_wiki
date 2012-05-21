@@ -43,6 +43,10 @@ function markdown_wiki_init() {
 	$base_dir = "$root/actions/markdown_wiki";
 	elgg_register_action('markdown_wiki/edit', "$base_dir/edit.php");
 
+	// add to groups
+	add_group_tool_option('markdown_wiki', elgg_echo('groups:enablemarkdown_wiki'), true);
+	elgg_extend_view('groups/tool_latest', 'markdown_wiki/group_module');
+
 	// Language short codes must be of the form "markdown_wiki:key"
 	// where key is the array key below
 	elgg_set_config('markdown_wiki', array(

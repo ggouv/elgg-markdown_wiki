@@ -18,22 +18,27 @@ setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupp
 
 $markdown_wiki = get_entity($markdown_wiki_guid);
 if (!$markdown_wiki) {
-
+	forward();
 }
 
 $container = $markdown_wiki->getContainerEntity();
 if (!$container) {
-
 }
 
 if (elgg_instanceof($container, 'group')) {
-	elgg_push_breadcrumb($container->name, "pages/group/$container->guid/all");
+	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");
 } else {
-	elgg_push_breadcrumb($container->name, "pages/owner/$container->username");
+	elgg_push_breadcrumb($container->name, "wiki/owner/$container->username");
 }
 
 elgg_push_breadcrumb($markdown_wiki->title, $markdown_wiki->getURL());
 elgg_push_breadcrumb(elgg_echo('markdown_wiki:history'));
+
+elgg_register_menu_item('page', array(
+	'name' => 'edit',
+	'href' => "wiki/edit/$markdown_wiki_guid",
+	'text' => elgg_echo('markdown_wiki:edit'),
+));
 
 $title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:history');
 
@@ -59,7 +64,7 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 			FineDiff::wordDelimiters,
 			FineDiff::characterDelimiters
 			));
-		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diff[$i]->renderDiffToHTML() . '</div>';
+		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
 	} else {
 		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false) . '</div>';
 	}
