@@ -7,15 +7,15 @@
  *
  *	Elgg-markdown_wiki plugin CSS file
  **/
-.elgg-output.diff-output {
+.diff-output {
 	white-space: pre-line;
 }
-.elgg-output.diff-output ins, .history-module ins {
+.diff-output ins, .history-module ins {
 	color: green;
 	background-color: #dfd;
 	text-decoration: none;
 }
-.elgg-output.diff-output del, .history-module del {
+.diff-output del, .history-module del {
 	color: red;
 	background-color: #fdd;
 	text-decoration: none;
@@ -62,8 +62,34 @@
 }
 #ownerContainer {
 	position: absolute;
-	margin-left: 30px;
+	margin-left: 32px;
 }
 #ownerContainer .owner {
+	background-color: #ccc;
+	position: relative;
+}
+#ownerContainer .owner:before {
+	content: " x x x ";
+	color: transparent;
+	border-color:transparent #ccc;
+	left:-10px;
+	border-style: solid;
+	border-width: 10px 10px 10px 0;
+	height: 0;
+	position: absolute;
+	top: 6px;
+	width: 0;
+}
+#ownerContainer .owner.hidden {
 	opacity: 0.5;
+	display: block;
+	background-color: transparent;
+}
+#ownerContainer .owner.hidden:before {
+	content: none;
+}
+#ownerContainer .owner.hidden:hover {
+	background-color: #DEDEDE;
+	opacity: 0.8;
+	cursor: pointer;
 }

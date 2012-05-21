@@ -49,7 +49,7 @@ $annotations = array_reverse(elgg_get_annotations(array(
 foreach($annotations as $key => $annotation) {
 	$values[] = unserialize($annotation->value);
 }
-global $fb; $fb->info($value);
+
 $diffHTML = $diffOwner = '';
 for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
@@ -59,9 +59,9 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 			FineDiff::wordDelimiters,
 			FineDiff::characterDelimiters
 			));
-		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diff[$i]->renderDiffToHTML() . '</div>';
+		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . htmlspecialchars($diff[$i]->renderDiffToHTML()) . '</div>';
 	} else {
-		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . $values[0]['text'] . '</div>';
+		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . htmlspecialchars($values[0]['text']) . '</div>';
 	}
 	$owner = get_entity($annotations[$i]->owner_guid);
 	$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
@@ -71,7 +71,7 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	$diff_text = '<ins>&nbsp;+' . $array_diff[0] . '&nbsp;</ins><del>&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
 	
 $diffOwner .= <<<HTML
-<div id='owner-$i' class='owner prm'>
+<div id='owner-$i' class='owner pam hidden'>
 	$summary<br/>
 	<span class="elgg-subtext">
 		$diff_text $owner_link $time
@@ -82,7 +82,7 @@ HTML;
 
 $diff_annotation = $annotations[count($annotations)-1];
 $diff_annotation->value = $diffHTML;
-$content = elgg_view_annotation($diff_annotation);
+$content = "<div class='diff-output'>" . $diffHTML . '</div>';//elgg_view_annotation($diff_annotation);
 $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,

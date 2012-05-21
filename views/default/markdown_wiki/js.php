@@ -18,9 +18,8 @@ elgg.provide('elgg.markdown_wiki');
 
 elgg.markdown_wiki.init = function() {
 	$(document).ready(function() {
-		var nbrDiff = $('.elgg-output .diff').length -1;
-		$('#diff-'+nbrDiff).removeClass('hidden');
-		$('#owner-'+nbrDiff).css('opacity', '1');
+		var nbrDiff = $('.diff-output .diff').length -1;
+		$('#diff-'+nbrDiff + ', #owner-'+nbrDiff).removeClass('hidden');
 		var lastVal = nbrDiff;
 
 		// Create the slider:
@@ -30,15 +29,27 @@ elgg.markdown_wiki.init = function() {
 			min: 0,
 			max: nbrDiff,
 			animate: true,
+			change: function(event, ui) {
+				$('#diff-'+lastVal + ', #owner-'+lastVal).addClass('hidden');
+				$('#diff-'+ui.value + ', #owner-'+ui.value).removeClass('hidden');
+				var OwnerOffset = $('#owner-'+ui.value).position();
+				$('#ownerContainer').stop().animate({top: (nbrDiff-ui.value)*($('#slider').height()/nbrDiff) - OwnerOffset.top});
+				lastVal = ui.value;
+			},
 			slide: function(event, ui) {
-				$('#diff-'+lastVal).addClass('hidden');
-				$('#diff-'+ui.value).removeClass('hidden');
-				$('#owner-'+lastVal).css('opacity', '0.5');
-				$('#owner-'+ui.value).css('opacity', '1');
+				$('#diff-'+lastVal + ', #owner-'+lastVal).addClass('hidden');
+				$('#diff-'+ui.value + ', #owner-'+ui.value).removeClass('hidden');
 				var OwnerOffset = $('#owner-'+ui.value).position();
 				$('#ownerContainer').stop().animate({top: (nbrDiff-ui.value)*($('#slider').height()/nbrDiff) - OwnerOffset.top});
 				lastVal = ui.value;
 			}
+		});
+		
+		$('.owner').click(function() {
+			var valString = $(this).attr('id');
+			$( "#slider" ).slider({
+				value: valString.substr(valString.indexOf('owner-') + "owner-".length),
+			});
 		});
 	});
 }
