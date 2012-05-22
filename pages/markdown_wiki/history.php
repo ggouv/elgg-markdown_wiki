@@ -55,6 +55,14 @@ foreach($annotations as $key => $annotation) {
 	$values[] = unserialize($annotation->value);
 }
 
+function lineCount($code){
+    $lines = explode("\n",$code);
+    for($i=1; $i<=count($lines); $i++){
+        $e .= $i . '<br />';
+    }
+	return "<table><tr><td class='numbers'>$e</td><td class='text'>$code</td></tr></table>";
+} 
+
 $diffHTML = $diffOwner = '';
 for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
@@ -64,9 +72,9 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 			FineDiff::wordDelimiters,
 			FineDiff::characterDelimiters
 			));
-		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
+		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . lineCount(preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML())) . '</div>';
 	} else {
-		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false) . '</div>';
+		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . lineCount(htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false)) . '</div>';
 	}
 	$owner = get_entity($annotations[$i]->owner_guid);
 	$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
@@ -74,8 +82,8 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	$summary = $values[$i]['summary'];
 	$array_diff = $values[$i]['diff'];
 	$diff_text = '';
-	if ( $array_diff[0] != 0 ) $diff_text .= '<ins>&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';
-	if ( $array_diff[1] != 0 ) $diff_text .= '<del>&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
+	if ( $array_diff[0] != 0 ) $diff_text .= '<ins class="elgg-subtext">&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';
+	if ( $array_diff[1] != 0 ) $diff_text .= '<del class="elgg-subtext">&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
 	
 $diffOwner .= <<<HTML
 <div id='owner-$i' class='owner pam hidden'>

@@ -127,9 +127,9 @@ function markdown_wiki_to_html($text) {
  * @return array(chars added, chars deleted)
  */
 function calc_diff_markdown_wiki($text) {
-	preg_match_all('#<ins>(.*)</ins>#U', $text, $ins);
+	preg_match_all('#<ins>(.*)</ins>#sU', $text, $ins);
 	
-	preg_match_all('#<del>(.*)</del>#U', $text, $del);
+	preg_match_all('#<del>(.*)</del>#sU', $text, $del);
 
 	return array(
 		strlen(implode($ins[1])),

@@ -9,6 +9,14 @@
  **/
 .diff-output {
 	white-space: pre-line;
+	overflow-y: auto;
+}
+.diff-output .numbers{
+	padding-right: 8px;
+	background-color: #CCCCCC;
+}
+.diff-output .text{
+	padding-left: 2px;
 }
 .diff-output ins, .history-module ins {
 	color: green;
