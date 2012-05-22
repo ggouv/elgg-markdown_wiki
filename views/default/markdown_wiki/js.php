@@ -72,6 +72,18 @@ elgg.markdown_wiki.init = function() {
 				e.preventDefault();
 			});
 		}
+		
+		// toggle ins and delt
+		$('.elgg-button-ins, .elgg-button-del').click(function() {
+			x = $(this).hasClass('elgg-button-ins') ? 'ins' : 'del';
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				$('.diff-output '+x).hide();
+			} else {
+				$(this).addClass('active');
+				$('.diff-output '+x).show();
+			}
+		});
 	});
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.init);

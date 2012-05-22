@@ -7,6 +7,30 @@
  *
  *	Elgg-markdown_wiki plugin CSS file
  **/
+ 
+ /*
+  * history
+  */
+.elgg-button-ins, .elgg-button-del {
+	background-color: #EEE;
+	border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	padding: 3px 6px;
+	color: #555555;
+}
+.elgg-button-ins:hover {
+	text-decoration: none;
+	color: green;
+}
+.elgg-button-ins.active {
+	background-color: #dfd;
+}
+.elgg-button-del:hover {
+	text-decoration: none;
+	color: red;
+} .elgg-button-del.active {
+	background-color: #fdd;
+}
 .diff-output {
 	white-space: pre-line;
 	overflow-y: auto;
