@@ -21,7 +21,6 @@ if ($revision) {
 	$annotation = $revision;
 } else {
 	$annotation = $markdown_wiki->getAnnotations('markdown_wiki', 1, 0, 'desc');
-	global $fb; $fb->info($annotation);
 	if ($annotation) {
 		$annotation = $annotation[0];
 	}
@@ -68,7 +67,7 @@ if (elgg_in_context('widgets')) {
 
 if ($full) {
 	$value = unserialize($annotation->value);
-	$content = markdown_wiki_to_html($value[text]);
+	$content = markdown_wiki_to_html($value['text']);
 	$body = elgg_view('output/longtext', array('value' => $content, 'class' => 'markdown-body'));
 
 	$params = array(

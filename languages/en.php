@@ -22,6 +22,14 @@ $english = array(
 	'wiki:add' => "Add wiki page",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
+	
+	'markdown_wiki:granularity:character' => 'Character',
+	'markdown_wiki:granularity:word' => 'Word',
+	'markdown_wiki:granularity:sentence' => 'Sentence',
+	'markdown_wiki:granularity:paragraph' => 'Paragraph',
+
+	'markdown_wiki:del' => 'del',
+	'markdown_wiki:ins' => 'ins',
 
 	/**
 	* River
