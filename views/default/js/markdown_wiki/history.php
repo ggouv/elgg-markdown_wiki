@@ -6,17 +6,17 @@
  *	@license GNU Affero General Public License, version 3 or late
  *	@link https://github.com/ManUtopiK/elgg-markdown_wiki
  *
- *	Elgg-markdown_wiki javascript file
+ *	Elgg-markdown_wiki history javascript file
  **/
 
 /**
- * Elgg-markdown_wiki initialization
+ * Elgg-markdown_wiki history initialization
  *
  * @return void
  */
-elgg.provide('elgg.markdown_wiki');
+elgg.provide('elgg.markdown_wiki.history');
 
-elgg.markdown_wiki.init = function() {
+elgg.markdown_wiki.history.init = function() {
 	$(document).ready(function() {
 		if ($('.history-module .elgg-body').height() > $('#ownerContainer').height()) {
 			$("#slider").height($('#ownerContainer').height()-$('#owner-0').height()-20);
@@ -86,7 +86,7 @@ elgg.markdown_wiki.init = function() {
 		});
 	});
 }
-elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.init);
+elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.history.init);
 
-// End of js for elgg-markdown_wiki plugin
+// End of history js for elgg-markdown_wiki plugin
 

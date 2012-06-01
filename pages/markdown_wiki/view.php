@@ -9,17 +9,18 @@
  *	Elgg-markdown_wiki view markdown_wiki page
  **/
 
-elgg_load_css('markdown');
+gatekeeper();
 
 $markdown_wiki_guid = get_input('guid');
 $markdown_wiki = get_entity($markdown_wiki_guid);
 if (!$markdown_wiki) {
-	forward();
+	forward(REFERER);
 }
 
-elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
+elgg_load_js('markdown_wiki:view');
+elgg_load_css('markdown_wiki:css');
 
-gatekeeper();
+elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
 
 elgg_register_menu_item('page', array(
 	'name' => 'edit',

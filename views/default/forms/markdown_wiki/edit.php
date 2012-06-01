@@ -11,21 +11,23 @@
 
 $variables = elgg_get_config('markdown_wiki');
 foreach ($variables as $name => $type) {
-?>
-<div>
-	<label><?php echo elgg_echo("markdown_wiki:$name") ?></label>
-	<?php
-		if ($type != 'longtext') {
-			echo '<br />';
-		}
-	?>
-	<?php echo elgg_view("input/$type", array(
-			'name' => $name,
-			'value' => $vars[$name],
-		));
-	?>
-</div>
-<?php
+	($name == 'summary' or $name == 'description') ? $class = " class=$name" : $class = "";
+	echo "<div$class>";
+	echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+
+			echo elgg_view("input/$type", array(
+				'name' => $name,
+				'value' => $vars[$name],
+			));
+	echo '</div>';
+	if ($name == 'description') {
+		?>
+			<div class='previewPaneWrapper'>
+				<label class="mlm"><?php echo elgg_echo('markdown_wiki:preview'); ?></label>
+				<div id='previewPane' class='elgg-output markdown-body mlm plm'></div>
+			</div>
+		<?php
+	}
 }
 
 $cats = elgg_view('input/categories', $vars);

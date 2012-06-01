@@ -16,15 +16,35 @@ elgg_register_event_handler('init', 'system', 'markdown_wiki_init');
  */
 function markdown_wiki_init() {
 
-	// register a library of helper functions
+	// register libraries of helper functions
 	$root = dirname(__FILE__);
 	elgg_register_library('markdown_wiki:utilities', "$root/lib/utilities.php");
 	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
+	elgg_register_library('markdown_wiki:markdown', "$root/vendors/php-markdown/markdown.php");
+	
+	// register js and css
+	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
 
-	// Extend the main CSS and JS file
-	elgg_extend_view('js/elgg', 'markdown_wiki/js');
+	// register js for object view
+	elgg_register_simplecache_view('js/markdown_wiki/view');
+	$url = elgg_get_simplecache_url('js', 'markdown_wiki/view');
+	elgg_register_js('markdown_wiki:view', $url);
+	
+	// register js for object history
+	elgg_register_simplecache_view('js/markdown_wiki/history');
+	$url = elgg_get_simplecache_url('js', 'markdown_wiki/history');
+	elgg_register_js('markdown_wiki:history', $url);
+
+	// register js when edit object
+	elgg_register_simplecache_view('js/markdown_wiki/edit');
+	$url = elgg_get_simplecache_url('js', 'markdown_wiki/edit');
+	elgg_register_js('markdown_wiki:edit', $url);
+
+	// Register css
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
-	elgg_register_css('markdown', "/mod/elgg-markdown_wiki/views/default/markdown_wiki/markdown.css");
+	elgg_register_simplecache_view('css/markdown_wiki/markdown');
+	$url = elgg_get_simplecache_url('css', 'markdown_wiki/markdown');
+	elgg_register_css('markdown_wiki:css', $url);
 
 	// Add a menu item to the main site menu
 	$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), 'wiki/all');
@@ -78,7 +98,6 @@ function markdown_wiki_init() {
 function markdown_wiki_page_handler($page) {
 
 	elgg_load_library('markdown_wiki:utilities');
-	elgg_load_library('elgg:markdown');
 
 	if (!isset($page[0])) {
 		$page[0] = 'all';
@@ -172,4 +191,5 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 
 	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $params['text']);
 	return $result;
+
 }

@@ -16,6 +16,7 @@ if (!$markdown_wiki) {
 	forward();
 }
 
+elgg_load_js('markdown_wiki:history');
 elgg_load_library('markdown_wiki:fineDiff');
 
 $granularity = get_input('granularity', 'character');

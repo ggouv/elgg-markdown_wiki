@@ -53,6 +53,11 @@
 	text-decoration: none;
 	white-space: nowrap;
 }
+
+.elgg-menu-history-granularity > li {
+	float: left;
+}
+
 #slider{
 	background-color: #AAAAAA;
 	border-radius: 6px 6px 6px 6px;
@@ -124,4 +129,24 @@
 	background-color: #DEDEDE;
 	opacity: 0.8;
 	cursor: pointer;
+}
+
+/*
+ * Editor
+ */
+.elgg-form-markdown-wiki-edit .description, .previewPaneWrapper {
+	float: left;
+	width: 50%;
+}
+.elgg-input-markdown {
+	resize: none;
+}
+#previewPane {
+	border: 1px solid #CCCCCC;
+	border-radius: 5px 5px 5px 5px;
+	padding: 5px;
+	margin-top: 1px;
+}
+.elgg-form-markdown-wiki-edit .summary {
+	clear: both;
 }

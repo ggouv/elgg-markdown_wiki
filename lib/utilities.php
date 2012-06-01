@@ -101,19 +101,19 @@ $fb->info(get_subtype_id('object', 'markdown_wiki'));
  */
 function markdown_wiki_to_html($text) {
 
+	elgg_load_library('markdown_wiki:markdown');
 	$params = array('text' => $text);
+	
 	$result = elgg_trigger_plugin_hook('format', 'markdown:all', $params, NULL);
 	if ($result) {
 		return $result;
 	}
 
-	$params = array('text' => $text);
-	$result = elgg_trigger_plugin_hook('format', 'markdown:before', $params, $text);
+	$result = elgg_trigger_plugin_hook('format', 'markdown:before', $params, $params['text']);
 
-	$result = Markdown($text);
+	$params['text'] = Markdown($result);
 
-	$params = array('text' => $result);
-	$result = elgg_trigger_plugin_hook('format', 'markdown:after', $params, $result);
+	$result = elgg_trigger_plugin_hook('format', 'markdown:after', $params, $params['text']);
 
 	return $result;
 }

@@ -68,7 +68,8 @@ if (elgg_in_context('widgets')) {
 if ($full) {
 	$value = unserialize($annotation->value);
 	$content = markdown_wiki_to_html($value['text']);
-	$body = elgg_view('output/longtext', array('value' => $content, 'class' => 'markdown-body'));
+	
+	$body = elgg_view('output/markdown_wiki_text', array('value' => $content, 'class' => 'markdown-body'));
 
 	$params = array(
 		'entity' => $markdown_wiki,

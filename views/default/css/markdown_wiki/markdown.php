@@ -1,4 +1,4 @@
-/** sqdf*/
+/* downloaded from github */
 
 .markdown-body {
     font-size: 14px;
@@ -30,10 +30,6 @@
     padding: 0;
     position: relative;
 }
-.markdown-body h1:hover a.anchor, .markdown-body h2:hover a.anchor, .markdown-body h3:hover a.anchor, .markdown-body h4:hover a.anchor, .markdown-body h5:hover a.anchor, .markdown-body h6:hover a.anchor {
-    background: url("../../images/modules/styleguide/para.png") no-repeat scroll 10px center transparent;
-    text-decoration: none;
-}
 .markdown-body h1 tt, .markdown-body h1 code, .markdown-body h2 tt, .markdown-body h2 code, .markdown-body h3 tt, .markdown-body h3 code, .markdown-body h4 tt, .markdown-body h4 code, .markdown-body h5 tt, .markdown-body h5 code, .markdown-body h6 tt, .markdown-body h6 code {
     font-size: inherit;
 }
@@ -63,10 +59,8 @@
     margin: 15px 0;
 }
 .markdown-body hr {
-    background: url("../../images/modules/pulls/dirty-shade.png") repeat-x scroll 0 0 transparent;
-    border: 0 none;
+    border: 1px solid;
     color: #CCCCCC;
-    height: 4px;
     padding: 0;
 }
 .markdown-body > h2:first-child, .markdown-body > h1:first-child, .markdown-body > h1:first-child + h2, .markdown-body > h3:first-child, .markdown-body > h4:first-child, .markdown-body > h5:first-child, .markdown-body > h6:first-child {
