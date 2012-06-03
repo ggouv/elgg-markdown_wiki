@@ -9,6 +9,20 @@
  **/
  
  /*
+  * view
+  */
+.elgg-output.markdown-body a.new {
+	color: red;
+}
+.elgg-output.markdown-body .elgg-icon.external {
+	background-position: 0 -252px;
+	background-size: 8px auto;
+	height: 8px;
+	margin: 0 2px;
+	width: 8px;
+}
+
+ /*
   * history
   */
 .elgg-button-ins, .elgg-button-del {

@@ -80,15 +80,18 @@ $subtype_id = get_subtype_id('object', 'markdown_wiki');
 		where u.username='$username' and $access ";
 */
 	$entity = get_data($query);
-global $fb; $fb->info($query);
-$fb->info(get_subtype_id('object', 'markdown_wiki'));
+	
 /*	if ($entity) {
 		$MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title] = $entity->guid;
 	} else {
 		$entity = false;
 	}
 */
-	return $entity;
+	if ($entity) {
+		return $entity;
+	} else {
+		return false;
+	}
 }
 
 
@@ -102,18 +105,18 @@ $fb->info(get_subtype_id('object', 'markdown_wiki'));
 function markdown_wiki_to_html($text) {
 
 	elgg_load_library('markdown_wiki:markdown');
-	$params = array('text' => $text);
+	$params = array();
 	
-	$result = elgg_trigger_plugin_hook('format', 'markdown:all', $params, NULL);
+	$result = elgg_trigger_plugin_hook('format_markdown', 'all', $params, null);
 	if ($result) {
 		return $result;
 	}
 
-	$result = elgg_trigger_plugin_hook('format', 'markdown:before', $params, $params['text']);
+	$result = elgg_trigger_plugin_hook('format_markdown', 'before', $params, $text);
 
-	$params['text'] = Markdown($result);
+	$result = Markdown($result);
 
-	$result = elgg_trigger_plugin_hook('format', 'markdown:after', $params, $params['text']);
+	$result = elgg_trigger_plugin_hook('format_markdown', 'after', $params, $result);
 
 	return $result;
 }

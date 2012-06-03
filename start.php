@@ -77,10 +77,13 @@ function markdown_wiki_init() {
 		'access_id' => 'access',
 	));
 
+	// Parse link
+	elgg_register_plugin_hook_handler('format_markdown', 'after', 'markdown_wiki_parse_link_plugin_hook', 600);
 	// Add id for each title anchor
-	elgg_register_plugin_hook_handler('format', 'markdown:after', 'markdown_wiki_id_title_plugin_hook');
+	elgg_register_plugin_hook_handler('format_markdown', 'after', 'markdown_wiki_id_title_plugin_hook', 601);
 
 }
+
 
 /**
  * Dispatcher for elgg-markdown_wiki plugin.
@@ -157,6 +160,7 @@ $query = get_markdown_wiki_guid_by_title($page[1]);
 	return true;
 }
 
+
 /**
  * Override the markdown_wiki url
  * 
@@ -167,6 +171,34 @@ function markdown_wiki_url($entity) {
 	$title = elgg_get_friendly_title($entity->title);
 	return "wiki/view/$entity->guid/$title";
 }
+
+
+/**
+ * Plugin hook hander that parse for link and return intern link of non exist wiki page,
+ * exist page or external link
+ * 
+ * @return string
+ */
+function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue, $params) {
+
+	function _parse_link_callback($matches) {
+		// external link
+		if ( strpos($matches[1], 'http://') !== false && strpos($matches[1], elgg_get_site_url()) === false ) {
+			return "<a href='$matches[1]' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
+		} else { // internal link
+			if ( get_markdown_wiki_guid_by_title(rtrim($matches[1], '/')) ) {
+				return $matches[0];
+			} else {
+				return "<a href='$matches[1]' class='new'>$matches[2]</a>";
+			}
+		}
+	}
+
+	$result = preg_replace_callback("/<a href=\"(.*)\">(.*)<\/a>/U", '_parse_link_callback', $returnvalue);
+	return $result;
+
+}
+
 
 /**
  * Plugin hook hander that add id for each title (h1, h2...) at the markdown output
@@ -189,7 +221,7 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 		return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
 	}
 
-	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $params['text']);
+	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $returnvalue);
 	return $result;
 
 }
