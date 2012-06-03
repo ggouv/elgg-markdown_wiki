@@ -20,21 +20,33 @@ elgg.markdown_wiki.edit.init = function() {
 	// allow plugins to cancel event
 	var options = { trigger:false };
 	options = elgg.trigger_hook('init', 'markdown_wiki.edit.init', null, options);
-console.log(options);
+
 	if (!options.trigger) {
 		$(document).ready(function() {
 			
-			var $textarea = $('textarea.elgg-input-markdown'),
-				$preview = $('#previewPane');
+			$('.previewPaneWrapper .elgg-input-dropdown').change(function() {
+				$('.pane').addClass('hidden');
+				$('#'+$(this).val()).removeClass('hidden');
+			});
+		
+			var textarea = $('textarea.elgg-input-markdown'),
+				previewPane = $('#previewPane'),
+				outputPane = $('#outputPane');
 	
 			// Continue only if the `textarea` is found
-			if ($textarea) {
+			if (textarea) {
 				var converter = new Showdown.converter().makeHtml;
-				$textarea.keyup(function() {
-					$preview.html(converter($textarea.val()));
-					$textarea.innerHeight($preview.innerHeight() + 10 + 2); // padding (cannot set to textarea) + border
+				textarea.keyup(function() {
+					var text = converter(textarea.val());
+					outputPane.val(text);;
+					previewPane.html(text);
+					
+					// resize textarea
+					$('textarea.elgg-input-markdown, #outputPane, #syntaxPane').innerHeight(previewPane.innerHeight() + 10 + 2); // padding (cannot set to textarea) + border
 				}).trigger('keyup');
 			}
+			
+			
 		});
 	}
 }

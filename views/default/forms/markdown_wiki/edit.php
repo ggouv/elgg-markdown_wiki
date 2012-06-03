@@ -22,10 +22,21 @@ foreach ($variables as $name => $type) {
 	echo '</div>';
 	if ($name == 'description') {
 		?>
-			<div class='previewPaneWrapper'>
+			<div class='previewPaneWrapper'><div class='prm'>
 				<label class="mlm"><?php echo elgg_echo('markdown_wiki:preview'); ?></label>
-				<div id='previewPane' class='elgg-output markdown-body mlm plm'></div>
-			</div>
+				<?php echo elgg_view("input/dropdown", array(
+					'name' => 'previewPaneDisplay',
+					'value' => 'previewPane',
+					'options_values' => array(
+						'previewPane' => elgg_echo('markdown_wiki:preview'),
+						'outputPane' => elgg_echo('markdown_wiki:HTML_output'),
+						'syntaxPane' => elgg_echo('markdown_wiki:syntax')
+					)
+				));?>
+				<div id='previewPane' class='elgg-output pane markdown-body mlm pas'></div>
+				<textarea id="outputPane" class="pane hidden mlm pas" readonly="readonly"></textarea>
+				<textarea id="syntaxPane" class="pane hidden mlm pas" readonly="readonly"><?php echo elgg_echo('markdown_wiki:syntax_guide'); ?></textarea>
+			</div></div>
 		<?php
 	}
 }

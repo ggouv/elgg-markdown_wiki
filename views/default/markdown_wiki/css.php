@@ -145,14 +145,30 @@
 	float: left;
 	width: 50%;
 }
-.elgg-input-markdown {
+.previewPaneWrapper .elgg-input-dropdown {
+	float: right;
+	margin-right:-10px;
+}
+.elgg-input-markdown, .previewPaneWrapper .pane {
 	resize: none;
 }
-#previewPane {
+.previewPaneWrapper .pane {
 	border: 1px solid #CCCCCC;
 	border-radius: 5px 5px 5px 5px;
-	padding: 5px;
 	margin-top: 1px;
+}
+#previewPane {
+	margin-right: -10px;
+}
+#outputPane {
+	color: black;
+	background-color: #DEDEDE;
+	font-size: 110%;
+}
+#syntaxPane {
+	color: black;
+	background-color: #FFC;
+	font-size: 110%;
 }
 .elgg-form-markdown-wiki-edit .summary {
 	clear: both;
