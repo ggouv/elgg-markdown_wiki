@@ -55,38 +55,40 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0
  * Get markdown_wiki by title
  *
  * @param string $title The title's markdown_wiki
+ * 		  integer $group Optionally, the GUID of a group
  *
  * @return ElggObject|false Depending on success
  */
-function get_markdown_wiki_guid_by_title($title) {
+function get_markdown_wiki_guid_by_title($title, $group = null) {
 	global $CONFIG, $MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE;
 
 	$title = sanitise_string($title);
-	$access = get_access_sql_suffix('e');
-$subtype_id = get_subtype_id('object', 'markdown_wiki');
-/*
+
 	// Caching
 	if ((isset($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))
 	&& (retrieve_cached_entity($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))) {
 		return retrieve_cached_entity($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]);
 	}
-*/
+
+	$access = get_access_sql_suffix('e');
+	$subtype_id = get_subtype_id('object', 'markdown_wiki');
+	$group_sql = '';
+	if ($group && is_numeric($group)) {
+		$group_sql = "and e.container_guid='$group' ";
+	}
+
 	$query = "SELECT e.* from {$CONFIG->dbprefix}objects_entity u
 		join {$CONFIG->dbprefix}entities e on e.guid=u.guid
-		where e.subtype='$subtype_id' and u.title='$title' and $access ";
-/*
-	$query = "SELECT e.* from {$CONFIG->dbprefix}users_entity u
-		join {$CONFIG->dbprefix}entities e on e.guid=u.guid
-		where u.username='$username' and $access ";
-*/
+		where e.subtype='$subtype_id' and u.title='$title' and $access " . $group_sql;
+
 	$entity = get_data($query);
-	
-/*	if ($entity) {
+
+	if ($entity) {
 		$MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title] = $entity->guid;
 	} else {
 		$entity = false;
 	}
-*/
+
 	if ($entity) {
 		return $entity;
 	} else {

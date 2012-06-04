@@ -123,6 +123,7 @@ function markdown_wiki_page_handler($page) {
 			include "$base_dir/world.php";
 			break;
 		case 'owner':
+			set_input('guid', $page[1]);
 			include "$base_dir/owner.php";
 			break;
 		case 'friends':
@@ -130,18 +131,17 @@ function markdown_wiki_page_handler($page) {
 			break;
 		case 'group':
 			if ($page[2] == 'all' ) {
-				include "$base_dir/group.php";
+				include "$base_dir/owner.php";
 			} else if ($page[2] == 'page' ) {
 				if (is_numeric($page[3])) {
-					set_input('guid', $page[1]);
+					set_input('guid', $page[3]);
 				} else {
-					$query = get_markdown_wiki_guid_by_title($page[3]);
-					set_input('guid', '223');
-					global $fb; $fb->info($query);
+					$query = get_markdown_wiki_guid_by_title($page[3], elgg_get_page_owner_guid());
+					set_input('guid', $query[0]->guid);//
 				}
 				include "$base_dir/view.php";
 			} else {
-				forward('/wiki/group/' . $page[1] . '/page/home'); // go to home page of the group
+				forward('/wiki/group/' . $page[1] . '/page/home'); // go to the wiki page home of the group
 			}
 			break;
 		case 'add':
@@ -180,7 +180,7 @@ function markdown_wiki_page_handler($page) {
  */
 function markdown_wiki_url($entity) {
 	$title = elgg_get_friendly_title($entity->title);
-	return "wiki/view/$entity->guid/$title";
+	return "wiki/group/$entity->container_guid/page/$entity->guid/$title";
 }
 
 
@@ -189,12 +189,12 @@ function markdown_wiki_url($entity) {
  */
 function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
 	if (elgg_instanceof($params['entity'], 'user')) {
-		$url = "wiki/owner/{$params['entity']->username}/home";
+		$url = "wiki/owner/{$params['entity']->username}";
 		$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), $url);
 		$return[] = $item;
 	} else {
 		if ($params['entity']->markdown_wiki_enable != "no") {
-			$url = "wiki/group/{$params['entity']->guid}/home";
+			$url = "wiki/group/{$params['entity']->guid}/page/home";
 			$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki:group'), $url);
 			if (elgg_in_context('markdown_wiki')) $item->setSelected();
 			$return[] = $item;
@@ -214,21 +214,47 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 
 	function _parse_link_callback($matches) {
 		// external link
-		global $fb; $fb->info(elgg_get_page_owner_entity());
-		if ( strpos($matches[1], 'http://') !== false && strpos($matches[1], elgg_get_site_url()) === false ) {
-		$fb->info($matches[1], 'if');
-			return "<a href='$matches[1]' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
-		} else { // internal link
-		$fb->info(rtrim($matches[1], '/'), 'else');
-			if ( get_markdown_wiki_guid_by_title(rtrim($matches[1], '/')) ) {
-				return $matches[0];
-			} else {
-				return "<a href='$matches[1]' class='new'>$matches[2]</a>";
+		$title = rtrim($matches[1], '/');
+		$group = elgg_get_page_owner_guid();
+		$site_url = elgg_get_site_url();
+		
+		if ( strpos($title, 'http://') !== false ){
+			if ( strpos($title, $site_url) === false ) { // external link
+				return "<a href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
+			} else { // internal link with http://
+				return "<a href='$title'>$matches[2]</a>";
+			}
+		} else {
+			if (!$title) { // markdown syntax like [a link]()
+				if ( $page = get_markdown_wiki_guid_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
+					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
+				} else { // page doesn't exists
+					return "<a href='{$site_url}wiki/group/$group/add/$title/notexist' class='new'>$matches[2]</a>"; // @todo pointer vers la page d'edition
+				}
+			} else if ( $page = get_markdown_wiki_guid_by_title(end(explode('/', $title)), $group) ) { // page exists
+				return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
+			} else { // page doesn't exists
+				return "<a href='{$site_url}wiki/group/$group/page/add' class='new'>$matches[2]</a>"; // @todo pointer vers la page d'edition
 			}
 		}
 	}
 
-	$result = preg_replace_callback("/<a href=\"(.*)\">(.*)<\/a>/U", '_parse_link_callback', $returnvalue);
+	/* markdown skip syntax with whitespace in the link like [a link](a link)
+	 * So if we want to do local link only with the title of a page, we need to parse this kind of syntax.
+	 * Note: with markdown we can do link with deported reference like [a link][1]		and far away [1]: thelink
+	 * This kind of parsing is too hard to do again here because it can have multiple reference in a text and we have to store url.
+	 * So I have modified original file to do that.
+	 * See on elgg-markdown_wiki/vendors/php-markdown/markdown.php line 338
+	 * Also on elgg-markdown_wiki/vendors/showdown/compressed/showdown.js line 64 at var c=c.replace close to the begining.
+	 * Note2: this kind of link work. [a link][1]		and far away [1]: <the link>
+	 */
+	function _parse_whitespace_link_callback($matches) {
+		$title = rtrim($matches[2], '/');
+		return "<a href=\"$title\">$matches[1]</a>";
+	}
+	$result = preg_replace_callback("/\[(.*)\]\((.*)\)/U", '_parse_whitespace_link_callback', $returnvalue);
+
+	$result = preg_replace_callback("/<a href=\"(.*)\">(.*)<\/a>/U", '_parse_link_callback', $result);
 	return $result;
 
 }
@@ -247,7 +273,7 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 		$title = strtolower($title);
 		$title = preg_replace('/\//', '-', $title);
 		$title = preg_replace('/\s+/', '-', $title);
-		$title = utf8_encode(rawurlencode($title));
+		$title = rawurlencode($title);
 
 		return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
 	}

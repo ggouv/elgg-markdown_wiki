@@ -335,7 +335,7 @@ class Markdown_Parser {
 							(?:
 							  <(.+?)>			# url = $2
 							|
-							  (\S+?)			# url = $3
+							  (.+?)			# url = $3 !!! Modified by ManUtopiK for elgg-markdown_wiki original (\S+?)
 							)
 							  [ ]*
 							  \n?				# maybe one newline
