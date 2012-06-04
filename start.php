@@ -64,8 +64,9 @@ function markdown_wiki_init() {
 	elgg_register_action('markdown_wiki/edit', "$base_dir/edit.php");
 
 	// add to groups
-	add_group_tool_option('markdown_wiki', elgg_echo('groups:enablemarkdown_wiki'), true);
+	add_group_tool_option('markdown_wiki', elgg_echo('groups:enable_markdown_wiki'), true);
 	elgg_extend_view('groups/tool_latest', 'markdown_wiki/group_module');
+	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'markdown_wiki_owner_block_menu');
 
 	// Language short codes must be of the form "markdown_wiki:key"
 	// where key is the array key below
@@ -88,13 +89,18 @@ function markdown_wiki_init() {
 /**
  * Dispatcher for elgg-markdown_wiki plugin.
  * URLs take the form of :
- *  All:			wiki/all
- *  User's:			wiki/owner/<username>
- *  Friend's:		wiki/friends/<username>
- *  View page:		wiki/view/<guid>/<title> or wiki/view/<title>
- *  New page:		wiki/add/<guid> (container: user, group, parent)
- *  Edit page:		wiki/edit/<guid>
- *  Group:			wiki/group/<guid>
+ *  All:				wiki/all or wiki/world
+ *  User's:				wiki/owner/<username>
+ *  Friend's:			wiki/friends/<username>
+ *  All Group's pages:	wiki/group/<guid>/all
+ *  Group page:			wiki/group/<guid>/page/<guid>/<title> (title is ignored)
+ *			or:			wiki/group/<guid>/page/<title> (title important !)
+ *
+ *  Edit/New page:		wiki/edit/<guid>/<title> (title is ignored)
+ *  Discussion page: 	wiki/discussion/<guid>/<title> (title is ignored)
+ *  History page:		wiki/history/<guid>/<title>?granularity=<granularity> (granularity default = character) (title is ignored)
+ *  Compare page:		wiki/compare/<guid>/<title> (title is ignored)
+ *		  result:		wiki/compare/<guid>/<title>?from=<annotation guid>&to=<annotation guid>&granularity=<granularity> (title is ignored)
  *
  * @param array $page
  */
@@ -113,6 +119,7 @@ function markdown_wiki_page_handler($page) {
 	switch ($page[0]) {
 		default:
 		case 'all':
+		case 'world':
 			include "$base_dir/world.php";
 			break;
 		case 'owner':
@@ -121,37 +128,41 @@ function markdown_wiki_page_handler($page) {
 		case 'friends':
 			include "$base_dir/friends.php";
 			break;
-		case 'view':
-			if (is_numeric($page[1])) {
-				set_input('guid', $page[1]);
-			} else {/*
-				$query = elgg_get_entities(array(
-					'type' => 'object',
-					'subtypes' => 'markdown_wiki',
-					'wheres' => 'title = `' . stripslashes($page[1]) . '`',
-					//'metadata_name' => 'title',
-					//'metadata_value' => stripslashes($page[1]),
-					'limit' => 0
-				));*/
-$query = get_markdown_wiki_guid_by_title($page[1]);
-				set_input('guid', '223');
-				global $fb; $fb->info($query);
+		case 'group':
+			if ($page[2] == 'all' ) {
+				include "$base_dir/group.php";
+			} else if ($page[2] == 'page' ) {
+				if (is_numeric($page[3])) {
+					set_input('guid', $page[1]);
+				} else {
+					$query = get_markdown_wiki_guid_by_title($page[3]);
+					set_input('guid', '223');
+					global $fb; $fb->info($query);
+				}
+				include "$base_dir/view.php";
+			} else {
+				forward('/wiki/group/' . $page[1] . '/page/home'); // go to home page of the group
 			}
-			include "$base_dir/view.php";
 			break;
 		case 'add':
 			include "$base_dir/new.php";
 			break;
 		case 'edit':
+		global $fb; $fb->info($page[1]);
 			set_input('guid', $page[1]);
 			include "$base_dir/edit.php";
+			break;
+		case 'discussion':
+			set_input('guid', $page[1]);
+			include "$base_dir/discussion.php";
 			break;
 		case 'history':
 			set_input('guid', $page[1]);
 			include "$base_dir/history.php";
 			break;
-		case 'group':
-			include "$base_dir/group.php";
+		case 'compare':
+			set_input('guid', $page[1]);
+			include "$base_dir/compare.php";
 			break;
 	}
 
@@ -174,6 +185,26 @@ function markdown_wiki_url($entity) {
 
 
 /**
+ * Add a menu item to the user ownerblock
+ */
+function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
+	if (elgg_instanceof($params['entity'], 'user')) {
+		$url = "wiki/owner/{$params['entity']->username}/home";
+		$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), $url);
+		$return[] = $item;
+	} else {
+		if ($params['entity']->markdown_wiki_enable != "no") {
+			$url = "wiki/group/{$params['entity']->guid}/home";
+			$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki:group'), $url);
+			if (elgg_in_context('markdown_wiki')) $item->setSelected();
+			$return[] = $item;
+		}
+	}
+	return $return;
+}
+
+
+/**
  * Plugin hook hander that parse for link and return intern link of non exist wiki page,
  * exist page or external link
  * 
@@ -183,9 +214,12 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 
 	function _parse_link_callback($matches) {
 		// external link
+		global $fb; $fb->info(elgg_get_page_owner_entity());
 		if ( strpos($matches[1], 'http://') !== false && strpos($matches[1], elgg_get_site_url()) === false ) {
+		$fb->info($matches[1], 'if');
 			return "<a href='$matches[1]' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
 		} else { // internal link
+		$fb->info(rtrim($matches[1], '/'), 'else');
 			if ( get_markdown_wiki_guid_by_title(rtrim($matches[1], '/')) ) {
 				return $matches[0];
 			} else {
@@ -209,14 +243,11 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $params) {
 
 	function _title_id_callback($matches) {
-		$title = strip_tags($matches[3]);
-		$title = preg_replace("`\[.*\]`U", "", $title);
-		$title = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', $title);
-		$title = htmlentities($title, ENT_COMPAT, 'utf-8');
-		$title = preg_replace( "`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);`i", "\\1", $title );
-		$title = preg_replace( "`&([a-z])(elig);`i", "\\1e", $title );
-		$title = preg_replace( array("`[^a-z0-9]`i","`[-]+`") , "-", $title);
+		$title = strip_tags(trim($matches[3]));
 		$title = strtolower($title);
+		$title = preg_replace('/\//', '-', $title);
+		$title = preg_replace('/\s+/', '-', $title);
+		$title = utf8_encode(rawurlencode($title));
 
 		return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
 	}
