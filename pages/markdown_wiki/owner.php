@@ -21,20 +21,35 @@ $title = elgg_echo('markdown_wiki:owner', array($owner->name));
 
 elgg_push_breadcrumb($owner->name);
 
-elgg_register_title_button();
-
-$content = elgg_list_entities(array(
-	'types' => 'object',
-	'subtypes' => 'markdown_wiki',
-	'container_guid' => elgg_get_page_owner_guid(),
-	'full_view' => false,
+elgg_register_menu_item('title', array(
+	'name' => 'new',
+	'href' => "#",
+	'text' => elgg_echo('markdown_wiki:new'),
+	'link_class' => 'elgg-button elgg-button-action',
 ));
+
+if (elgg_instanceof($owner, 'group')) {
+	$content = elgg_list_entities(array(
+		'types' => 'object',
+		'subtypes' => 'markdown_wiki',
+		'container_guid' => $owner->guid,
+		'full_view' => false,
+	));
+} else {
+	$content = elgg_list_entities(array(
+		'types' => 'object',
+		'subtypes' => 'markdown_wiki',
+		'owner_guid' => $owner->guid,
+		'full_view' => false,
+	));
+}
+
 if (!$content) {
 	$content = '<p>' . elgg_echo('markdown_wiki:none') . '</p>';
 }
 
 $filter_context = '';
-if (elgg_get_page_owner_guid() == elgg_get_logged_in_user_guid()) {
+if ($owner->guid == elgg_get_logged_in_user_guid()) {
 	$filter_context = 'mine';
 }
 

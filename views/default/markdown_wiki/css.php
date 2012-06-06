@@ -9,7 +9,7 @@
  **/
  
  /*
-  * view
+  * view and search
   */
 .elgg-output.markdown-body a.new {
 	color: red;
@@ -20,6 +20,13 @@
 	height: 8px;
 	margin: 0 2px;
 	width: 8px;
+}
+.markdown-wiki-create {
+	font-size: 1.2em;
+	color: #333;
+}
+.markdown-wiki-search-form {
+	width: 35%;
 }
 
  /*
@@ -159,6 +166,7 @@
 }
 #previewPane {
 	margin-right: -10px;
+	min-height: 188px;
 }
 #outputPane {
 	color: black;

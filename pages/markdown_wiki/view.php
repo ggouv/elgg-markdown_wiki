@@ -22,22 +22,22 @@ elgg_load_css('markdown_wiki:css');
 
 elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
 
+$title = $markdown_wiki->title;
+
 elgg_register_menu_item('page', array(
 	'name' => 'edit',
-	'href' => "wiki/edit/$markdown_wiki_guid",
+	'href' => "wiki/edit/$markdown_wiki_guid/$title",
 	'text' => elgg_echo('markdown_wiki:edit'),
 ));
 elgg_register_menu_item('page', array(
 	'name' => 'history',
-	'href' => "wiki/history/$markdown_wiki_guid",
+	'href' => "wiki/history/$markdown_wiki_guid/$title",
 	'text' => elgg_echo('markdown_wiki:history'),
 ));
 
 $container = elgg_get_page_owner_entity();
 if (!$container) {
 }
-
-$title = $markdown_wiki->title;
 
 if (elgg_instanceof($container, 'group')) {
 	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");

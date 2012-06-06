@@ -19,7 +19,7 @@ $english = array(
 	'markdown_wiki:owner' => "%s's wiki pages",
 	'markdown_wiki:friends' => "Friends' wiki pages",
 	'markdown_wiki:all' => "All site wiki pages",
-	'wiki:add' => "Add wiki page",
+	'wiki:edit' => "Add wiki page",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
 	
@@ -30,6 +30,12 @@ $english = array(
 
 	'markdown_wiki:del' => 'del',
 	'markdown_wiki:ins' => 'ins',
+	
+	'markdown_wiki:search_in_group' => "Search page in this group %s",
+	'markdown_wiki:search_in_group:or_create' => "or create it",
+	'markdown_wiki:search_in_all_group' => "Search page in all groups",
+	'markdown_wiki:search:title' => "Search results for %s",
+	'markdown_wiki:search:in_text:title' => "Pages containing %s:",
 
 	/**
 	* River
@@ -38,6 +44,11 @@ $english = array(
 	/**
 	 * Form fields
 	 */
+
+	'markdown_wiki:search:result:not_found' => "There were no results matching the query.",
+	'markdown_wiki:search:result:not_found:create_it' => "Create the page %s in %s's wiki group.",
+	'markdown_wiki:search:result:not_found:similar' => "Check before the search results below to see whether the topic is already covered.",
+	'markdown_wiki:search:result:found:page' => "There is a page named %s in %s's wiki group.",
 
 	'markdown_wiki:syntax_guide' => "Markdown Syntax Guide
 =====================

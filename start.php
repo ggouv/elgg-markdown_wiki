@@ -71,11 +71,13 @@ function markdown_wiki_init() {
 	// Language short codes must be of the form "markdown_wiki:key"
 	// where key is the array key below
 	elgg_set_config('markdown_wiki', array(
-		'title' => 'text',
+		'title' => 'hidden',
 		'description' => 'markdown',
 		'summary' => 'text',
 		'tags' => 'tags',
 		'access_id' => 'access',
+		'container_guid' => 'hidden',
+		'guid' => 'hidden',
 	));
 
 	// Parse link
@@ -136,7 +138,7 @@ function markdown_wiki_page_handler($page) {
 				if (is_numeric($page[3])) {
 					set_input('guid', $page[3]);
 				} else {
-					$query = get_markdown_wiki_guid_by_title($page[3], elgg_get_page_owner_guid());
+					$query = search_markdown_wiki_by_title($page[3], elgg_get_page_owner_guid());
 					set_input('guid', $query[0]->guid);//
 				}
 				include "$base_dir/view.php";
@@ -163,6 +165,9 @@ function markdown_wiki_page_handler($page) {
 		case 'compare':
 			set_input('guid', $page[1]);
 			include "$base_dir/compare.php";
+			break;
+		case 'search':
+			include "$base_dir/search.php";
 			break;
 	}
 
@@ -196,7 +201,7 @@ function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
 		if ($params['entity']->markdown_wiki_enable != "no") {
 			$url = "wiki/group/{$params['entity']->guid}/page/home";
 			$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki:group'), $url);
-			if (elgg_in_context('markdown_wiki')) $item->setSelected();
+			if (elgg_in_context('wiki')) $item->setSelected();
 			$return[] = $item;
 		}
 	}
@@ -226,12 +231,12 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			}
 		} else {
 			if (!$title) { // markdown syntax like [a link]()
-				if ( $page = get_markdown_wiki_guid_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
+				if ( $page = search_markdown_wiki_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
 					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
 				} else { // page doesn't exists
 					return "<a href='{$site_url}wiki/group/$group/add/$title/notexist' class='new'>$matches[2]</a>"; // @todo pointer vers la page d'edition
 				}
-			} else if ( $page = get_markdown_wiki_guid_by_title(end(explode('/', $title)), $group) ) { // page exists
+			} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
 				return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
 			} else { // page doesn't exists
 				return "<a href='{$site_url}wiki/group/$group/page/add' class='new'>$matches[2]</a>"; // @todo pointer vers la page d'edition

@@ -9,16 +9,19 @@
  *	Elgg-markdown_wiki edit form
  **/
 
+$vars['title'] = elgg_extract('query', $vars);
+
 $variables = elgg_get_config('markdown_wiki');
 foreach ($variables as $name => $type) {
+	if ($name == 'guid' && !$vars['guid']) continue;
 	($name == 'summary' or $name == 'description') ? $class = " class=$name" : $class = "";
 	echo "<div$class>";
-	echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+	if (!in_array($name, array('title', 'container_guid'))) echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
 
-			echo elgg_view("input/$type", array(
-				'name' => $name,
-				'value' => $vars[$name],
-			));
+	echo elgg_view("input/$type", array(
+		'name' => $name,
+		'value' => $vars[$name],
+	));
 	echo '</div>';
 	if ($name == 'description') {
 		?>
@@ -42,10 +45,7 @@ foreach ($variables as $name => $type) {
 }
 
 $cats = elgg_view('input/categories', $vars);
-if (!empty($cats)) {
-	echo $cats;
-}
-
+if (!empty($cats)) echo $cats;
 
 echo '<div class="elgg-foot">';
 if ($vars['guid']) {
@@ -54,10 +54,6 @@ if ($vars['guid']) {
 		'value' => $vars['guid'],
 	));
 }
-echo elgg_view('input/hidden', array(
-	'name' => 'container_guid',
-	'value' => $vars['container_guid'],
-));
 
 echo elgg_view('input/submit', array('value' => elgg_echo('save')));
 

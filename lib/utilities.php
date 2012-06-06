@@ -15,19 +15,19 @@
  * @param ElggObject $page
  * @return array
  */
-function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0) {
+function markdown_wiki_prepare_form_vars($markdown_wiki = null, $container_guid = 0) {
 
 	// input names => defaults
 	$values = array(
 		'title' => '',
 		'description' => '',
+		'summary' => '',
 		'access_id' => ACCESS_DEFAULT,
 		'write_access_id' => ACCESS_DEFAULT,
 		'tags' => '',
-		'container_guid' => elgg_get_page_owner_guid(),
+		'container_guid' => $container_guid ? $container_guid : elgg_get_page_owner_guid(),
 		'guid' => null,
 		'entity' => $markdown_wiki,
-		'parent_guid' => $parent_guid,
 	);
 
 	if ($markdown_wiki) {
@@ -59,7 +59,7 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $parent_guid = 0
  *
  * @return ElggObject|false Depending on success
  */
-function get_markdown_wiki_guid_by_title($title, $group = null) {
+function search_markdown_wiki_by_title($title, $group = null) {
 	global $CONFIG, $MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE;
 
 	$title = sanitise_string($title);

@@ -28,7 +28,7 @@ if ($revision) {
 
 $editor = get_entity($annotation->owner_guid);
 $editor_link = elgg_view('output/url', array(
-	'href' => "markdown_wiki/owner/$editor->username",
+	'href' => "wiki/owner/$editor->username",
 	'text' => $editor->name,
 	'is_trusted' => true,
 ));
