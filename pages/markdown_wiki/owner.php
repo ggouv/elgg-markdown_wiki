@@ -21,13 +21,6 @@ $title = elgg_echo('markdown_wiki:owner', array($owner->name));
 
 elgg_push_breadcrumb($owner->name);
 
-elgg_register_menu_item('title', array(
-	'name' => 'new',
-	'href' => "#",
-	'text' => elgg_echo('markdown_wiki:new'),
-	'link_class' => 'elgg-button elgg-button-action',
-));
-
 if (elgg_instanceof($owner, 'group')) {
 	$content = elgg_list_entities(array(
 		'types' => 'object',

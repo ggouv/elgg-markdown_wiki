@@ -61,8 +61,6 @@ elgg_register_menu_item('page', array(
 	'text' => elgg_echo('markdown_wiki:page:edit'),
 ));
 
-$title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:history');
-
 $annotations = elgg_get_annotations(array(
 	'types' => 'object',
 	'subtypes' => 'markdown_wiki',
@@ -76,8 +74,10 @@ foreach($annotations as $key => $annotation) {
 	$values[] = unserialize($annotation->value);
 }
 
+$count = count($annotations);
+
 $diffHTML = $diffOwner = '';
-for($i=count($annotations)-1; $i>=0; $i--) {
+for($i=$count-1; $i>=0; $i--) {
 	if ($i != 0) {
 		$diff[$i] = new FineDiff(htmlspecialchars($values[$i-1]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[$i]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
 		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
@@ -86,7 +86,7 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	}
 	$owner = get_entity($annotations[$i]->owner_guid);
 	$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
-	$time = ucwords(htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$i]->time_created)));
+	$time = htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$i]->time_created));
 	$summary = $values[$i]['summary'];
 	$array_diff = $values[$i]['diff'][$granularity];
 	$diff_text = '';
@@ -103,12 +103,14 @@ $diffOwner .= <<<HTML
 HTML;
 }
 
+$title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:history'); 
+
 $content = "<div class='diff-output'>" . $diffHTML . '</div>';
 $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner, 'granularity' => $granularity)),
+	'sidebar' => elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner, 'granularity' => $granularity, 'count' => $count)),
 	'class' => 'fixed-sidebar',
 ));
 

@@ -152,11 +152,7 @@ function markdown_wiki_page_handler($page) {
 				forward('/wiki/group/' . $page[1] . '/page/' . elgg_echo('markdown_wiki:home')); // go to the wiki page home of the group
 			}
 			break;
-		case 'add':
-			include "$base_dir/new.php";
-			break;
 		case 'edit':
-		global $fb; $fb->info($page[1]);
 			set_input('guid', $page[1]);
 			include "$base_dir/edit.php";
 			break;
@@ -251,7 +247,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 				if ( $page = search_markdown_wiki_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
 					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
 				} else { // page doesn't exists
-					return "<a href='{$site_url}wiki/search?q=$title&container_guid=$group' class='new'>$matches[2]</a>";
+					return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
 				}
 			} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
 				return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";

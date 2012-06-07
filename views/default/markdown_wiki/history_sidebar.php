@@ -10,6 +10,7 @@
  **/
 
 $granularity = $vars['granularity'];
+$count = $vars['count'];
 
 $title = elgg_echo('markdown_wiki:sidebar:granularity');
 $granularityTypes = array(
@@ -34,6 +35,7 @@ echo elgg_view_module('aside', $title, $body);
 $diffOwner = $vars['diffOwner'];
 
 $title = elgg_echo('markdown_wiki:sidebar:history');
+if ($count > 50) $title .= '&nbsp;<span class="elgg-subtext">' . elgg_echo('markdown_wiki:sidebar:history:50max') . '</span>';
 
 $body = <<<HTML
 <div id="sliderContainer">

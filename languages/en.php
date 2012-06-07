@@ -50,6 +50,7 @@ $english = array(
 
 	'markdown_wiki:sidebar:granularity' => "Granularity",
 	'markdown_wiki:sidebar:history' => "History",
+	'markdown_wiki:sidebar:history:50max' => "50 max",
 	'markdown_wiki:granularity:character' => 'Character',
 	'markdown_wiki:granularity:word' => 'Word',
 	'markdown_wiki:granularity:sentence' => 'Sentence',
@@ -456,8 +457,8 @@ Like code blocks, code spans will be displayed in a monospaced typeface.  Markdo
     'river:comment:object:markdown_wiki' => "%s commented on the article %s",
 	'markdown_wiki:strapline' => "Last updated %s by %s in group %s",
 	
-	'markdown_wiki:history:date' => "By %s at",
-	'markdown_wiki:history:date_format' => "%e %B %Y \at %H:%M",
+	'markdown_wiki:history:date' => "By %s on",
+	'markdown_wiki:history:date_format' => "%e %B %Y at %H:%M",
 
 );
 
