@@ -67,6 +67,7 @@ function markdown_wiki_init() {
 
 	// add to groups
 	add_group_tool_option('markdown_wiki', elgg_echo('groups:enable_markdown_wiki'), true);
+	add_group_tool_option('markdown_wiki_all', elgg_echo('groups:enable_markdown_wiki:home'), false);
 	elgg_extend_view('groups/tool_latest', 'markdown_wiki/group_module');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'markdown_wiki_owner_block_menu');
 
@@ -149,7 +150,12 @@ function markdown_wiki_page_handler($page) {
 				}
 				include "$base_dir/view.php";
 			} else {
-				forward('/wiki/group/' . $page[1] . '/page/' . elgg_echo('markdown_wiki:home')); // go to the wiki page home of the group
+				$group = get_input($page[1]);
+				if ($group->markdown_wiki_all_enable  == 'yes') {
+					forward("/wiki/group/$page[1]/all");
+				} else {
+					forward('/wiki/group/' . $page[1] . '/page/' . elgg_echo('markdown_wiki:home')); // go to the wiki page home of the group
+				}
 			}
 			break;
 		case 'edit':
@@ -201,7 +207,11 @@ function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
 		$return[] = $item;
 	} else {
 		if ($params['entity']->markdown_wiki_enable != "no") {
-			$url = "wiki/group/{$params['entity']->guid}/page/" . elgg_echo('markdown_wiki:home');
+			if ($params['entity']->markdown_wiki_all_enable  == 'yes') {
+				$url = "/wiki/group/{$params['entity']->guid}/all";
+			} else {
+				$url = "wiki/group/{$params['entity']->guid}/page/" . elgg_echo('markdown_wiki:home');
+			}
 			$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki:group'), $url);
 			if (elgg_in_context('wiki')) $item->setSelected();
 			$return[] = $item;

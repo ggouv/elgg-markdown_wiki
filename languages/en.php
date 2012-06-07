@@ -34,7 +34,8 @@ $english = array(
 	'markdown_wiki:home' => "home", // If home paseg already created, don't change it !
 	'wiki:edit' => "Add wiki page",
 
-	'groups:enable_markdown_wiki' => "Activate group wiki",
+	'groups:enable_markdown_wiki' => "Enable group wiki",
+	'groups:enable_markdown_wiki:home' => "Group wiki:<br/>On: group wiki link go to all group's wiki pages. Off: group wiki link go to group's home page",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
 	
