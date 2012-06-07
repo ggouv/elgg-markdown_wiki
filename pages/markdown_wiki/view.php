@@ -27,12 +27,12 @@ $title = $markdown_wiki->title;
 elgg_register_menu_item('page', array(
 	'name' => 'edit',
 	'href' => "wiki/edit/$markdown_wiki_guid/$title",
-	'text' => elgg_echo('markdown_wiki:edit'),
+	'text' => elgg_echo('markdown_wiki:page:edit'),
 ));
 elgg_register_menu_item('page', array(
 	'name' => 'history',
 	'href' => "wiki/history/$markdown_wiki_guid/$title",
-	'text' => elgg_echo('markdown_wiki:history'),
+	'text' => elgg_echo('markdown_wiki:page:history'),
 ));
 
 $container = elgg_get_page_owner_entity();

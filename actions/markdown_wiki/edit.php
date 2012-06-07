@@ -26,9 +26,14 @@ foreach ($variables as $name => $type) {
 
 elgg_make_sticky_form('markdown_wiki');
 
-if (!$input['container_guid'] || !is_group_member($input['container_guid'], $user_guid) || !elgg_instanceof($container, 'group')) {
+if (!$input['container_guid']) {
 	register_error(elgg_echo('markdown_wiki:error:no_group'));
 	forward(elgg_get_site_url() . 'wiki/all');
+}
+
+if (!is_group_member($input['container_guid'], $user_guid)) {
+	register_error(elgg_echo('markdown_wiki:error:no_access'));
+	forward(REFERER);
 }
 
 if (!$input['title']) {

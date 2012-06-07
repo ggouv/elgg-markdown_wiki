@@ -16,15 +16,16 @@ $container_guid = (int)get_input('container_guid');
 $query = get_input('q');
 
 $markdown_wiki = get_entity($markdown_wiki_guid);
+
+if (!$container_guid) $container_guid = $markdown_wiki->getContainerGUID();
+
 if (!$markdown_wiki && !$container_guid) {
-	register_error(elgg_echo('markdown_wiki:noaccess'));
+	register_error(elgg_echo('markdown_wiki:no_access'));
 	forward(REFERER);
 }
 
-if (!$container_guid) $container_guid = $markdown_wiki->getContainerEntity();
-
 if (!$container_guid || !is_group_member($container_guid, elgg_get_logged_in_user_guid())) {
-	register_error(elgg_echo('markdown_wiki:noaccess'));
+	register_error(elgg_echo('markdown_wiki:no_access'));
 	forward(REFERER);
 } else {
 	$vars = markdown_wiki_prepare_form_vars($markdown_wiki, $container_guid);
@@ -38,6 +39,8 @@ elgg_load_css('markdown_wiki:css');
 
 elgg_set_page_owner_guid($container_guid);
 
+$container = get_entity($container_guid);
+elgg_push_breadcrumb($container->name, $container->getURL());
 if ($query) {
 	elgg_push_breadcrumb($query);
 	$title = elgg_echo("markdown_wiki:edit", array($query));

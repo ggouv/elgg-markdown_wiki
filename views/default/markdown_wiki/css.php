@@ -153,8 +153,7 @@
 	width: 50%;
 }
 .previewPaneWrapper .elgg-input-dropdown {
-	float: right;
-	margin-right:-10px;
+	margin-left: 10px;
 }
 .elgg-input-markdown, .previewPaneWrapper .pane {
 	resize: none;

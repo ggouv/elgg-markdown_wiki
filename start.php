@@ -50,6 +50,8 @@ function markdown_wiki_init() {
 	$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), 'wiki/all');
 	elgg_register_menu_item('site', $item);
 
+	elgg_register_plugin_hook_handler('prepare', 'menu:entity', 'markdown_wiki_object_menu');
+
 	// Register a page handler, so we can have nice URLs
 	elgg_register_page_handler('wiki', 'markdown_wiki_page_handler');
 
@@ -139,11 +141,15 @@ function markdown_wiki_page_handler($page) {
 					set_input('guid', $page[3]);
 				} else {
 					$query = search_markdown_wiki_by_title($page[3], elgg_get_page_owner_guid());
-					set_input('guid', $query[0]->guid);//
+					if ($query) {
+						set_input('guid', $query[0]->guid);
+					} else {
+						forward("/wiki/search?q=$page[3]&container_guid=$page[1]");
+					}
 				}
 				include "$base_dir/view.php";
 			} else {
-				forward('/wiki/group/' . $page[1] . '/page/home'); // go to the wiki page home of the group
+				forward('/wiki/group/' . $page[1] . '/page/' . elgg_echo('markdown_wiki:home')); // go to the wiki page home of the group
 			}
 			break;
 		case 'add':
@@ -199,11 +205,22 @@ function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
 		$return[] = $item;
 	} else {
 		if ($params['entity']->markdown_wiki_enable != "no") {
-			$url = "wiki/group/{$params['entity']->guid}/page/home";
+			$url = "wiki/group/{$params['entity']->guid}/page/" . elgg_echo('markdown_wiki:home');
 			$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki:group'), $url);
 			if (elgg_in_context('wiki')) $item->setSelected();
 			$return[] = $item;
 		}
+	}
+	return $return;
+}
+
+
+/**
+ * Delete menu item 'delete' to the object menu
+ */
+function markdown_wiki_object_menu($hook, $type, $return, $params) {
+	foreach($return['default'] as $key => $menu) {
+		if ($menu->getName() == 'delete') unset($return['default'][$key]);
 	}
 	return $return;
 }
@@ -234,12 +251,12 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 				if ( $page = search_markdown_wiki_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
 					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
 				} else { // page doesn't exists
-					return "<a href='{$site_url}wiki/group/$group/add/$title/notexist' class='new'>$matches[2]</a>"; // @todo pointer vers la page d'edition
+					return "<a href='{$site_url}wiki/search?q=$title&container_guid=$group' class='new'>$matches[2]</a>";
 				}
 			} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
 				return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
 			} else { // page doesn't exists
-				return "<a href='{$site_url}wiki/group/$group/page/add' class='new'>$matches[2]</a>"; // @todo pointer vers la page d'edition
+				return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
 			}
 		}
 	}

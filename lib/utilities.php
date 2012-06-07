@@ -79,7 +79,7 @@ function search_markdown_wiki_by_title($title, $group = null) {
 
 	$query = "SELECT e.* from {$CONFIG->dbprefix}objects_entity u
 		join {$CONFIG->dbprefix}entities e on e.guid=u.guid
-		where e.subtype='$subtype_id' and u.title='$title' and $access " . $group_sql;
+		where e.subtype='$subtype_id' and convert(u.title using latin1) collate latin1_general_cs ='$title' and $access " . $group_sql;
 
 	$entity = get_data($query);
 

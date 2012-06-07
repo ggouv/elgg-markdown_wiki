@@ -9,6 +9,17 @@
  *	Elgg-markdown_wiki English language
  **/
 
+
+/*
+markdown_wiki:add elgg-markdown_wiki/pages/markdown_wiki/new.php line 29
+markdown_wiki:new elgg-markdown_wiki/pages/markdown_wiki/owner.php line 27
+markdown_wiki:group elgg-markdown_wiki/start.php line 205
+*/
+
+
+
+
+
 $english = array(
 
 	/**
@@ -19,23 +30,32 @@ $english = array(
 	'markdown_wiki:owner' => "%s's wiki pages",
 	'markdown_wiki:friends' => "Friends' wiki pages",
 	'markdown_wiki:all' => "All site wiki pages",
+	'markdown_wiki:group' => "Group wiki",
+	'markdown_wiki:home' => "home", // If home paseg already created, don't change it !
 	'wiki:edit' => "Add wiki page",
+
+	'groups:enable_markdown_wiki' => "Activate group wiki",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
 	
-	'markdown_wiki:granularity:character' => 'Character',
-	'markdown_wiki:granularity:word' => 'Word',
-	'markdown_wiki:granularity:sentence' => 'Sentence',
-	'markdown_wiki:granularity:paragraph' => 'Paragraph',
-
-	'markdown_wiki:del' => 'del',
-	'markdown_wiki:ins' => 'ins',
+	'markdown_wiki:edit' => "Edit page \"%s\"",
+	'markdown_wiki:page:edit' => "Edit page",
+	'markdown_wiki:page:history' => "History",
 	
 	'markdown_wiki:search_in_group' => "Search page in this group %s",
 	'markdown_wiki:search_in_group:or_create' => "or create it",
 	'markdown_wiki:search_in_all_group' => "Search page in all groups",
 	'markdown_wiki:search:title' => "Search results for %s",
 	'markdown_wiki:search:in_text:title' => "Pages containing %s:",
+
+	'markdown_wiki:sidebar:granularity' => "Granularity",
+	'markdown_wiki:sidebar:history' => "History",
+	'markdown_wiki:granularity:character' => 'Character',
+	'markdown_wiki:granularity:word' => 'Word',
+	'markdown_wiki:granularity:sentence' => 'Sentence',
+	'markdown_wiki:granularity:paragraph' => 'Paragraph',
+	'markdown_wiki:del' => 'del',
+	'markdown_wiki:ins' => 'ins',
 
 	/**
 	* River
@@ -44,6 +64,15 @@ $english = array(
 	/**
 	 * Form fields
 	 */
+
+	'markdown_wiki:description' => "Text",
+	'markdown_wiki:summary' => "Summary",
+	'markdown_wiki:tags' => "Tags",
+	'markdown_wiki:access_id' => "Access",
+
+	'markdown_wiki:preview' => "Preview",
+	'markdown_wiki:HTML_output' => "HTML output",
+	'markdown_wiki:syntax' => "Syntax guide",
 
 	'markdown_wiki:search:result:not_found' => "There were no results matching the query.",
 	'markdown_wiki:search:result:not_found:create_it' => "Create the page %s in %s's wiki group.",
@@ -408,6 +437,16 @@ Like code blocks, code spans will be displayed in a monospaced typeface.  Markdo
 	/**
 	 * Status and error messages
 	 */
+	
+	'markdown_wiki:no_access' => "You cannot edit this page.",
+	'markdown_wiki:delete:success' => "Page deleted.",
+	'markdown_wiki:delete:failure' => "Page doesn't deleted.",
+	'markdown_wiki:error:no_group' => "There was no group defined.",
+	'markdown_wiki:error:no_title' => "There was no title defined.",
+	'markdown_wiki:error:no_description' => "You have to write some text in the page.",
+	'markdown_wiki:error:no_save' => "Page cannot be saved.",
+	'markdown_wiki:error:already_exist' => "A page with the same name already exist.",
+	'markdown_wiki:saved' => "Page edited.",
 
 	/**
 	 * Object
@@ -415,10 +454,10 @@ Like code blocks, code spans will be displayed in a monospaced typeface.  Markdo
 	'item:object:markdown_wiki' => "Article",
     'river:create:object:markdown_wiki' => "%s submited article %s",
     'river:comment:object:markdown_wiki' => "%s commented on the article %s",
-	'markdown_wiki:strapline' => "Last updated %s by %s",
+	'markdown_wiki:strapline' => "Last updated %s by %s in group %s",
 	
 	'markdown_wiki:history:date' => "By %s at",
-	'markdown_wiki:history:date_format' => "%e %B %Y à %H:%M",
+	'markdown_wiki:history:date_format' => "%e %B %Y \at %H:%M",
 
 );
 

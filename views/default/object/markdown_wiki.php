@@ -34,7 +34,15 @@ $editor_link = elgg_view('output/url', array(
 ));
 
 $date = elgg_view_friendly_time($annotation->time_created);
-$editor_text = elgg_echo('markdown_wiki:strapline', array($date, $editor_link));
+$container = $markdown_wiki->getContainerEntity();
+$group_link = elgg_view('output/url', array(
+	'href' => $container->getURL(),
+	'text' => $container->name,
+	'is_trusted' => true,
+));
+
+
+$editor_text = elgg_echo('markdown_wiki:strapline', array($date, $editor_link, $group_link));
 $tags = elgg_view('output/tags', array('tags' => $markdown_wiki->tags));
 $categories = elgg_view('output/categories', $vars);
 
@@ -76,21 +84,21 @@ if ($full) {
 		'metadata' => $metadata,
 		'subtitle' => $subtitle,
 		'tags' => $tags,
+		'title' => false,
 	);
 	$params = $params + $vars;
 	$summary = elgg_view('object/elements/summary', $params);
 
 	echo elgg_view('object/elements/full', array(
 		'entity' => $markdown_wiki,
-		'title' => false,
 		'summary' => $summary,
 		'body' => $body,
 	));
 
-} else {
-	// brief view
-
-	$excerpt = elgg_get_excerpt($markdown_wiki->description);
+} else {	// brief view
+	elgg_load_library('markdown_wiki:markdown');
+	$value = unserialize($annotation->value);
+	$excerpt = elgg_get_excerpt(Markdown($value['text']));
 
 	$params = array(
 		'entity' => $markdown_wiki,

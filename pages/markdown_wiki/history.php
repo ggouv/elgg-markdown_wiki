@@ -40,7 +40,7 @@ if (elgg_instanceof($container, 'group')) {
 }
 
 elgg_push_breadcrumb($markdown_wiki->title, $markdown_wiki->getURL());
-elgg_push_breadcrumb(elgg_echo('markdown_wiki:history'));
+elgg_push_breadcrumb(elgg_echo('markdown_wiki:page:history'));
 
 elgg_register_menu_item('title', array(
 	'name' => 'ins',
@@ -58,7 +58,7 @@ elgg_register_menu_item('title', array(
 elgg_register_menu_item('page', array(
 	'name' => 'edit',
 	'href' => "wiki/edit/$markdown_wiki_guid",
-	'text' => elgg_echo('markdown_wiki:edit'),
+	'text' => elgg_echo('markdown_wiki:page:edit'),
 ));
 
 $title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:history');

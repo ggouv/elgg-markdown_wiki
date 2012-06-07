@@ -14,8 +14,6 @@ $title = elgg_echo('markdown_wiki:all');
 elgg_pop_breadcrumb();
 elgg_push_breadcrumb(elgg_echo('markdown_wiki:all'));
 
-elgg_register_title_button();
-
 $content = elgg_list_entities(array(
 	'types' => 'object',
 	'subtypes' => 'markdown_wiki',
