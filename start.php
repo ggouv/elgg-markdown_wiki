@@ -71,6 +71,9 @@ function markdown_wiki_init() {
 	elgg_extend_view('groups/tool_latest', 'markdown_wiki/group_module');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'markdown_wiki_owner_block_menu');
 
+	//add a widget
+	elgg_register_widget_type('markdown_wiki', elgg_echo('markdown_wiki'), elgg_echo('markdown_wiki:widget:description'));
+
 	// Language short codes must be of the form "markdown_wiki:key"
 	// where key is the array key below
 	elgg_set_config('markdown_wiki', array(

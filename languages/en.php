@@ -47,7 +47,7 @@ $english = array(
 	'markdown_wiki:search_in_group:or_create' => "or create it",
 	'markdown_wiki:search_in_all_group' => "Search page in all groups",
 	'markdown_wiki:search:title' => "Search results for %s",
-	'markdown_wiki:search:in_text:title' => "Pages containing %s:",
+	'markdown_wiki:search:in_text:title' => "Other pages containing %s:",
 
 	'markdown_wiki:sidebar:granularity' => "Granularity",
 	'markdown_wiki:sidebar:history' => "History",
@@ -62,6 +62,12 @@ $english = array(
 	/**
 	* River
 	**/
+	
+	/**
+	* Widget
+	**/
+
+	'markdown_wiki:num' => "Number of pages to display:",
 
 	/**
 	 * Form fields

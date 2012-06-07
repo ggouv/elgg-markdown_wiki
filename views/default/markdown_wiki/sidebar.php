@@ -20,7 +20,9 @@ $body = elgg_view_form('markdown_wiki/search', array(
 
 $container = get_entity($container_guid);
 if ($container && elgg_instanceof($container, 'group')) {
-	$createit = '<span class="elgg-subtext">' . elgg_echo('markdown_wiki:search_in_group:or_create') . '</span>';
+	if (is_group_member($container_guid, elgg_get_logged_in_user_guid())) {
+		$createit = '<span class="elgg-subtext">' . elgg_echo('markdown_wiki:search_in_group:or_create') . '</span>';
+	}
 	echo elgg_view_module('aside', elgg_echo('markdown_wiki:search_in_group', array($createit)), $body);
 } else {
 	echo elgg_view_module('aside', elgg_echo('markdown_wiki:search_in_all_group'), $body);
