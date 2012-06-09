@@ -62,7 +62,11 @@ $english = array(
 	/**
 	* River
 	**/
-	
+
+	'river:create:object:markdown_wiki' => "%s submited article %s",
+	'river:comment:object:markdown_wiki' => "%s commented on the article %s",
+	'river:modified:object' => "%s modified article %s",
+
 	/**
 	* Widget
 	**/
@@ -461,8 +465,6 @@ Like code blocks, code spans will be displayed in a monospaced typeface.  Markdo
 	 * Object
 	 */
 	'item:object:markdown_wiki' => "Article",
-    'river:create:object:markdown_wiki' => "%s submited article %s",
-    'river:comment:object:markdown_wiki' => "%s commented on the article %s",
 	'markdown_wiki:strapline' => "Last modified %s by %s in group %s",
 	
 	'markdown_wiki:history:date' => "By %s on",

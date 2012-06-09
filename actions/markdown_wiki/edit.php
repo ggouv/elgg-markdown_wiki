@@ -106,6 +106,8 @@ if ($markdown_wiki->save()) {
 
 	if ($new_markdown_wiki) {
 		add_to_river('river/object/markdown_wiki/create', 'create', $user_guid, $markdown_wiki->guid);
+	} else {
+		add_to_river('river/object/markdown_wiki/modified', 'modified', $user_guid, $markdown_wiki->guid);
 	}
 
 	forward($markdown_wiki->getURL());
