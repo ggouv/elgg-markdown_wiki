@@ -10,6 +10,8 @@
  **/
 
 $owner = elgg_get_page_owner_entity();
+
+global $fb; $fb->info($owner);
 if (!$owner) {
 	forward('markdown_wiki/all');
 }
@@ -29,10 +31,10 @@ if (elgg_instanceof($owner, 'group')) {
 		'full_view' => false,
 	));
 } else {
-	$content = elgg_list_entities(array(
+	$content = elgg_list_entities_from_annotations(array(
 		'types' => 'object',
 		'subtypes' => 'markdown_wiki',
-		'owner_guid' => $owner->guid,
+		'annotation_owner_guids' => $owner->guid,
 		'full_view' => false,
 	));
 }

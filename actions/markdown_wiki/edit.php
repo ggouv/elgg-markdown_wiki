@@ -48,8 +48,8 @@ if (!$input['description']) {
 
 if ($input['guid']) {
 	$markdown_wiki = get_entity($input['guid']);
-	if (!$markdown_wiki || !$markdown_wiki->canEdit()) {
-		register_error(elgg_echo('markdown_wiki:error:no_save'));
+	if (!$markdown_wiki) {
+		register_error(elgg_echo('markdown_wiki:error:no_entity'));
 		forward(REFERER);
 	}
 	$new_markdown_wiki = false;

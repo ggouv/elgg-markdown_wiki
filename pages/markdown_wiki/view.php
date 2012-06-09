@@ -25,11 +25,6 @@ elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
 
 $title = $markdown_wiki->title;
 
-elgg_register_menu_item('page', array(
-	'name' => 'history',
-	'href' => "wiki/history/$markdown_wiki_guid/$title",
-	'text' => elgg_echo('markdown_wiki:page:history'),
-));
 if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
 	elgg_register_menu_item('page', array(
 		'name' => 'edit',

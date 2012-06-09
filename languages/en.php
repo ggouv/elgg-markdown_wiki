@@ -27,8 +27,8 @@ $english = array(
 	 */
 
 	'markdown_wiki' => "Wikis",
-	'markdown_wiki:owner' => "%s's wiki pages",
-	'markdown_wiki:friends' => "Friends' wiki pages",
+	'markdown_wiki:owner' => "%s's edited wiki pages",
+	'markdown_wiki:friends' => "Friends' edited wiki pages",
 	'markdown_wiki:all' => "All site wiki pages",
 	'markdown_wiki:group' => "Group wiki",
 	'markdown_wiki:home' => "home", // If home paseg already created, don't change it !
@@ -452,6 +452,7 @@ Like code blocks, code spans will be displayed in a monospaced typeface.  Markdo
 	'markdown_wiki:error:no_group' => "There was no group defined.",
 	'markdown_wiki:error:no_title' => "There was no title defined.",
 	'markdown_wiki:error:no_description' => "You have to write some text in the page.",
+	'markdown_wiki:error:no_entity' => "Page cannot found.",
 	'markdown_wiki:error:no_save' => "Page cannot be saved.",
 	'markdown_wiki:error:already_exist' => "A page with the same name already exist.",
 	'markdown_wiki:saved' => "Page edited.",
@@ -462,7 +463,7 @@ Like code blocks, code spans will be displayed in a monospaced typeface.  Markdo
 	'item:object:markdown_wiki' => "Article",
     'river:create:object:markdown_wiki' => "%s submited article %s",
     'river:comment:object:markdown_wiki' => "%s commented on the article %s",
-	'markdown_wiki:strapline' => "Last updated %s by %s in group %s",
+	'markdown_wiki:strapline' => "Last modified %s by %s in group %s",
 	
 	'markdown_wiki:history:date' => "By %s on",
 	'markdown_wiki:history:date_format' => "%e %B %Y at %H:%M",

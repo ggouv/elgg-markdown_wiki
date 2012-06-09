@@ -52,6 +52,9 @@ function markdown_wiki_init() {
 
 	elgg_register_plugin_hook_handler('prepare', 'menu:entity', 'markdown_wiki_object_menu');
 
+	// write permission plugin hooks
+	elgg_register_plugin_hook_handler('permissions_check', 'object', 'markdown_wiki_write_permission_check');
+
 	// Register a page handler, so we can have nice URLs
 	elgg_register_page_handler('wiki', 'markdown_wiki_page_handler');
 
@@ -264,6 +267,24 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 	}
 
 	return $return;
+}
+
+
+/**
+ * Extend permissions checking to extend can-edit for write users.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $returnvalue
+ * @param unknown_type $params
+ */
+function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue, $params) {
+	if ($params['entity']->getSubtype() == 'markdown_wiki') {
+		$user = $params['user'];
+		if ($user && can_write_to_container($user, $params['entity']->container_guid, 'object', 'markdown_wiki')) {
+				return true;
+		}
+	}
 }
 
 

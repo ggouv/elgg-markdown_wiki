@@ -32,10 +32,10 @@ if ($friends = get_user_friends($owner->guid, "", 999999, 0)) {
 	foreach ($friends as $friend) {
 		$friendguids[] = $friend->getGUID();
 	}
-	$content = elgg_list_entities(array(
+	$content = elgg_list_entities_from_annotations(array(
 		'type' => 'object',
 		'subtype' => 'markdown_wiki',
-		'owner_guids' => $friendguids,
+		'annotation_owner_guids' => $friendguids,
 		'full_view' => false,
 		'limit' => '20',
 		'offset' => $offset,

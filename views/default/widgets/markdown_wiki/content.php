@@ -14,12 +14,12 @@ $num = (int) $vars['entity']->markdown_wiki_num;
 $options = array(
 	'type' => 'object',
 	'subtype' => 'markdown_wiki',
-	'owner_guid' => $vars['entity']->owner_guid,
+	'annotation_owner_guids' => $vars['entity']->owner_guid,
 	'limit' => $num,
 	'full_view' => FALSE,
 	'pagination' => FALSE,
 );
-$content = elgg_list_entities($options);
+$content = elgg_list_entities_from_annotations($options);
 
 echo $content;
 

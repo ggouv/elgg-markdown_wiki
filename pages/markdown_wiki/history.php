@@ -54,13 +54,13 @@ elgg_register_menu_item('title', array(
 	'text' => elgg_echo('markdown_wiki:del'),
 	'link_class' => 'elgg-button-del active',
 ));
-
-elgg_register_menu_item('page', array(
-	'name' => 'edit',
-	'href' => "wiki/edit/$markdown_wiki_guid",
-	'text' => elgg_echo('markdown_wiki:page:edit'),
-));
-
+if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
+	elgg_register_menu_item('page', array(
+		'name' => 'edit',
+		'href' => "wiki/edit/$markdown_wiki_guid",
+		'text' => elgg_echo('markdown_wiki:page:edit'),
+	));
+}
 $annotations = elgg_get_annotations(array(
 	'types' => 'object',
 	'subtypes' => 'markdown_wiki',
