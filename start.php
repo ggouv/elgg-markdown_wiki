@@ -242,18 +242,6 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 			if ( in_array($menu->getName(), array('edit', 'delete')) ) unset($params['menu']['default'][$key]);
 		}
 
-		if (can_write_to_container('', $params['entity']->container_guid, 'object', 'markdown_wiki')) {
-			// edit link
-			$options = array(
-				'name' => 'edit',
-				'text' => elgg_echo('edit'),
-				'title' => elgg_echo('edit:this'),
-				'href' => "wiki/edit/{$params['entity']->guid}/{$params['entity']->title}",
-				'priority' => 300,
-			);
-			$params['menu']['default'][] = ElggMenuItem::factory($options);
-		}
-
 		// history link
 		$options = array(
 			'name' => 'history',
@@ -263,6 +251,28 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 			'priority' => 200,
 		);
 		$params['menu']['default'][] = ElggMenuItem::factory($options);
+
+		// discussion link
+		$options = array(
+			'name' => 'discussion',
+			'text' => elgg_echo('markdown_wiki:page:discussion'),
+			'title' => elgg_echo('markdown_wiki:page:discussion'),
+			'href' => "wiki/discussion/{$params['entity']->guid}/{$params['entity']->title}",
+			'priority' => 300,
+		);
+		$params['menu']['default'][] = ElggMenuItem::factory($options);
+
+		// edit link
+		if (can_write_to_container('', $params['entity']->container_guid, 'object', 'markdown_wiki')) {
+			$options = array(
+				'name' => 'edit',
+				'text' => elgg_echo('edit'),
+				'title' => elgg_echo('edit:this'),
+				'href' => "wiki/edit/{$params['entity']->guid}/{$params['entity']->title}",
+				'priority' => 400,
+			);
+			$params['menu']['default'][] = ElggMenuItem::factory($options);
+		}
 
 		$sort_by = elgg_extract('sort_by', $params, 'text');
 	

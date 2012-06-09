@@ -46,19 +46,6 @@ $editor_text = elgg_echo('markdown_wiki:strapline', array($date, $editor_link, $
 $tags = elgg_view('output/tags', array('tags' => $markdown_wiki->tags));
 $categories = elgg_view('output/categories', $vars);
 
-$comments_count = $markdown_wiki->countComments();
-//only display if there are commments
-if ($comments_count != 0) {
-	$text = elgg_echo("comments") . " ($comments_count)";
-	$comments_link = elgg_view('output/url', array(
-		'href' => $markdown_wiki->getURL() . '#markdown_wiki-comments',
-		'text' => $text,
-		'is_trusted' => true,
-	));
-} else {
-	$comments_link = '';
-}
-
 $metadata = elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
 	'handler' => 'wiki',
@@ -66,7 +53,7 @@ $metadata = elgg_view_menu('entity', array(
 	'class' => 'elgg-menu-hz',
 ));
 
-$subtitle = "$editor_text $comments_link $categories";
+$subtitle = "$editor_text $categories";
 
 // do not show the metadata and controls in widget view
 if (elgg_in_context('widgets')) {
