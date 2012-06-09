@@ -104,10 +104,10 @@ function search_markdown_wiki_by_title($title, $group = null) {
  *
  * @return html
  */
-function markdown_wiki_to_html($text) {
+function markdown_wiki_to_html($text, $guid = null) {
 
 	elgg_load_library('markdown_wiki:markdown');
-	$params = array();
+	$params = array('guid' => $guid);
 	
 	$result = elgg_trigger_plugin_hook('format_markdown', 'all', $params, null);
 	if ($result) {
@@ -118,6 +118,7 @@ function markdown_wiki_to_html($text) {
 
 	$result = Markdown($result);
 
+	$params['text'] = $text;
 	$result = elgg_trigger_plugin_hook('format_markdown', 'after', $params, $result);
 
 	return $result;

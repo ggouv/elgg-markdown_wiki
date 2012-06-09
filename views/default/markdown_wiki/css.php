@@ -161,7 +161,7 @@
 .previewPaneWrapper .pane {
 	border: 1px solid #CCCCCC;
 	border-radius: 5px 5px 5px 5px;
-	margin-top: 1px;
+	margin-top: 0px;
 }
 #previewPane {
 	margin-right: -10px;

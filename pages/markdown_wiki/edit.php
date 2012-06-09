@@ -30,7 +30,8 @@ if (!$container_guid || !can_write_to_container(elgg_get_logged_in_user_guid(), 
 } else {
 	$vars = markdown_wiki_prepare_form_vars($markdown_wiki, $container_guid);
 	$vars['query'] = $query;
-	$content = elgg_view_form('markdown_wiki/edit', array('class' => 'mrm'), $vars);
+	$content = elgg_trigger_plugin_hook('markdown_wiki_edit', 'header', $markdown_wiki, '');
+	$content .= elgg_view_form('markdown_wiki/edit', array('class' => 'mrm'), $vars);
 }
 
 elgg_load_js('markdown_wiki:edit');

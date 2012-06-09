@@ -85,13 +85,13 @@ function markdown_wiki_init() {
 	// Language short codes must be of the form "markdown_wiki:key"
 	// where key is the array key below
 	elgg_set_config('markdown_wiki', array(
-		'title' => 'hidden',
 		'description' => 'markdown',
 		'summary' => 'text',
 		'tags' => 'tags',
 		'access_id' => 'access',
-		'container_guid' => 'hidden',
+		'title' => 'hidden',
 		'guid' => 'hidden',
+		'container_guid' => 'hidden',
 	));
 
 	// Parse link

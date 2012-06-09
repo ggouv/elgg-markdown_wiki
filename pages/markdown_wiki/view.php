@@ -32,7 +32,9 @@ if (elgg_instanceof($container, 'group')) {
 }
 elgg_push_breadcrumb($title);
 
-$content = elgg_view_entity($markdown_wiki, array('full_view' => true));
+$content = elgg_trigger_plugin_hook('markdown_wiki_view', 'header', $markdown_wiki, '');
+$content .= elgg_view_entity($markdown_wiki, array('full_view' => true));
+$content .= elgg_trigger_plugin_hook('markdown_wiki_view', 'footer', $markdown_wiki, '');
 
 $body = elgg_view_layout('content', array(
 	'filter' => '',

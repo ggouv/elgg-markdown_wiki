@@ -15,14 +15,21 @@ $variables = elgg_get_config('markdown_wiki');
 foreach ($variables as $name => $type) {
 	if ($name == 'guid' && !$vars['guid']) continue;
 	($name == 'summary' or $name == 'description') ? $class = " class=$name" : $class = "";
-	echo "<div$class>";
-	if (!in_array($name, array('title', 'container_guid', 'guid'))) echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
-
-	echo elgg_view("input/$type", array(
-		'name' => $name,
-		'value' => $vars[$name],
-	));
-	echo '</div>';
+	
+	if (in_array($name, array('title', 'container_guid', 'guid'))) {
+		echo elgg_view("input/$type", array(
+			'name' => $name,
+			'value' => $vars[$name],
+		));
+	} else {
+		echo "<div$class>";
+		echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+		echo elgg_view("input/$type", array(
+			'name' => $name,
+			'value' => $vars[$name],
+		));
+		echo '</div>';
+	}
 	if ($name == 'description') {
 		?>
 			<div class='previewPaneWrapper'><div class='prm'>
@@ -41,6 +48,7 @@ foreach ($variables as $name => $type) {
 			</div></div>
 		<?php
 	}
+	if ($name == 'summary') echo elgg_trigger_plugin_hook('markdown_wiki_edit', 'summary', $vars['guid'], '');
 }
 
 $cats = elgg_view('input/categories', $vars);
