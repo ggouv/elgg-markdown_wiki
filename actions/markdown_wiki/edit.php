@@ -31,7 +31,7 @@ if (!$input['container_guid']) {
 	forward(elgg_get_site_url() . 'wiki/all');
 }
 
-if (!is_group_member($input['container_guid'], $user_guid)) {
+if (!can_write_to_container($user_guid, $input['container_guid'], 'object', 'markdown_wiki')) {
 	register_error(elgg_echo('markdown_wiki:error:no_access'));
 	forward(REFERER);
 }

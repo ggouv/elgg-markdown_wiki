@@ -47,7 +47,7 @@ function markdown_wiki_init() {
 	elgg_register_css('markdown_wiki:css', $url);
 
 	// Add a menu item to the main site menu
-	$item = new ElggMenuItem('markdown_wiki', elgg_echo('markdown_wiki'), 'wiki/all');
+	$item = new ElggMenuItem('markdown_wiki_all', elgg_echo('markdown_wiki'), 'wiki/all');
 	elgg_register_menu_item('site', $item);
 
 	elgg_register_plugin_hook_handler('prepare', 'menu:entity', 'markdown_wiki_object_menu');
@@ -225,12 +225,44 @@ function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
 
 
 /**
- * Delete menu item 'delete' to the object menu
+ * Delete menu item 'delete' to the object menu, parse entity menu and add edit if user can + add history
  */
 function markdown_wiki_object_menu($hook, $type, $return, $params) {
-	foreach($return['default'] as $key => $menu) {
-		if ($menu->getName() == 'delete') unset($return['default'][$key]);
+
+	if ($params['handler'] == 'wiki') {
+		foreach($params['menu']['default'] as $key => $menu) {
+			if ( in_array($menu->getName(), array('edit', 'delete')) ) unset($params['menu']['default'][$key]);
+		}
+
+		if (can_write_to_container('', $params['entity']->container_guid, 'object', 'markdown_wiki')) {
+			// edit link
+			$options = array(
+				'name' => 'edit',
+				'text' => elgg_echo('edit'),
+				'title' => elgg_echo('edit:this'),
+				'href' => "wiki/edit/{$params['entity']->guid}/{$params['entity']->title}",
+				'priority' => 300,
+			);
+			$params['menu']['default'][] = ElggMenuItem::factory($options);
+		}
+
+		// history link
+		$options = array(
+			'name' => 'history',
+			'text' => elgg_echo('markdown_wiki:page:history'),
+			'title' => elgg_echo('markdown_wiki:page:history'),
+			'href' => "wiki/history/{$params['entity']->guid}/{$params['entity']->title}",
+			'priority' => 200,
+		);
+		$params['menu']['default'][] = ElggMenuItem::factory($options);
+
+		$sort_by = elgg_extract('sort_by', $params, 'text');
+	
+		$builder = new ElggMenuBuilder($params['menu']['default']);
+		$return = $builder->getMenu($sort_by);
+
 	}
+
 	return $return;
 }
 

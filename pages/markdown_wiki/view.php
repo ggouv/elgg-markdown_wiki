@@ -9,11 +9,12 @@
  *	Elgg-markdown_wiki view markdown_wiki page
  **/
 
-gatekeeper();
-
 $markdown_wiki_guid = get_input('guid');
 $markdown_wiki = get_entity($markdown_wiki_guid);
-if (!$markdown_wiki) {
+
+$container = elgg_get_page_owner_entity();
+
+if (!$markdown_wiki || !$container) {
 	forward(REFERER);
 }
 
@@ -25,18 +26,16 @@ elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
 $title = $markdown_wiki->title;
 
 elgg_register_menu_item('page', array(
-	'name' => 'edit',
-	'href' => "wiki/edit/$markdown_wiki_guid/$title",
-	'text' => elgg_echo('markdown_wiki:page:edit'),
-));
-elgg_register_menu_item('page', array(
 	'name' => 'history',
 	'href' => "wiki/history/$markdown_wiki_guid/$title",
 	'text' => elgg_echo('markdown_wiki:page:history'),
 ));
-
-$container = elgg_get_page_owner_entity();
-if (!$container) {
+if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
+	elgg_register_menu_item('page', array(
+		'name' => 'edit',
+		'href' => "wiki/edit/$markdown_wiki_guid/$title",
+		'text' => elgg_echo('markdown_wiki:page:edit'),
+	));
 }
 
 if (elgg_instanceof($container, 'group')) {

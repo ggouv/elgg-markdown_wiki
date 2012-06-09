@@ -24,7 +24,7 @@ if (!$markdown_wiki && !$container_guid) {
 	forward(REFERER);
 }
 
-if (!$container_guid || !is_group_member($container_guid, elgg_get_logged_in_user_guid())) {
+if (!$container_guid || !can_write_to_container(elgg_get_logged_in_user_guid(), $container_guid, 'object', 'markdown_wiki')) {
 	register_error(elgg_echo('markdown_wiki:no_access'));
 	forward(REFERER);
 } else {

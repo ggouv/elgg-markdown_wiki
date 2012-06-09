@@ -77,7 +77,7 @@ if ($container_guid) {
 	} else {
 		$body .= elgg_echo('markdown_wiki:search:result:not_found');
 		$button = "<a href='" . elgg_get_site_url() . "wiki/edit?q=$query&container_guid=$container_guid' class='elgg-button elgg-button-action'>$query</a>";
-		if (is_group_member($container_guid, elgg_get_logged_in_user_guid())) {
+		if (can_write_to_container(elgg_get_logged_in_user_guid(), $container_guid, 'object', 'markdown_wiki')) {
 			$body .= '<h2 class="markdown-wiki-create mtm">' . elgg_echo('markdown_wiki:search:result:not_found:create_it', array($button, $container->name)) . '</h2>';
 		}
 	}
