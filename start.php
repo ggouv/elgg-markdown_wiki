@@ -34,6 +34,11 @@ function markdown_wiki_init() {
 	elgg_register_simplecache_view('js/markdown_wiki/history');
 	$url = elgg_get_simplecache_url('js', 'markdown_wiki/history');
 	elgg_register_js('markdown_wiki:history', $url);
+	
+	// register js for object history
+	elgg_register_simplecache_view('js/markdown_wiki/discussion');
+	$url = elgg_get_simplecache_url('js', 'markdown_wiki/discussion');
+	elgg_register_js('markdown_wiki:discussion', $url);
 
 	// register js when edit object
 	elgg_register_simplecache_view('js/markdown_wiki/edit');
@@ -296,29 +301,31 @@ function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue,
  */
 function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue, $params) {
 
-	function _parse_link_callback($matches) {
-		// external link
-		$title = rtrim($matches[1], '/');
-		$group = elgg_get_page_owner_guid();
-		$site_url = elgg_get_site_url();
-		
-		if ( strpos($title, 'http://') !== false ){
-			if ( strpos($title, $site_url) === false ) { // external link
-				return "<a href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
-			} else { // internal link with http://
-				return "<a href='$title'>$matches[2]</a>";
-			}
-		} else {
-			if (!$title) { // markdown syntax like [a link]()
-				if ( $page = search_markdown_wiki_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
-					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
+	if (!function_exists('_parse_link_callback')) {
+		function _parse_link_callback($matches) {
+			// external link
+			$title = rtrim($matches[1], '/');
+			$group = elgg_get_page_owner_guid();
+			$site_url = elgg_get_site_url();
+			
+			if ( strpos($title, 'http://') !== false ){
+				if ( strpos($title, $site_url) === false ) { // external link
+					return "<a href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
+				} else { // internal link with http://
+					return "<a href='$title'>$matches[2]</a>";
+				}
+			} else {
+				if (!$title) { // markdown syntax like [a link]()
+					if ( $page = search_markdown_wiki_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
+						return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
+					} else { // page doesn't exists
+						return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
+					}
+				} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
+					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
 				} else { // page doesn't exists
 					return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
 				}
-			} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
-				return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
-			} else { // page doesn't exists
-				return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
 			}
 		}
 	}
@@ -332,9 +339,11 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 	 * Also on elgg-markdown_wiki/vendors/showdown/compressed/showdown.js line 64 at var c=c.replace close to the begining.
 	 * Note2: this kind of link work. [a link][1]		and far away [1]: <the link>
 	 */
-	function _parse_whitespace_link_callback($matches) {
-		$title = rtrim($matches[2], '/');
-		return "<a href=\"$title\">$matches[1]</a>";
+	if (!function_exists('_parse_whitespace_link_callback')) {
+		function _parse_whitespace_link_callback($matches) {
+			$title = rtrim($matches[2], '/');
+			return "<a href=\"$title\">$matches[1]</a>";
+		}
 	}
 	$result = preg_replace_callback("/\[(.*)\]\((.*)\)/U", '_parse_whitespace_link_callback', $returnvalue);
 
@@ -352,14 +361,16 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
  */
 function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $params) {
 
-	function _title_id_callback($matches) {
-		$title = strip_tags(trim($matches[3]));
-		$title = strtolower($title);
-		$title = preg_replace('/\//', '-', $title);
-		$title = preg_replace('/\s+/', '-', $title);
-		$title = rawurlencode($title);
-
-		return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
+	if (!function_exists('_title_id_callback')) {
+		function _title_id_callback($matches) {
+			$title = strip_tags(trim($matches[3]));
+			$title = strtolower($title);
+			$title = preg_replace('/\//', '-', $title);
+			$title = preg_replace('/\s+/', '-', $title);
+			$title = rawurlencode($title);
+	
+			return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
+		}
 	}
 
 	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $returnvalue);

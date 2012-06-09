@@ -6,7 +6,7 @@
  *	@license GNU Affero General Public License, version 3 or late
  *	@link https://github.com/ManUtopiK/elgg-markdown_wiki
  *
- *	Elgg-markdown_wiki river view
+ *	Elgg-markdown_wiki river modified
  **/
 
 $object = $vars['item']->getObjectEntity();

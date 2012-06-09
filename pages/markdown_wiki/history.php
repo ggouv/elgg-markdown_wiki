@@ -54,13 +54,20 @@ elgg_register_menu_item('title', array(
 	'text' => elgg_echo('markdown_wiki:del'),
 	'link_class' => 'elgg-button-del active',
 ));
+
+elgg_register_menu_item('page', array(
+	'name' => 'discussion',
+	'href' => "wiki/discussion/$markdown_wiki_guid/$markdown_wiki->title",
+	'text' => elgg_echo('markdown_wiki:page:discussion'),
+));
 if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
 	elgg_register_menu_item('page', array(
 		'name' => 'edit',
-		'href' => "wiki/edit/$markdown_wiki_guid",
+		'href' => "wiki/edit/$markdown_wiki_guid/$markdown_wiki->title",
 		'text' => elgg_echo('markdown_wiki:page:edit'),
 	));
 }
+
 $annotations = elgg_get_annotations(array(
 	'types' => 'object',
 	'subtypes' => 'markdown_wiki',
@@ -103,7 +110,7 @@ $diffOwner .= <<<HTML
 HTML;
 }
 
-$title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:history'); 
+$title = elgg_echo('markdown_wiki:history', array($markdown_wiki->title)); 
 
 $content = "<div class='diff-output'>" . $diffHTML . '</div>';
 $body = elgg_view_layout('content', array(

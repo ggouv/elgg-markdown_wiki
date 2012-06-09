@@ -40,8 +40,11 @@ $english = array(
 	'markdown_wiki:none' => 'No wiki pages created yet',
 	
 	'markdown_wiki:edit' => "Edit page \"%s\"",
+	'markdown_wiki:history' => "History of page \"%s\"",
+	'markdown_wiki:discussion' => "Discussion of page \"%s\"",
 	'markdown_wiki:page:edit' => "Edit page",
 	'markdown_wiki:page:history' => "History",
+	'markdown_wiki:page:discussion' => "Discussion",
 	
 	'markdown_wiki:search_in_group' => "Search page in this group %s",
 	'markdown_wiki:search_in_group:or_create' => "or create it",
@@ -58,6 +61,7 @@ $english = array(
 	'markdown_wiki:granularity:paragraph' => 'Paragraph',
 	'markdown_wiki:del' => 'del',
 	'markdown_wiki:ins' => 'ins',
+	'markdown_wiki:toggle-modification' => 'Toggle modifications',
 
 	/**
 	* River

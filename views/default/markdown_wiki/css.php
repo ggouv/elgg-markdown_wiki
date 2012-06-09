@@ -180,3 +180,23 @@
 .elgg-form-markdown-wiki-edit .summary {
 	clear: both;
 }
+
+/*
+ * Discussion
+ */
+.elgg-button-toggle-modification {
+	background-color: #EEE;
+	border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	padding: 3px 6px;
+	color: #4690D6;
+}
+.elgg-button-toggle-modification.active {
+	background-color: #4690D6;
+	color: white;
+}
+.elgg-button-toggle-modification:hover {
+	text-decoration: none;
+	color: white;
+	background-color: #0054A7;
+}

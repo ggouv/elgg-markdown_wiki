@@ -25,14 +25,6 @@ elgg_set_page_owner_guid($markdown_wiki->getContainerGUID());
 
 $title = $markdown_wiki->title;
 
-if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
-	elgg_register_menu_item('page', array(
-		'name' => 'edit',
-		'href' => "wiki/edit/$markdown_wiki_guid/$title",
-		'text' => elgg_echo('markdown_wiki:page:edit'),
-	));
-}
-
 if (elgg_instanceof($container, 'group')) {
 	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");
 } else {
@@ -41,7 +33,6 @@ if (elgg_instanceof($container, 'group')) {
 elgg_push_breadcrumb($title);
 
 $content = elgg_view_entity($markdown_wiki, array('full_view' => true));
-$content .= elgg_view_comments($markdown_wiki);
 
 $body = elgg_view_layout('content', array(
 	'filter' => '',
