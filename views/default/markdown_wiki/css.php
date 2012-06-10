@@ -114,6 +114,7 @@
 #ownerContainer {
 	position: absolute;
 	margin-left: 32px;
+	width: 100%;
 }
 #ownerContainer .owner {
 	background-color: #ccc;

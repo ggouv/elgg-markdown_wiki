@@ -55,13 +55,14 @@ $english = array(
 	'markdown_wiki:sidebar:granularity' => "Granularity",
 	'markdown_wiki:sidebar:history' => "History",
 	'markdown_wiki:sidebar:history:50max' => "50 max",
-	'markdown_wiki:granularity:character' => 'Character',
-	'markdown_wiki:granularity:word' => 'Word',
-	'markdown_wiki:granularity:sentence' => 'Sentence',
-	'markdown_wiki:granularity:paragraph' => 'Paragraph',
+	'markdown_wiki:granularity:character' => "Character",
+	'markdown_wiki:granularity:word' => "Word",
+	'markdown_wiki:granularity:sentence' => "Sentence",
+	'markdown_wiki:granularity:paragraph' => "Paragraph",
 	'markdown_wiki:del' => 'del',
 	'markdown_wiki:ins' => 'ins',
-	'markdown_wiki:toggle-modification' => 'Toggle modifications',
+	'markdown_wiki:toggle-modification' => "Toggle modifications",
+	'markdown_wiki:redirect_from' => "Redireted from",
 
 	/**
 	* River

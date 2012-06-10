@@ -12,6 +12,7 @@
 $full = elgg_extract('full_view', $vars, FALSE);
 $markdown_wiki = elgg_extract('entity', $vars, FALSE);
 $revision = elgg_extract('revision', $vars, FALSE);
+$redirect_from = elgg_extract('redirect_from', $vars, FALSE);
 
 if (!$markdown_wiki) {
 	return TRUE;
@@ -64,7 +65,12 @@ if ($full) {
 	$value = unserialize($annotation->value);
 	$content = markdown_wiki_to_html($value['text']);
 	
-	$body = elgg_view('output/markdown_wiki_text', array('value' => $content, 'class' => 'markdown-body'));
+	$body = '';
+	if ($redirect_from) {
+		$redirect_entity = get_entity($redirect_from);
+		$body .= "<div class='elgg-subtext'>(" . elgg_echo('markdown_wiki:redirect_from') ." <a href='{$redirect_entity->getURL()}'>{$redirect_entity->title}</a>)</div>";
+	}
+	$body .= elgg_view('output/markdown_wiki_text', array('value' => $content, 'class' => 'markdown-body'));
 
 	$params = array(
 		'entity' => $markdown_wiki,
