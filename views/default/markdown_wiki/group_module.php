@@ -24,15 +24,14 @@ $all_link = elgg_view('output/url', array(
 
 
 elgg_push_context('widgets');
-$options = array(
+$content = elgg_list_entities(array(
 	'type' => 'object',
 	'subtype' => 'markdown_wiki',
 	'container_guid' => $group->guid,
 	'limit' => 6,
 	'full_view' => false,
 	'pagination' => false,
-);
-$content = elgg_list_entities($options);
+));
 elgg_pop_context();
 
 if (!$content) {

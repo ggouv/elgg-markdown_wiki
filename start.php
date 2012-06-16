@@ -334,7 +334,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 				} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
 					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
 				} else { // page doesn't exists
-					return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
+					return "<a href='{$site_url}wiki/search?q=$title&container_guid=$group' class='new'>$matches[2]</a>";
 				}
 			}
 		}

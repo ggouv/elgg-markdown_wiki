@@ -62,7 +62,7 @@ $english = array(
 	'markdown_wiki:del' => 'del',
 	'markdown_wiki:ins' => 'ins',
 	'markdown_wiki:toggle-modification' => "Toggle modifications",
-	'markdown_wiki:redirect_from' => "Redireted from",
+	'markdown_wiki:redirect_from' => "Redirected from",
 
 	/**
 	* River
