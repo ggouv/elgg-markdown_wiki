@@ -44,6 +44,11 @@ function markdown_wiki_init() {
 	elgg_register_simplecache_view('js/markdown_wiki/edit');
 	$url = elgg_get_simplecache_url('js', 'markdown_wiki/edit');
 	elgg_register_js('markdown_wiki:edit', $url);
+	
+	// register js when compare object
+	elgg_register_simplecache_view('js/markdown_wiki/compare');
+	$url = elgg_get_simplecache_url('js', 'markdown_wiki/compare');
+	elgg_register_js('markdown_wiki:compare', $url);
 
 	// Register css
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
@@ -72,6 +77,7 @@ function markdown_wiki_init() {
 	// Register a script to handle (usually) a POST request (an action)
 	$base_dir = "$root/actions/markdown_wiki";
 	elgg_register_action('markdown_wiki/edit', "$base_dir/edit.php");
+	elgg_register_action('markdown_wiki/compare', "$root/pages/markdown_wiki/compare.php");
 
 	// add to groups
 	add_group_tool_option('markdown_wiki', elgg_echo('groups:enable_markdown_wiki'), true);
@@ -123,7 +129,6 @@ function markdown_wiki_init() {
 function markdown_wiki_page_handler($page) {
 
 	elgg_load_library('markdown_wiki:utilities');
-
 	if (!isset($page[0])) {
 		$page[0] = 'all';
 	}
@@ -320,18 +325,18 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			
 			if ( strpos($title, 'http://') !== false ){
 				if ( strpos($title, $site_url) === false ) { // external link
-					return "<a href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
+					return "<a target='_blank' href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
 				} else { // internal link with http://
 					return "<a href='$title'>$matches[2]</a>";
 				}
 			} else {
 				if (!$title) { // markdown syntax like [a link]()
-					if ( $page = search_markdown_wiki_by_title(end(explode('/', rtrim($matches[2], '/'))), $group) ) { // page exists
+					if ( $page = search_markdown_wiki_by_title(rtrim($matches[2], '/'), $group) ) { // page exists
 						return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
 					} else { // page doesn't exists
 						return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
 					}
-				} else if ( $page = search_markdown_wiki_by_title(end(explode('/', $title)), $group) ) { // page exists
+				} else if ( $page = search_markdown_wiki_by_title($title, $group) ) { // page exists
 					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
 				} else { // page doesn't exists
 					return "<a href='{$site_url}wiki/search?q=$title&container_guid=$group' class='new'>$matches[2]</a>";

@@ -21,17 +21,10 @@ if (!$owner) {
 	return true;
 }
 
-$menu = elgg_view_menu('annotation', array(
-	'annotation' => $annotation,
-	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz float-alt',
-));
-
 $value = unserialize($annotation->value);
 
 if (!$vars['summary_view']) {
 	$icon = elgg_view_entity_icon($owner, 'tiny');
-	global $fb; $fb->info($icon);
 	$owner_link = "<a href=\"{$owner->getURL()}\">$owner->name</a>";
 
 	$text = elgg_view("output/markdown_wiki_text", array("value" => $value['text'], "class" => "diff-output"));
@@ -39,7 +32,6 @@ if (!$vars['summary_view']) {
 
 $body = <<<HTML
 <div class="mbn $class">
-	$menu
 	$owner_link
 	<span class="elgg-subtext">
 		$friendlytime
@@ -50,7 +42,11 @@ HTML;
 echo elgg_view_image_block($icon, $body);
 
 } else if ($vars['summary_view'] === true) {
-	setlocale(LC_TIME, $owner->language, strtolower($owner->language) . '_' . strtoupper($owner->language));
+
+	$user = elgg_get_logged_in_user_entity();
+	setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupper($user->language));
+
+	$owner_link = "<a href=\"{$owner->getURL()}\">$owner->name</a>";
 
 	$summary = $value['summary'];
 	$array_diff = $value['diff']['character'];
@@ -60,16 +56,40 @@ echo elgg_view_image_block($icon, $body);
 	if ( $array_diff[1] != 0 ) $diff_text .= '<del class="elgg-subtext">&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
 	
 	$time = htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotation->time_created));
+
+	if ($vars['compare']) {
+		$compare = elgg_view("input/radio", array(
+			'name' => 'from',
+			'options' => array('' => "$annotation->id"),
+			'value' => '',
+			'class' => 'float'
+		));
+		$compare .= elgg_view("input/radio", array(
+			'name' => 'to',
+			'options' => array('' => "$annotation->id"),
+			'value' => '',
+			'class' => 'float mrm'
+		));
+			
+		$by = elgg_echo('by');
+
+$body = <<<HTML
+$compare $time $by $owner_link $diff_text $summary
+HTML;
+
+	} else {
 	
 $body = <<<HTML
+$compare
 <div class="mbm $class">
-	$menu
 	$summary<br/>
 	<span class="elgg-subtext history-module">
 		$diff_text $owner_link $time
 	</span>
 </div>
 HTML;
+
+	}
 
 echo $body;
 }

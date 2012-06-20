@@ -56,12 +56,12 @@
 	white-space: pre-line;
 	overflow-y: auto;
 }
-.diff-output ins, .history-module ins {
+.diff-output ins, .history-module ins, .compare-module ins {
 	color: green;
 	background-color: #dfd;
 	text-decoration: none;
 }
-.diff-output del, .history-module del {
+.diff-output del, .history-module del, .compare-module del {
 	color: red;
 	background-color: #fdd;
 	text-decoration: none;
@@ -200,4 +200,14 @@
 	text-decoration: none;
 	color: white;
 	background-color: #0054A7;
+}
+
+/*
+ * Compare
+ */
+.compare-module .elgg-head {
+	border: none;
+}
+.compare-module .elgg-head h3 {
+	color: #555;
 }

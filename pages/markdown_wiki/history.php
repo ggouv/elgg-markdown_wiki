@@ -19,7 +19,7 @@ if (!$markdown_wiki) {
 elgg_load_js('markdown_wiki:history');
 elgg_load_library('markdown_wiki:fineDiff');
 
-$granularity = get_input('granularity', 'character');
+$granularity = get_input('granularity', 'word');
 if (!in_array($granularity, array('character', 'word', 'sentence', 'paragraph'))) $granularity = 'character';
 if ($granularity == 'character') $granularity_fine = array(FineDiff::characterDelimiters);
 if ($granularity == 'word') $granularity_fine = array(FineDiff::wordDelimiters);
@@ -30,8 +30,6 @@ $user = elgg_get_logged_in_user_entity();
 setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupper($user->language));
 
 $container = $markdown_wiki->getContainerEntity();
-if (!$container) {
-}
 
 if (elgg_instanceof($container, 'group')) {
 	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");
@@ -60,9 +58,14 @@ elgg_register_menu_item('page', array(
 	'href' => "wiki/discussion/$markdown_wiki_guid/$markdown_wiki->title",
 	'text' => elgg_echo('markdown_wiki:page:discussion'),
 ));
+elgg_register_menu_item('page', array(
+	'name' => 'compare',
+	'href' => "wiki/compare/$markdown_wiki_guid/$markdown_wiki->title",
+	'text' => elgg_echo('markdown_wiki:page:compare'),
+));
 if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
 	elgg_register_menu_item('page', array(
-		'name' => 'edit',
+		'name' => 'edit-page',
 		'href' => "wiki/edit/$markdown_wiki_guid/$markdown_wiki->title",
 		'text' => elgg_echo('markdown_wiki:page:edit'),
 	));
@@ -73,18 +76,27 @@ $annotations = elgg_get_annotations(array(
 	'subtypes' => 'markdown_wiki',
 	'annotation_names' => 'markdown_wiki',
 	'guids' => $markdown_wiki_guid,
-	'order_by' => 'time_created asc',
+	'order_by' => 'time_created desc',
 	'limit' => 50,
 	));
+
+$count = elgg_get_annotations(array(
+	'types' => 'object',
+	'subtypes' => 'markdown_wiki',
+	'annotation_names' => 'markdown_wiki',
+	'guids' => $markdown_wiki_guid,
+	'order_by' => 'time_created desc',
+	'count' => true
+	));
+
+$annotations = array_reverse($annotations);
 
 foreach($annotations as $key => $annotation) {
 	$values[] = unserialize($annotation->value);
 }
 
-$count = count($annotations);
-
 $diffHTML = $diffOwner = '';
-for($i=$count-1; $i>=0; $i--) {
+for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
 		$diff[$i] = new FineDiff(htmlspecialchars($values[$i-1]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[$i]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
 		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
@@ -111,13 +123,15 @@ HTML;
 }
 
 $title = elgg_echo('markdown_wiki:history', array($markdown_wiki->title)); 
-
 $content = "<div class='diff-output'>" . $diffHTML . '</div>';
+$sidebar = elgg_view('markdown_wiki/granularity_sidebar', array('granularity' => $granularity));
+$sidebar .= elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner, 'count' => $count));
+
 $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner, 'granularity' => $granularity, 'count' => $count)),
+	'sidebar' => $sidebar,
 	'class' => 'fixed-sidebar',
 ));
 

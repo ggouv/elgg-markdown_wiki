@@ -41,13 +41,18 @@ elgg_push_breadcrumb($markdown_wiki->title, $markdown_wiki->getURL());
 elgg_push_breadcrumb(elgg_echo('markdown_wiki:page:discussion'));
 
 elgg_register_menu_item('page', array(
+	'name' => 'compare',
+	'href' => "wiki/compare/$markdown_wiki_guid/$markdown_wiki->title",
+	'text' => elgg_echo('markdown_wiki:page:compare'),
+));
+elgg_register_menu_item('page', array(
 	'name' => 'history',
 	'href' => "wiki/history/$markdown_wiki_guid/$markdown_wiki->title",
 	'text' => elgg_echo('markdown_wiki:page:history'),
 ));
 if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
 	elgg_register_menu_item('page', array(
-		'name' => 'edit',
+		'name' => 'edit-page',
 		'href' => "wiki/edit/$markdown_wiki_guid/$markdown_wiki->title",
 		'text' => elgg_echo('markdown_wiki:page:edit'),
 	));
@@ -72,7 +77,10 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/sidebar'),
+	'sidebar' => elgg_view('markdown_wiki/sidebar_tagcloud_block', array(
+		'subtypes' => array('markdown_wiki'),
+		'container_guid' => $container_guid,
+	)),
 ));
 
 echo elgg_view_page($title, $body);

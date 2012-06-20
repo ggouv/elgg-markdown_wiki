@@ -11,7 +11,6 @@
 
 $owner = elgg_get_page_owner_entity();
 
-global $fb; $fb->info($owner);
 if (!$owner) {
 	forward('markdown_wiki/all');
 }
