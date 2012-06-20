@@ -34,7 +34,7 @@ if (elgg_instanceof($container, 'group')) {
 }
 
 elgg_push_breadcrumb($markdown_wiki->title, $markdown_wiki->getURL());
-elgg_push_breadcrumb(elgg_echo('markdown_wiki:compare'));
+elgg_push_breadcrumb(elgg_echo('markdown_wiki:page:compare'));
 
 elgg_register_menu_item('page', array(
 	'name' => 'compare',
@@ -120,7 +120,7 @@ HTML;
 	$diffHTML = "<div id='diff-from' class='diff'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
 	
 	$content = "<div class='diff-output'>" . $diffHTML . '</div>';
-	$title = elgg_echo('markdown_wiki:compare:result', array('$markdown_wiki->title'));
+	$title = elgg_echo('markdown_wiki:compare:result', array($markdown_wiki->title));
 	
 	$sidebar .= elgg_view('markdown_wiki/compare_sidebar', array('from' => $annotationSummary[0], 'to' => $annotationSummary[1]));
 	
@@ -134,7 +134,7 @@ HTML;
 		'markdown_wiki' => $markdown_wiki,
 		'annoff' => $annoff
 	));
-	$title = elgg_echo('markdown_wiki:compare', array('$markdown_wiki->title'));
+	$title = elgg_echo('markdown_wiki:compare', array($markdown_wiki->title));
 
 }
 

@@ -103,7 +103,7 @@ if (is_array($results['entities']) && $results['count']) {
 
 	if ($more) {
 		$title_key = ($more == 1) ? 'comment' : 'comments';
-		$more_str = elgg_echo('search:more', array($count, 'item:entities:markdown_wiki'));
+		$more_str = elgg_echo('markdown_wiki:more', array($count, 'item:entities:markdown_wiki'));
 		$more_url = elgg_http_remove_url_query_element($url, 'limit');
 		$more_link = "<li class='elgg-item'><a href=\"$more_url\">$more_str</a></li>";
 	} else {
