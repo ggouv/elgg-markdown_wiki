@@ -23,9 +23,8 @@ if (!$markdown_wiki || !$container) {
 
 // REDIRECT(link)
 $annotation = $markdown_wiki->getAnnotations('markdown_wiki', 1, 0, 'desc');
-
 $value = unserialize($annotation[0]->value);
-if ($redirect != 'no' && preg_match('#^REDIRECT\((.*)\)#', $value['text'], $matches)) {
+if ($redirect !== 'no' && preg_match('#^REDIRECT\((.*)\)#', $value['text'], $matches)) {
 	forward($matches[1] . "?redirect_from=$markdown_wiki_guid");
 }
 

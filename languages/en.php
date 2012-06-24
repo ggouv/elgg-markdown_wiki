@@ -104,6 +104,7 @@ $english = array(
 	'markdown_wiki:error:no_save' => "Page cannot be saved.",
 	'markdown_wiki:error:already_exist' => "A page with the same name already exist.",
 	'markdown_wiki:saved' => "Page edited.",
+	'markdown_wiki:redirected' => "Page redirected from %s",
 
 	/**
 	 * Object
