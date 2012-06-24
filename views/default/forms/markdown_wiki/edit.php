@@ -10,6 +10,7 @@
  **/
 
 $vars['title'] = elgg_extract('query', $vars, $vars['title']);
+$user = elgg_get_logged_in_user_entity();
 
 $variables = elgg_get_config('markdown_wiki');
 foreach ($variables as $name => $type) {
@@ -43,8 +44,8 @@ foreach ($variables as $name => $type) {
 					)
 				));?>
 				<div id='previewPane' class='elgg-output pane markdown-body mlm pas'></div>
-				<textarea id="outputPane" class="pane hidden mlm pas" readonly="readonly"></textarea>
-				<textarea id="syntaxPane" class="pane hidden mlm pas" readonly="readonly"><?php echo elgg_echo('markdown_wiki:syntax_guide'); ?></textarea>
+				<div id="outputPane" class="pane hidden mlm pas"></div>
+				<?php echo elgg_view('markdown_wiki/syntax/' . $user->language); ?>
 			</div></div>
 		<?php
 	}

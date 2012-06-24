@@ -159,9 +159,9 @@ function markdown_wiki_page_handler($page) {
 				} else {
 					$query = search_markdown_wiki_by_title($page[3], elgg_get_page_owner_guid());
 					if ($query) {
-						set_input('guid', $query[0]->guid);
+						set_input('guid', $query);
 					} else {
-						forward("/wiki/search?q=$page[3]&container_guid=$page[1]");
+						forward("/wiki/search?container_guid=$page[1]&q=$page[3]");
 					}
 				}
 				include "$base_dir/view.php";
@@ -325,21 +325,38 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			
 			if ( strpos($title, 'http://') !== false ){
 				if ( strpos($title, $site_url) === false ) { // external link
-					return "<a target='_blank' href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
+					return "<a rel='nofollow' target='_blank' href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
 				} else { // internal link with http://
 					return "<a href='$title'>$matches[2]</a>";
 				}
 			} else {
 				if (!$title) { // markdown syntax like [a link]()
-					if ( $page = search_markdown_wiki_by_title(rtrim($matches[2], '/'), $group) ) { // page exists
-						return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$matches[2]'>$matches[2]</a>";
+					if ( $page_guid = search_markdown_wiki_by_title(rtrim($matches[2], '/'), $group) ) { // page exists
+						$page = get_entity($page_guid);
+						return "<a href='{$page->getUrl()}'>$matches[2]</a>";
 					} else { // page doesn't exists
-						return "<a href='{$site_url}wiki/search?q=$matches[2]&container_guid=$group' class='new'>$matches[2]</a>";
+						return "<a href='{$site_url}wiki/search?container_guid=$group&q=$matches[2]' class='new'>$matches[2]</a>";
 					}
-				} else if ( $page = search_markdown_wiki_by_title($title, $group) ) { // page exists
-					return "<a href='{$site_url}wiki/group/$group/page/{$page[0]->guid}/$title'>$matches[2]</a>";
+				} else if (preg_match('/^wiki\/group\/(\\d+)\/page\/(.*)/', $title, $relative)) {
+				global $fb; $fb->info($relative);
+					if ( is_numeric($relative[1]) ) {
+						if ( is_numeric($relative[2]) ) {
+							$page = get_entity($relative[2]);
+							return "<a href='{$page->getUrl()}'>$matches[2]</a>";
+						} elseif ( $page_guid = search_markdown_wiki_by_title($relative[2], $relative[1]) ) { // page exists
+							$page = get_entity($page_guid);
+							return "<a href='{$page->getUrl()}'>$matches[2]</a>";
+						} else { // page doesn't exists
+							return "<a href='{$site_url}wiki/search?container_guid={$relative[1]}&q=$relative[2]' class='new'>$matches[2]</a>";
+						}
+					} else {
+						return "<a href='{$site_url}wiki/search?container_guid=$group&q=$matches[2]' class='new'>$matches[2]</a>";
+					}
+				} elseif ( $page_guid = search_markdown_wiki_by_title($title, $group) ) { // page exists
+					$page = get_entity($page_guid);
+					return "<a href='{$page->getUrl()}'>$matches[2]</a>";
 				} else { // page doesn't exists
-					return "<a href='{$site_url}wiki/search?q=$title&container_guid=$group' class='new'>$matches[2]</a>";
+					return "<a href='{$site_url}wiki/search?container_guid=$group&q=$title' class='new'>$matches[2]</a>";
 				}
 			}
 		}

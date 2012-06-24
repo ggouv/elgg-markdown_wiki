@@ -167,16 +167,64 @@
 #previewPane {
 	margin-right: -10px;
 	min-height: 188px;
+	overflow: auto;
 }
 #outputPane {
 	color: black;
-	background-color: #DEDEDE;
+	background-color: #F0F0F0;
 	font-size: 110%;
+}
+#outputPane > pre {
+	margin: 0;
+	padding: 0;
+}
+#outputPane > pre > code {
+	padding: 0;
+}
+#outputPane > pre > code .tag {
+	padding: 0;
+	color: grey;
+}
+#outputPane > pre > code .title {
+	color: grey;
+}
+#outputPane > pre > code .value {
+	color: SlateGrey;
 }
 #syntaxPane {
 	color: black;
 	background-color: #FFC;
-	font-size: 110%;
+	font-size: 100%;
+	background-color: #FFFFCC;
+	border: medium none;
+	overflow: auto;
+}
+#syntaxPane  h3 span {
+	color: #999999;
+	font-size: 0.8em;
+	line-height: 2em;
+	padding-left: 3px;
+}
+#syntaxPane a.elgg-widget-collapse-button {
+	color: #555;
+}
+#syntaxPane pre {
+	background-color: #FFF38B;
+	line-height: 1.4em;
+}
+#syntaxPane .spaces {
+	background-color: white;
+	border-right: 2px solid #FFF38B;
+}
+#syntaxPane .bl {
+	background-color: white;
+	color: gray;
+	float: left;
+	padding: 0 10px;
+}
+#syntaxPane .hi {
+	background-color: #CCCCCC;
+	border-right: 2px solid #FFF38B;
 }
 .elgg-form-markdown-wiki-edit .summary {
 	clear: both;

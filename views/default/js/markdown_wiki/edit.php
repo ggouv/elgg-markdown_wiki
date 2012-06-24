@@ -17,11 +17,10 @@
 elgg.provide('elgg.markdown_wiki.edit');
 
 elgg.markdown_wiki.edit.init = function() {
-	// allow plugins to cancel event
-	var options = { trigger:false };
-	options = elgg.trigger_hook('init', 'markdown_wiki.edit.init', null, options);
+	// allow plugins to cancel function
+	options = elgg.trigger_hook('init', 'markdown_wiki.edit.init', null, false);
 
-	if (!options.trigger) {
+	if (!options) {
 		$(document).ready(function() {
 			
 			$('.previewPaneWrapper .elgg-input-dropdown').change(function() {
@@ -42,7 +41,8 @@ elgg.markdown_wiki.edit.init = function() {
 					previewPane.html(text);
 					
 					// resize textarea
-					$('textarea.elgg-input-markdown, #outputPane, #syntaxPane').innerHeight(previewPane.innerHeight() + 10 + 2); // padding (cannot set to textarea) + border
+					$('textarea.elgg-input-markdown, #outputPane').innerHeight(previewPane.innerHeight() + 10 + 2); // padding (cannot set to textarea) + border
+					$('#syntaxPane').innerHeight(previewPane.innerHeight() + 2);
 				}).trigger('keyup');
 			}
 			

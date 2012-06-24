@@ -32,5 +32,10 @@ elgg.markdown_wiki.discussion.init = function() {
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.discussion.init);
 
+elgg.markdown_wiki.discussion.submit = function() {
+	return 'desc';
+}
+elgg.register_hook_handler('getOptions', 'galliComments.submit', elgg.markdown_wiki.discussion.submit);
+
 // End of discussion js for elgg-markdown_wiki plugin
 

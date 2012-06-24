@@ -65,9 +65,8 @@ function search_markdown_wiki_by_title($title, $group = null) {
 	$title = sanitise_string($title);
 
 	// Caching
-	if ((isset($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))
-	&& (retrieve_cached_entity($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))) {
-		return retrieve_cached_entity($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]);
+	if ((isset($MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title]))) {
+		return $MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title];
 	}
 
 	$access = get_access_sql_suffix('e');
@@ -84,13 +83,13 @@ function search_markdown_wiki_by_title($title, $group = null) {
 	$entity = get_data($query);
 
 	if ($entity) {
-		$MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title] = $entity->guid;
+		$MARKDOWN_WIKI_TITLE_TO_GUID_MAP_CACHE[$title] = $entity[0]->guid;
 	} else {
 		$entity = false;
 	}
 
 	if ($entity) {
-		return $entity;
+		return $entity[0]->guid;
 	} else {
 		return false;
 	}

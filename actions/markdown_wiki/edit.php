@@ -60,7 +60,7 @@ if ($input['guid']) {
 
 	if ($page = search_markdown_wiki_by_title($input['title'], $input['container_guid'])) {
 		register_error(elgg_echo('markdown_wiki:error:already_exist'));
-		forward(elgg_get_site_url() ."wiki/group/{$input['container_guid']}/page/{$page[0]->guid}/{$input['title']}");
+		forward(elgg_get_site_url() ."wiki/group/{$input['container_guid']}/page/$page/{$input['title']}");
 	}
 
 	$markdown_wiki = new ElggObject();
