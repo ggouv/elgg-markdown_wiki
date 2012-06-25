@@ -12,27 +12,21 @@
 $vars['title'] = elgg_extract('query', $vars, $vars['title']);
 $user = elgg_get_logged_in_user_entity();
 
+elgg_set_page_owner_guid($vars['container_guid']);
+
 $variables = elgg_get_config('markdown_wiki');
+
 foreach ($variables as $name => $type) {
-	if ($name == 'guid' && !$vars['guid']) continue;
-	($name == 'summary' or $name == 'description') ? $class = " class=$name" : $class = "";
-	
-	if (in_array($name, array('title', 'container_guid', 'guid'))) {
-		echo elgg_view("input/$type", array(
-			'name' => $name,
-			'value' => $vars[$name],
-		));
-	} else {
-		echo "<div$class>";
-		echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
-		echo elgg_view("input/$type", array(
-			'name' => $name,
-			'value' => $vars[$name],
-		));
-		echo '</div>';
-	}
-	if ($name == 'description') {
-		?>
+
+	switch ($name) {
+		case 'description': ?>
+			<div class="description">
+				<label><?php echo elgg_echo("markdown_wiki:$name"); ?></label>
+				<?php echo elgg_view("input/$type", array(
+					'name' => $name,
+					'value' => $vars[$name],
+				)); ?>
+			</div>
 			<div class='previewPaneWrapper'><div class='prm'>
 				<?php echo elgg_view("input/dropdown", array(
 					'name' => 'previewPaneDisplay',
@@ -53,9 +47,60 @@ foreach ($variables as $name => $type) {
 					}
 						?>
 			</div></div>
-		<?php
+			<?php
+			break;
+		case 'summary':
+			echo '<div class="summary">';
+			echo elgg_trigger_plugin_hook('markdown_wiki_edit', 'summary', $vars['guid'], '');
+			echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+			echo elgg_view("input/$type", array(
+				'name' => $name,
+				'value' => $vars[$name],
+			));
+			echo '</div>';
+			break;
+		case 'tags':
+			break;
+		case 'write_access':
+			if ($user && $vars['guid']) {
+				$entity = get_entity($vars['guid']);
+				if ($user->isAdmin() || $user->getGUID() == $entity->owner_guid) {
+					echo '<div>';
+					echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+					echo elgg_view("input/$type", array(
+						'name' => $name,
+						'value' => $vars[$name],
+					));
+					echo '</div>';
+				}
+			}
+			break;
+		case 'title';
+			echo elgg_view("input/$type", array(
+				'name' => $name,
+				'value' => $vars[$name],
+			));
+			break;
+		case 'guid':
+			if ($vars['guid']) {
+				echo elgg_view("input/$type", array(
+					'name' => $name,
+					'value' => $vars[$name],
+				));
+			}
+			break;
+		default:
+			$viewInput = elgg_view("input/$type", array(
+				'name' => $name,
+				'value' => $vars[$name],
+			));
+			if ($type != 'hidden') {
+				echo '<div><label>' . elgg_echo("markdown_wiki:$name") . '</label>' .$viewInput . '</div>';
+			} else {
+				echo $viewInput;
+			}
 	}
-	if ($name == 'summary') echo elgg_trigger_plugin_hook('markdown_wiki_edit', 'summary', $vars['guid'], '');
+
 }
 
 $cats = elgg_view('input/categories', $vars);

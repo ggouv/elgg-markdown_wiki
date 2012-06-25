@@ -65,6 +65,7 @@ if ($input['guid']) {
 
 	$markdown_wiki = new ElggObject();
 	$markdown_wiki->subtype = 'markdown_wiki';
+	$markdown_wiki->access_id = 2;
 	$new_markdown_wiki = true;
 	$old_description = '';
 }
