@@ -45,7 +45,13 @@ foreach ($variables as $name => $type) {
 				));?>
 				<div id='previewPane' class='elgg-output pane markdown-body mlm pas'></div>
 				<div id="outputPane" class="pane hidden mlm pas"></div>
-				<?php echo elgg_view('markdown_wiki/syntax/' . $user->language); ?>
+				<?php
+					if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
+						echo elgg_view('markdown_wiki/syntax/' . $user->language);
+					} else {
+						echo elgg_view('markdown_wiki/syntax/en');
+					}
+						?>
 			</div></div>
 		<?php
 	}
