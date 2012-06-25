@@ -266,6 +266,12 @@ $body = <<<HTML
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>   wrapped in a code block.
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>&lt;/blink&gt;
 	</pre>
+	
+	<p>An other way is to wrap your code by three backticks. You can also specify the type of code in the block-code:
+	<pre>```php
+			echo = 'Hello World!';
+		```
+	</pre>
 
 	<h4 id="link-code-spans">Code Spans</h4>
 	<p>Use backticks to create an inline <code>&lt;code&gt;</code> span:</p>

@@ -22,39 +22,13 @@ function markdown_wiki_init() {
 	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
 	elgg_register_library('markdown_wiki:markdown', "$root/vendors/php-markdown/markdown.php");
 	
-	// register js and css
+	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
-
-	// register js for object view
-	elgg_register_simplecache_view('js/markdown_wiki/view');
-	$url = elgg_get_simplecache_url('js', 'markdown_wiki/view');
-	elgg_register_js('markdown_wiki:view', $url);
-	
-	// register js for object history
-	elgg_register_simplecache_view('js/markdown_wiki/history');
-	$url = elgg_get_simplecache_url('js', 'markdown_wiki/history');
-	elgg_register_js('markdown_wiki:history', $url);
-	
-	// register js for object history
-	elgg_register_simplecache_view('js/markdown_wiki/discussion');
-	$url = elgg_get_simplecache_url('js', 'markdown_wiki/discussion');
-	elgg_register_js('markdown_wiki:discussion', $url);
-
-	// register js when edit object
-	elgg_register_simplecache_view('js/markdown_wiki/edit');
-	$url = elgg_get_simplecache_url('js', 'markdown_wiki/edit');
-	elgg_register_js('markdown_wiki:edit', $url);
-	
-	// register js when compare object
-	elgg_register_simplecache_view('js/markdown_wiki/compare');
-	$url = elgg_get_simplecache_url('js', 'markdown_wiki/compare');
-	elgg_register_js('markdown_wiki:compare', $url);
-
-	// Register css
+	elgg_register_js('highlight', "/mod/elgg-markdown_wiki/vendors/highlight/highlight.pack.js", 'footer', 100);
+	elgg_extend_view('js/elgg', 'markdown_wiki/js');
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
-	elgg_register_simplecache_view('css/markdown_wiki/markdown');
-	$url = elgg_get_simplecache_url('css', 'markdown_wiki/markdown');
-	elgg_register_css('markdown_wiki:css', $url);
+	elgg_extend_view('css/elgg', 'markdown_wiki/markdown_css');
+	elgg_extend_view('css/elgg', 'markdown_wiki/highlight_css');
 
 	// Add a menu item to the main site menu
 	$item = new ElggMenuItem('markdown_wiki_all', elgg_echo('markdown_wiki'), 'wiki/all');
@@ -100,6 +74,8 @@ function markdown_wiki_init() {
 		'container_guid' => 'hidden',
 	));
 
+	// Parse markdown to search code
+	elgg_register_plugin_hook_handler('format_markdown', 'before', 'markdown_wiki_highlight_code_parse');
 	// Parse link
 	elgg_register_plugin_hook_handler('format_markdown', 'after', 'markdown_wiki_parse_link_plugin_hook', 600);
 	// Add id for each title anchor
@@ -257,13 +233,23 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 		);
 		$params['menu']['default'][] = ElggMenuItem::factory($options);
 
+		// history link
+		$options = array(
+			'name' => 'compare',
+			'text' => elgg_echo('markdown_wiki:page:compare'),
+			'title' => elgg_echo('markdown_wiki:page:compare'),
+			'href' => "wiki/compare/{$params['entity']->guid}/{$params['entity']->title}",
+			'priority' => 300,
+		);
+		$params['menu']['default'][] = ElggMenuItem::factory($options);
+
 		// discussion link
 		$options = array(
 			'name' => 'discussion',
 			'text' => elgg_echo('markdown_wiki:page:discussion'),
 			'title' => elgg_echo('markdown_wiki:page:discussion'),
 			'href' => "wiki/discussion/{$params['entity']->guid}/{$params['entity']->title}",
-			'priority' => 300,
+			'priority' => 400,
 		);
 		$params['menu']['default'][] = ElggMenuItem::factory($options);
 
@@ -274,7 +260,7 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 				'text' => elgg_echo('edit'),
 				'title' => elgg_echo('edit:this'),
 				'href' => "wiki/edit/{$params['entity']->guid}/{$params['entity']->title}",
-				'priority' => 400,
+				'priority' => 500,
 			);
 			$params['menu']['default'][] = ElggMenuItem::factory($options);
 		}
@@ -407,5 +393,31 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 
 	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $returnvalue);
 	return $result;
+
+}
+
+
+/**
+ * Plugin hook handler that parse text to find code block like :
+ * ```php
+ * echo 'hello !';
+ * ```
+ * @return string
+ */
+function markdown_wiki_highlight_code_parse($hook, $entity_type, $returnvalue, $params) {
+
+	if (!function_exists('_doFencedCodeBlocks_callback')) {
+		function _doFencedCodeBlocks_callback($matches) {
+			$langblock = $matches[1];
+			$langblock = htmlspecialchars(trim($matches[1]), ENT_NOQUOTES);
+			$codeblock = htmlspecialchars($matches[2]);
+			$cb = empty($matches[1]) ? "<pre><code>" : "<pre class=\"$langblock\"><code>";
+			$cb .= "$codeblock</code></pre>";
+			return $cb;
+		}
+	}
+
+	$text = preg_replace_callback('#(?:~{3,}|`{3,})(.*)\n(.*)(?:~{3,}|`{3,})#sU', '_doFencedCodeBlocks_callback', $returnvalue);
+	return $text;
 
 }
