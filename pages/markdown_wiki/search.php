@@ -138,7 +138,7 @@ if (is_array($results['entities']) && $results['count']) {
 
 }
 
-$sidebar = elgg_view('markdown_wiki/sidebar');
+$sidebar = elgg_view('markdown_wiki/sidebar/sidebar');
 
 $title = elgg_echo('markdown_wiki:search:title', array("\"$display_query\""));
 

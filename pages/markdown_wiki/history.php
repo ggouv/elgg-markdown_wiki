@@ -124,15 +124,14 @@ HTML;
 
 $title = elgg_echo('markdown_wiki:history', array($markdown_wiki->title)); 
 $content = "<div class='diff-output'>" . $diffHTML . '</div>';
-$sidebar = elgg_view('markdown_wiki/granularity_sidebar', array('granularity' => $granularity));
-$sidebar .= elgg_view('markdown_wiki/history_sidebar', array('diffOwner' => $diffOwner, 'count' => $count));
+$sidebar = elgg_view('markdown_wiki/sidebar/granularity_sidebar', array('granularity' => $granularity));
+$sidebar .= elgg_view('markdown_wiki/sidebar/history_sidebar', array('diffOwner' => $diffOwner, 'count' => $count));
 
 $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
 	'sidebar' => $sidebar,
-	'class' => 'fixed-sidebar',
 ));
 
 echo elgg_view_page($title, $body);

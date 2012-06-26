@@ -56,12 +56,12 @@
 	white-space: pre-line;
 	overflow-y: auto;
 }
-ins.elgg-subtext {
+.diff-output ins, ins.elgg-subtext {
 	color: green;
 	background-color: #dfd;
 	text-decoration: none;
 }
-del.elgg-subtext {
+.diff-output del, del.elgg-subtext {
 	color: red;
 	background-color: #fdd;
 	text-decoration: none;

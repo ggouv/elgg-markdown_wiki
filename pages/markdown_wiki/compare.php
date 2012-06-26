@@ -60,7 +60,7 @@ if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'ob
 	));
 }
 
-$sidebar = elgg_view('markdown_wiki/granularity_sidebar', array('granularity' => $granularity, 'from' => $from, 'to' => $to));
+$sidebar = elgg_view('markdown_wiki/sidebar/granularity_sidebar', array('granularity' => $granularity, 'from' => $from, 'to' => $to));
 
 if ($from && $to && $to > $from) {
 
@@ -122,7 +122,7 @@ HTML;
 	$content = "<div class='diff-output'>" . $diffHTML . '</div>';
 	$title = elgg_echo('markdown_wiki:compare:result', array($markdown_wiki->title));
 	
-	$sidebar .= elgg_view('markdown_wiki/compare_sidebar', array('from' => $annotationSummary[0], 'to' => $annotationSummary[1]));
+	$sidebar .= elgg_view('markdown_wiki/sidebar/compare_sidebar', array('from' => $annotationSummary[0], 'to' => $annotationSummary[1]));
 	
 	
 } else {
@@ -143,6 +143,5 @@ $body = elgg_view_layout('content', array(
 	'content' => $content,
 	'title' => $title,
 	'sidebar' => $sidebar,
-	'class' => 'fixed-sidebar',
 ));
 echo elgg_view_page($title, $body);

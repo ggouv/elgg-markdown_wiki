@@ -47,13 +47,12 @@ if ($owner->guid == elgg_get_logged_in_user_guid()) {
 	$filter_context = 'mine';
 }
 
-$sidebar = elgg_view('markdown_wiki/sidebar');
+$sidebar = elgg_view('markdown_wiki/sidebar/sidebar');
 
 $params = array(
 	'filter_context' => $filter_context,
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => $sidebar,
 );
 
 if (elgg_instanceof($owner, 'group')) {

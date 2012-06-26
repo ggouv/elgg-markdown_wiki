@@ -49,7 +49,7 @@ if (!$content) {
 	$content = elgg_echo('markdown_wiki:none');
 }
 
-$sidebar = elgg_view('markdown_wiki/sidebar');
+$sidebar = elgg_view('markdown_wiki/sidebar/sidebar');
 
 $params = array(
 	'filter_context' => 'friends',

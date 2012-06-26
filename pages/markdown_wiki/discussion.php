@@ -77,7 +77,7 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/sidebar_tagcloud_block', array(
+	'sidebar' => elgg_view('markdown_wiki/sidebar/sidebar_tagcloud_block', array(
 		'subtypes' => array('markdown_wiki'),
 		'container_guid' => $container_guid,
 	)),
