@@ -21,6 +21,7 @@ function markdown_wiki_init() {
 	elgg_register_library('markdown_wiki:utilities', "$root/lib/utilities.php");
 	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
 	elgg_register_library('markdown_wiki:markdown', "$root/vendors/php-markdown/markdown.php");
+	elgg_register_library('markdown_wiki:htmlpurifier', "$root/vendors/htmlpurifier-4.4.0/library/HTMLPurifier.auto.php");
 	
 	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
@@ -77,6 +78,8 @@ function markdown_wiki_init() {
 
 	// Parse markdown to search code
 	elgg_register_plugin_hook_handler('format_markdown', 'before', 'markdown_wiki_highlight_code_parse');
+	// Purify HTML output
+	elgg_register_plugin_hook_handler('format_markdown', 'after', 'markdown_wiki_purify_hook', 1);
 	// Parse link
 	elgg_register_plugin_hook_handler('format_markdown', 'after', 'markdown_wiki_parse_link_plugin_hook', 600);
 	// Add id for each title anchor
@@ -292,6 +295,50 @@ function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue,
 
 
 /**
+ * Plugin hook handler that parse text to find code block like :
+ * ```php
+ * echo 'hello !';
+ * ```
+ * @return string
+ */
+function markdown_wiki_highlight_code_parse($hook, $entity_type, $returnvalue, $params) {
+
+	if (!function_exists('_doFencedCodeBlocks_callback')) {
+		function _doFencedCodeBlocks_callback($matches) {
+			$langblock = $matches[1];
+			$langblock = htmlspecialchars(trim($matches[1]), ENT_NOQUOTES);
+			$codeblock = htmlspecialchars($matches[2]);
+			$cb = empty($matches[1]) ? "<pre><code>" : "<pre class=\"$langblock\"><code>";
+			$cb .= "$codeblock</code></pre>";
+			return $cb;
+		}
+	}
+
+	$text = preg_replace_callback('#(?:~{3,}|`{3,})(.*)\n(.*)(?:~{3,}|`{3,})#sU', '_doFencedCodeBlocks_callback', $returnvalue);
+	return $text;
+
+}
+
+
+/**
+ * Plugin hook handler to purify html output before other hook :
+ *
+ * @return string
+ */
+function markdown_wiki_purify_hook($hook, $entity_type, $returnvalue, $params) {
+
+	elgg_load_library('markdown_wiki:htmlpurifier');
+	
+	$config = HTMLPurifier_Config::createDefault();
+	$config->set('Core', 'Encoding', 'UTF-8');
+	$config->set('Core', 'XHTML', true);
+	$purify = new HTMLPurifier($config);
+	
+	return $purify->purify($returnvalue);
+}
+
+
+/**
  * Plugin hook hander that parse for link and return intern link of non exist wiki page,
  * exist page or external link
  * 
@@ -389,31 +436,5 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 
 	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $returnvalue);
 	return $result;
-
-}
-
-
-/**
- * Plugin hook handler that parse text to find code block like :
- * ```php
- * echo 'hello !';
- * ```
- * @return string
- */
-function markdown_wiki_highlight_code_parse($hook, $entity_type, $returnvalue, $params) {
-
-	if (!function_exists('_doFencedCodeBlocks_callback')) {
-		function _doFencedCodeBlocks_callback($matches) {
-			$langblock = $matches[1];
-			$langblock = htmlspecialchars(trim($matches[1]), ENT_NOQUOTES);
-			$codeblock = htmlspecialchars($matches[2]);
-			$cb = empty($matches[1]) ? "<pre><code>" : "<pre class=\"$langblock\"><code>";
-			$cb .= "$codeblock</code></pre>";
-			return $cb;
-		}
-	}
-
-	$text = preg_replace_callback('#(?:~{3,}|`{3,})(.*)\n(.*)(?:~{3,}|`{3,})#sU', '_doFencedCodeBlocks_callback', $returnvalue);
-	return $text;
 
 }
