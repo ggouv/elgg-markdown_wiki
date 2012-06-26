@@ -79,7 +79,7 @@ $english = array(
 	'markdown_wiki:description' => "Text",
 	'markdown_wiki:summary' => "Summary",
 	'markdown_wiki:tags' => "Tags",
-	'markdown_wiki:access_id' => "Access",
+	'markdown_wiki:write_access_id' => "Write access",
 
 	'markdown_wiki:preview' => "Preview",
 	'markdown_wiki:HTML_output' => "HTML output",

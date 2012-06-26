@@ -19,16 +19,14 @@ $variables = elgg_get_config('markdown_wiki');
 foreach ($variables as $name => $type) {
 
 	switch ($name) {
-		case 'description': ?>
-			<div class="description">
-				<label><?php echo elgg_echo("markdown_wiki:$name"); ?></label>
-				<?php echo elgg_view("input/$type", array(
+		case 'description': 
+			echo '<div class="description"><label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+				echo elgg_view("input/$type", array(
 					'name' => $name,
 					'value' => $vars[$name],
-				)); ?>
-			</div>
-			<div class='previewPaneWrapper'><div class='prm'>
-				<?php echo elgg_view("input/dropdown", array(
+				));
+			echo '</div><div class="previewPaneWrapper"><div class="prm">';
+				echo elgg_view("input/dropdown", array(
 					'name' => 'previewPaneDisplay',
 					'value' => 'previewPane',
 					'options_values' => array(
@@ -36,18 +34,15 @@ foreach ($variables as $name => $type) {
 						'outputPane' => elgg_echo('markdown_wiki:HTML_output'),
 						'syntaxPane' => elgg_echo('markdown_wiki:syntax')
 					)
-				));?>
-				<div id='previewPane' class='elgg-output pane markdown-body mlm pas'></div>
-				<div id="outputPane" class="pane hidden mlm pas"></div>
-				<?php
+				));
+				echo '<div id="previewPane" class="elgg-output pane markdown-body mlm pas"></div>';
+				echo '<div id="outputPane" class="pane hidden mlm pas"></div>';
 					if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
 						echo elgg_view('markdown_wiki/syntax/' . $user->language);
 					} else {
 						echo elgg_view('markdown_wiki/syntax/en');
 					}
-						?>
-			</div></div>
-			<?php
+			echo '</div></div>';
 			break;
 		case 'summary':
 			echo '<div class="summary">';
@@ -61,15 +56,18 @@ foreach ($variables as $name => $type) {
 			break;
 		case 'tags':
 			break;
-		case 'write_access':
+		case 'write_access_id':
 			if ($user && $vars['guid']) {
 				$entity = get_entity($vars['guid']);
-				if ($user->isAdmin() || $user->getGUID() == $entity->owner_guid) {
+				$list = get_write_access_array();
+				$list = array($list[1], $list[2]);
+				if ($user->isAdmin() || $user->getGUID() == $entity->owner_guid || can_write_to_container($user, $entity->container_guid, 'object', 'markdown_wiki')) {
 					echo '<div>';
 					echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
 					echo elgg_view("input/$type", array(
 						'name' => $name,
 						'value' => $vars[$name],
+						'options_values' => $list,
 					));
 					echo '</div>';
 				}
