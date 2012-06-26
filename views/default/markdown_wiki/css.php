@@ -56,12 +56,12 @@
 	white-space: pre-line;
 	overflow-y: auto;
 }
-.diff-output ins, .history-module ins, .compare-module ins {
+ins.elgg-subtext {
 	color: green;
 	background-color: #dfd;
 	text-decoration: none;
 }
-.diff-output del, .history-module del, .compare-module del {
+del.elgg-subtext {
 	color: red;
 	background-color: #fdd;
 	text-decoration: none;

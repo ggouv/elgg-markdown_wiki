@@ -332,6 +332,7 @@ function markdown_wiki_purify_hook($hook, $entity_type, $returnvalue, $params) {
 	$config = HTMLPurifier_Config::createDefault();
 	$config->set('Core', 'Encoding', 'UTF-8');
 	$config->set('Core', 'XHTML', true);
+	$config->set('AutoFormat.Linkify', true);
 	$purify = new HTMLPurifier($config);
 	
 	return $purify->purify($returnvalue);

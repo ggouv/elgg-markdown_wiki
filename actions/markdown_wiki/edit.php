@@ -101,14 +101,14 @@ if ($markdown_wiki->save()) {
 	);
 	
 	// Now save description as an annotation
-	$markdown_wiki->annotate('markdown_wiki', serialize($array_change), $markdown_wiki->access_id);
+	$annotation_id = create_annotation($markdown_wiki->guid, 'markdown_wiki', serialize($array_change), '', 0, $markdown_wiki->access_id);
 
 	system_message(elgg_echo('markdown_wiki:saved'));
 
 	if ($new_markdown_wiki) {
 		add_to_river('river/object/markdown_wiki/create', 'create', $user_guid, $markdown_wiki->guid);
 	} else {
-		add_to_river('river/object/markdown_wiki/modified', 'modified', $user_guid, $markdown_wiki->guid);
+		add_to_river('river/object/markdown_wiki/modified', 'modified', $user_guid, $markdown_wiki->guid, '', 0, $annotation_id);
 	}
 
 	forward($markdown_wiki->getURL());

@@ -114,7 +114,7 @@ elgg.provide('elgg.markdown_wiki.edit');
 
 elgg.markdown_wiki.edit.init = function() {
 
-	$(document).ready(function() { console.log('auieau');
+	$(document).ready(function() {
 		$('.previewPaneWrapper .elgg-input-dropdown').change(function() {
 			$('.pane').addClass('hidden');
 			$('#'+$(this).val()).removeClass('hidden');

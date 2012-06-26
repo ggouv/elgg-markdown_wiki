@@ -10,10 +10,21 @@
  **/
 
 $object = $vars['item']->getObjectEntity();
-$excerpt = strip_tags($object->description);
-$excerpt = elgg_get_excerpt($excerpt);
+
+$annotation = elgg_get_annotation_from_id($vars['item']->annotation_id);
+$value = unserialize($annotation->value);
+
+$summary = $value['summary'];
+$array_diff = $value['diff']['word'];
+$diff_text = '';
+if ( $array_diff[0] != 0 ) $diff_text .= '<ins class="elgg-subtext">&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';
+if ( $array_diff[1] != 0 ) $diff_text .= '<del class="elgg-subtext">&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
+	
+	
+$message = $diff_text . '&nbsp;' . $summary;
 
 echo elgg_view('river/elements/layout', array(
 	'item' => $vars['item'],
-	'message' => $excerpt,
+	'message' => $message,
+	//'responses' =>
 ));
