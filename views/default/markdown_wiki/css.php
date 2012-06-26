@@ -53,7 +53,6 @@
 	background-color: #fdd;
 }
 .diff-output {
-	white-space: pre-line;
 	overflow-y: auto;
 }
 .diff-output ins, ins.elgg-subtext {

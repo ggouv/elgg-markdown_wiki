@@ -20,12 +20,11 @@ if ($from && $to) {
 }
 
 $title = elgg_echo('markdown_wiki:sidebar:granularity');
-$granularityTypes = array(
-	'character' => elgg_echo('markdown_wiki:granularity:character'),
-	'word' => elgg_echo('markdown_wiki:granularity:word'),
-	'sentence' => elgg_echo('markdown_wiki:granularity:sentence'),
-	'paragraph' => elgg_echo('markdown_wiki:granularity:paragraph'),
-);
+
+$granularityTypes['word'] = elgg_echo('markdown_wiki:granularity:word');
+$granularityTypes['sentence'] = elgg_echo('markdown_wiki:granularity:sentence');
+$granularityTypes['paragraph'] = elgg_echo('markdown_wiki:granularity:paragraph');
+
 $body = '<ul class="elgg-menu elgg-menu-owner-block elgg-menu-history-granularity">';
 foreach($granularityTypes as $granularityType => $granularityType_title) {
 	if ($granularityType == $granularity) {

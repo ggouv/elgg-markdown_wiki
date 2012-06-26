@@ -14,7 +14,7 @@ $annoff = (int)get_input('annoff');
 $from = (int)get_input('from');
 $to = (int)get_input('to');
 $granularity = get_input('granularity', 'word');
-if (!in_array($granularity, array('character', 'word', 'sentence', 'paragraph'))) $granularity = 'character';
+if (!in_array($granularity, array('word', 'sentence', 'paragraph'))) $granularity = 'word';
 
 $markdown_wiki = get_entity($markdown_wiki_guid);
 if (!$markdown_wiki) {
@@ -79,7 +79,6 @@ if ($from && $to && $to > $from) {
 	
 	elgg_load_library('markdown_wiki:fineDiff');
 
-	if ($granularity == 'character') $granularity_fine = array(FineDiff::characterDelimiters);
 	if ($granularity == 'word') $granularity_fine = array(FineDiff::wordDelimiters);
 	if ($granularity == 'sentence') $granularity_fine = array(FineDiff::sentenceDelimiters);
 	if ($granularity == 'paragraph') $granularity_fine = array(FineDiff::paragraphDelimiters);
@@ -101,6 +100,7 @@ if ($from && $to && $to > $from) {
 		$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
 		$time = htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$key]->time_created));
 		$summary = $values[$key]['summary'];
+		if ($granularity == 'character') $granularity = 'word';
 		$array_diff = $values[$key]['diff'][$granularity];
 		$diff_text = '';
 		if ( $array_diff[0] != 0 ) $diff_text .= '<ins class="elgg-subtext">&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';
@@ -116,8 +116,10 @@ $annotationSummary[$key] = <<<HTML
 HTML;
 	}
 
-	$diff[$i] = new FineDiff(htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[1]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
-	$diffHTML = "<div id='diff-from' class='diff'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
+	$diff = new FineDiff(htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[1]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
+	$diffOutput = str_replace(' ','&nbsp;', $diff->renderDiffToHTML());
+	$diffOutput = str_replace(CHR(13),'<br/>', $diffOutput);
+	$diffHTML = "<div id='diff-from' class='diff'>" . $diffOutput . '</div>';
 	
 	$content = "<div class='diff-output'>" . $diffHTML . '</div>';
 	$title = elgg_echo('markdown_wiki:compare:result', array($markdown_wiki->title));

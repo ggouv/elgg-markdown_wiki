@@ -20,8 +20,7 @@ elgg_load_js('markdown_wiki:history');
 elgg_load_library('markdown_wiki:fineDiff');
 
 $granularity = get_input('granularity', 'word');
-if (!in_array($granularity, array('character', 'word', 'sentence', 'paragraph'))) $granularity = 'character';
-if ($granularity == 'character') $granularity_fine = array(FineDiff::characterDelimiters);
+if (!in_array($granularity, array('word', 'sentence', 'paragraph'))) $granularity = 'word';
 if ($granularity == 'word') $granularity_fine = array(FineDiff::wordDelimiters);
 if ($granularity == 'sentence') $granularity_fine = array(FineDiff::sentenceDelimiters);
 if ($granularity == 'paragraph') $granularity_fine = array(FineDiff::paragraphDelimiters);
@@ -99,7 +98,9 @@ $diffHTML = $diffOwner = '';
 for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
 		$diff[$i] = new FineDiff(htmlspecialchars($values[$i-1]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[$i]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
-		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . preg_replace('/ /', '&nbsp;', $diff[$i]->renderDiffToHTML()) . '</div>';
+		$diffOutput = str_replace(' ','&nbsp;', $diff[$i]->renderDiffToHTML());
+		$diffOutput = str_replace(CHR(13),'<br/>', $diffOutput);
+		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diffOutput . '</div>';
 	} else {
 		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false) . '</div>';
 	}

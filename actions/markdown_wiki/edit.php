@@ -19,9 +19,7 @@ foreach ($variables as $name => $type) {
 	if ($name != 'summary') $input[$name] = get_input($name);
 	if ($name == 'title') $input[$name] = strip_tags($input[$name]);
 	if ($type == 'tags') $input[$name] = string_to_tag_array($input[$name]);
-	if ($name == 'description') {
-		$input[$name] = $_REQUEST[$name]; // @todo protect against XSS ?
-	}
+	if ($name == 'description') $input[$name] = strip_tags($_REQUEST[$name]);
 }
 
 elgg_make_sticky_form('markdown_wiki');
@@ -84,15 +82,12 @@ if ($markdown_wiki->save()) {
 	elgg_load_library('markdown_wiki:fineDiff');
 
 	// set diff
-	$compare = new FineDiff($old_description, $markdown_wiki->description, array(FineDiff::characterDelimiters));
-	$compared['character'] = calc_diff_markdown_wiki($compare->renderDiffToHTML());
-	$compare = new FineDiff($old_description, $markdown_wiki->description, array(FineDiff::sentenceDelimiters));
-	$compared['sentence'] = calc_diff_markdown_wiki($compare->renderDiffToHTML());
 	$compare = new FineDiff($old_description, $markdown_wiki->description, array(FineDiff::wordDelimiters));
 	$compared['word'] = calc_diff_markdown_wiki($compare->renderDiffToHTML());
+	$compare = new FineDiff($old_description, $markdown_wiki->description, array(FineDiff::sentenceDelimiters));
+	$compared['sentence'] = calc_diff_markdown_wiki($compare->renderDiffToHTML());
 	$compare = new FineDiff($old_description, $markdown_wiki->description, array(FineDiff::paragraphDelimiters));
 	$compared['paragraph'] = calc_diff_markdown_wiki($compare->renderDiffToHTML());
-	
 	
 	$array_change = array(
 		'text' => $markdown_wiki->description,
