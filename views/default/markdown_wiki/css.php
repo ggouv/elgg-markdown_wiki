@@ -14,7 +14,7 @@
 .elgg-output.markdown-body a.new {
 	color: red;
 }
-.elgg-output.markdown-body .elgg-icon.external {
+.elgg-icon.external {
 	background-position: 0 -252px;
 	background-size: 8px auto;
 	height: 8px;

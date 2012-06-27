@@ -32,7 +32,6 @@ $params = array(
 	'search_type' => 'entities',
 	'type' => 'object',
 	'subtype' => 'markdown_wiki',
-	//'container_guid' => $container_guid ? $container_guid : '',
 	'pagination' => TRUE
 );
 if ($container_guid) $params['container_guid'] = $container_guid;

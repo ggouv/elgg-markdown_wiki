@@ -50,6 +50,12 @@ if ($input['guid']) {
 		register_error(elgg_echo('markdown_wiki:error:no_entity'));
 		forward(REFERER);
 	}
+	
+	if (!$markdown_wiki->canEdit($user_guid)) {
+		register_error(elgg_echo('markdown_wiki:error:no_access'));
+		forward(REFERER);
+	}
+	
 	$new_markdown_wiki = false;
 	$old_markdown_wiki_annotations = $markdown_wiki->getAnnotations('markdown_wiki', 1, 0, 'desc');
 	$value = unserialize($old_markdown_wiki_annotations[0]->value);
