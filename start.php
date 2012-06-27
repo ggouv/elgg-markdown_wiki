@@ -241,16 +241,6 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 	);
 	$return[] = ElggMenuItem::factory($options);
 
-	// compare link
-	$options = array(
-		'name' => 'compare',
-		'text' => elgg_echo('markdown_wiki:page:compare'),
-		'title' => elgg_echo('markdown_wiki:page:compare'),
-		'href' => "wiki/compare/{$params['entity']->guid}/{$params['entity']->title}",
-		'priority' => 120,
-	);
-	$return[] = ElggMenuItem::factory($options);
-
 	// discussion link
 	$options = array(
 		'name' => 'discussion',

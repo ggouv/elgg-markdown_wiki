@@ -50,7 +50,7 @@ elgg_register_menu_item('page', array(
 	'href' => "wiki/history/$markdown_wiki_guid/$markdown_wiki->title",
 	'text' => elgg_echo('markdown_wiki:page:history'),
 ));
-if (can_write_to_container(elgg_get_logged_in_user_guid(), $container->guid, 'object', 'markdown_wiki')) {
+if ($markdown_wiki->canEdit($user_guid)) {
 	elgg_register_menu_item('page', array(
 		'name' => 'edit-page',
 		'href' => "wiki/edit/$markdown_wiki_guid/$markdown_wiki->title",
