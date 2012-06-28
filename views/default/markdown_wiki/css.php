@@ -148,6 +148,12 @@
 /*
  * Editor
  */
+ /* hack Chrome / Safari */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.elgg-form-markdown-wiki-edit .description {
+		margin-top: 5px;
+	}
+}
 .elgg-form-markdown-wiki-edit .description, .previewPaneWrapper {
 	float: left;
 	width: 50%;
