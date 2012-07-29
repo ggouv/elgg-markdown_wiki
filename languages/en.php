@@ -64,7 +64,7 @@ $english = array(
 	**/
 	'river:create:object:markdown_wiki' => "%s submited article %s",
 	'river:comment:object:markdown_wiki' => "%s commented on the article %s",
-	'river:modified:object' => "%s modified article %s",
+	'river:modified:object:default' => "%s modified article %s",
 
 	/**
 	* Widget

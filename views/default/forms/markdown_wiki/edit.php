@@ -65,7 +65,7 @@ foreach ($variables as $name => $type) {
 					$group_access_collections = get_user_access_collections($vars['container_guid']);
 					$list[$group_access_collections[0]->id] = $group_access_collections[0]->name;
 					echo '<div>';
-					echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+					echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label><br/>';
 					echo elgg_view("input/$type", array(
 						'name' => $name,
 						'value' => $vars[$name],

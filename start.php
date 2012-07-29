@@ -25,7 +25,9 @@ function markdown_wiki_init() {
 	
 	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
+	elgg_load_js('showdown');
 	elgg_register_js('highlight', "/mod/elgg-markdown_wiki/vendors/highlight/highlight.pack.js", 'footer', 100);
+	elgg_load_js('highlight');
 	elgg_extend_view('js/elgg', 'markdown_wiki/js');
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
 	elgg_extend_view('css/elgg', 'markdown_wiki/markdown_css');
@@ -421,11 +423,11 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 			$title = preg_replace('/\s+/', '-', $title);
 			$title = rawurlencode($title);
 	
-			return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span>";
+			return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span></h";
 		}
 	}
 
-	$result = preg_replace_callback("/(<h([1-9])>)([^<]*)/", '_title_id_callback', $returnvalue);
+	$result = preg_replace_callback("/(<h([1-9])>)(.*)<\/h/Us", '_title_id_callback', $returnvalue);
 	return $result;
 
 }
