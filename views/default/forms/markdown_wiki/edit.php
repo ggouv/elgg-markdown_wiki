@@ -52,6 +52,10 @@ foreach ($variables as $name => $type) {
 				'name' => $name,
 				'value' => $vars[$name],
 			));
+			echo elgg_view("input/checkbox", array(
+				'name' => 'minorchange'
+			));
+			echo elgg_echo('markdown_wiki:minorchange');
 			echo '</div>';
 			break;
 		case 'tags':
