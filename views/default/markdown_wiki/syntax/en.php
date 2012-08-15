@@ -126,9 +126,10 @@ $body = <<<HTML
 
 </div>
 
-<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#blockquotes" title="$clickToExpand">
-	Simple blockquotes<span class="expander-arrow-small-hide expander-arrow-small-show">
-</a></h3>
+<h3>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#blockquotes" title="$clickToExpand"> Simple blockquotes</a>
+	<span class="expander-arrow-small-hide expander-arrow-small-show">
+</h3>
 
 <div id="blockquotes" style="display: none;">
 
@@ -139,7 +140,6 @@ $body = <<<HTML
 	</pre>
 
 	<h4>Advanced blockquotes: Nesting</h4>
-	<p>To put other Markdown blocks in a <code>&lt;blockquote&gt;</code>, just add a <code>&gt;</code> followed by a space.</p>
 	<p>To put other Markdown blocks in a <code>&lt;blockquote&gt;</code>, just add a <code>&gt;</code> followed by a space:</p>
 	<pre><span class="hi">&gt;</span> The &gt; on the blank lines is optional.
 		<span class="hi">&gt;</span> Include it or don&#39;t; Markdown doesn&#39;t care.
@@ -213,7 +213,7 @@ $body = <<<HTML
 	<p>You can also use standard HTML hyperlink syntax.</p>
 	<pre>&lt;a href="http://example.com" title="example"&gt;example&lt;/a&gt;</pre>
 
-	<h4>Bare URLs</h3>
+	<h4 id="link-bare-links">Bare URLs</h4>
 	<p>Force URLs by enclosing them in angle brackets:</p>
 	<pre>Have you seen <span class="hi">&lt;</span>http://example.com<span class="hi">&gt;</span>?</pre>
 
@@ -288,7 +288,7 @@ $body = <<<HTML
 
 <div id="link-html" style="display: none;">
 
-	<p>If you need to do something that Markdown can&#39;t handle, use HTML. Note that <a href="http://meta.stackoverflow.com/questions/1777/what-html-tags-are-allowed"> we only support a very strict subset of HTML!</a></p>
+	<p>If you need to do something that Markdown can&#39;t handle, use HTML. Note that only a very strict subset of HTML are supported!</a></p>
 	<pre> To reboot your computer, press <span class="hi">&lt;kbd&gt;</span>ctrl<span class="hi">&lt;/kbd&gt;</span>+&lt;kbd&gt;alt&lt;/kbd&gt;+&lt;kbd&gt;del&lt;/kbd&gt;.
 	</pre>
 	<p>Markdown is smart enough not to mangle your span-level HTML:</p>

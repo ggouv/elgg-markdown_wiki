@@ -16,7 +16,7 @@ $english = array(
 	 */
 	'markdown_wiki' => "Wikis",
 	'markdown_wiki:owner' => "%s's edited wiki pages",
-	'markdown_wiki:friends' => "Friends' edited wiki pages",
+	'markdown_wiki:friends' => "Wiki pages edited by your friends",
 	'markdown_wiki:all' => "All site wiki pages",
 	'markdown_wiki:group' => "Group wiki",
 	'markdown_wiki:home' => "home", // If home paseg already created, don't change it !
@@ -62,9 +62,9 @@ $english = array(
 	/**
 	* River
 	**/
-	'river:create:object:markdown_wiki' => "%s submited article %s",
-	'river:comment:object:markdown_wiki' => "%s commented on the article %s",
-	'river:modified:object:default' => "%s modified article %s",
+	'river:create:object:markdown_wiki' => "%s submited the page %s",
+	'river:comment:object:markdown_wiki' => "%s commented on the page %s",
+	'river:modified:object:default' => "%s modified the page %s",
 
 	/**
 	* Widget
@@ -84,8 +84,9 @@ $english = array(
 	'markdown_wiki:preview' => "Preview",
 	'markdown_wiki:HTML_output' => "HTML output",
 	'markdown_wiki:syntax' => "Syntax guide",
+	'markdown_wiki:syntax:clicktoexpand' => "Cliquer pour déplier",
 
-	'markdown_wiki:search:result:not_found' => "There were no results matching the query.",
+	'markdown_wiki:search:result:not_found' => "There were no result matching the query.",
 	'markdown_wiki:search:result:not_found:create_it' => "Create the page %s in %s's wiki group.",
 	'markdown_wiki:search:result:not_found:similar' => "Check before the search results below to see whether the topic is already covered.",
 	'markdown_wiki:search:result:found:page' => "There is a page named %s in %s's wiki group.",
@@ -109,7 +110,7 @@ $english = array(
 	/**
 	 * Object
 	 */
-	'item:object:markdown_wiki' => "Article",
+	'item:object:markdown_wiki' => "Page",
 	'markdown_wiki:strapline' => "Last modified %s by %s in group %s",
 	
 	'markdown_wiki:history:date' => "By %s on",
