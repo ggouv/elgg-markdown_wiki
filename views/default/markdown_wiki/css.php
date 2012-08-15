@@ -158,6 +158,9 @@
 	float: left;
 	width: 50%;
 }
+.elgg-form-markdown-wiki-edit .elgg-input-markdown {
+	overflow: hidden;
+}
 .previewPaneWrapper .elgg-input-dropdown {
 	margin-left: 10px;
 }

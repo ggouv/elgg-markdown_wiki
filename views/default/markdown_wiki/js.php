@@ -115,29 +115,43 @@ elgg.provide('elgg.markdown_wiki.edit');
 elgg.markdown_wiki.edit.init = function() {
 
 	$(document).ready(function() {
+		var formWiki = $('.elgg-form-markdown-wiki-edit'),
+			textarea = $('.elgg-form-markdown-wiki-edit textarea.elgg-input-markdown'),
+			previewPane = $('#previewPane'),
+			outputPane = $('#outputPane'),
+			syntaxPane = $('#syntaxPane');
+	
+		var ResizePanes = function() {
+			previewPane.css('height', '100%');
+			textarea.css('height', '100%');
+			outputPane.css('height', '100%');
+			
+			var formBottom = formWiki.offset().top + formWiki.height(),
+				outputHeight = outputPane.hasClass('hidden') ? 0 : outputPane.innerHeight(),
+				previewHeight = previewPane.hasClass('hidden') ? 0 : previewPane.innerHeight(),
+				textareaHeight = textarea.get(0).scrollHeight + 10,
+				maxHeight = Math.max(outputHeight, previewHeight, textareaHeight, 188); // min-height: 188px
+			console.log(formBottom);
+			if (previewPane.innerHeight() < maxHeight) previewPane.innerHeight(maxHeight);
+			textarea.innerHeight(maxHeight + 10 + 2); // padding (cannot set to textarea) + border
+			outputPane.innerHeight(maxHeight);
+			syntaxPane.innerHeight(maxHeight + 2);
+		};
+		
 		$('.previewPaneWrapper .elgg-input-dropdown').change(function() {
 			$('.pane').addClass('hidden');
 			$('#'+$(this).val()).removeClass('hidden');
+			ResizePanes();
 		});
-	
-		var textarea = $('.elgg-form-markdown-wiki-edit textarea.elgg-input-markdown'),
-			previewPane = $('.elgg-form-markdown-wiki-edit #previewPane'),
-			outputPane = $('.elgg-form-markdown-wiki-edit #outputPane'),
-			syntaxPane = $('.elgg-form-markdown-wiki-edit #syntaxPane');
 		
-		// Continue only if the `textarea` is found
-		if (textarea) {
+		if (formWiki) {
 			var converter = new Showdown.converter().makeHtml;
 			textarea.keyup(function() {
 				var text_md = converter(convertCodeBlocks(normalizeLineBreaks(textarea.val())));
 				htmltext = convertCodeBlocks(normalizeLineBreaks('```html\r\n' + text_md + '\r\n```')); 
 				outputPane.html(htmltext);
 				previewPane.html(text_md);
-
-				// resize textarea
-				textarea.innerHeight(previewPane.innerHeight() + 10 + 2); // padding (cannot set to textarea) + border
-				outputPane.innerHeight(previewPane.innerHeight());
-				syntaxPane.innerHeight(previewPane.innerHeight() + 2);
+				ResizePanes();
 			}).trigger('keyup');
 		}
 		
