@@ -417,12 +417,7 @@ function markdown_wiki_id_title_plugin_hook($hook, $entity_type, $returnvalue, $
 
 	if (!function_exists('_title_id_callback')) {
 		function _title_id_callback($matches) {
-			$title = strip_tags(trim($matches[3]));
-			$title = strtolower($title);
-			$title = preg_replace('/\//', '-', $title);
-			$title = preg_replace('/\s+/', '-', $title);
-			$title = rawurlencode($title);
-	
+			$title = elgg_get_friendly_title(trim($matches[3]));
 			return "<h{$matches[2]}><span id='$title'>{$matches[3]}</span></h";
 		}
 	}
