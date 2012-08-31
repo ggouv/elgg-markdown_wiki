@@ -11,7 +11,6 @@
 
 $title = elgg_echo('markdown_wiki:all');
 
-elgg_pop_breadcrumb();
 elgg_push_breadcrumb(elgg_echo('markdown_wiki:all'));
 
 $content = elgg_list_entities(array(

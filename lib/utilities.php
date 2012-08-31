@@ -132,12 +132,13 @@ function markdown_wiki_to_html($text, $guid = null) {
  * @return array(chars added, chars deleted)
  */
 function calc_diff_markdown_wiki($text) {
+	$text = preg_replace('#<del>(.*)</del><ins>\1\r\n#sU','$1<ins>',$text);  //skip line break
+	$text = preg_replace('#\r\n#sU','', $text);
 	preg_match_all('#<ins>(.*)</ins>#sU', $text, $ins);
-	
 	preg_match_all('#<del>(.*)</del>#sU', $text, $del);
 
 	return array(
-		strlen(implode($ins[1])),
-		strlen(implode($del[1])),
+		mb_strlen(implode($ins[1])),
+		mb_strlen(implode($del[1])),
 	);
 }

@@ -16,6 +16,7 @@ $body = elgg_view_form('markdown_wiki/search', array(
 	'action' => $url,
 	'method' => 'get',
 	'disable_security' => true,
+	'container_guid' => $container_guid
 ));
 
 $container = get_entity($container_guid);

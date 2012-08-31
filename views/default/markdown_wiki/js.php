@@ -208,7 +208,7 @@ elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.discussion.init)
 
 // hook for galliComments plugin
 elgg.markdown_wiki.discussion.submit = function() {
-	return 'desc';
+	if ($('.elgg-main .comments_order').attr('value') == 'desc')	return 'desc';
 }
 elgg.register_hook_handler('getOptions', 'galliComments.submit', elgg.markdown_wiki.discussion.submit);
 

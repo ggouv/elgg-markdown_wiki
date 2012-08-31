@@ -53,4 +53,4 @@ echo elgg_view('input/hidden', array(
 	'value' => $markdown_wiki->guid,
 ));
 
-echo elgg_view('input/submit', array('value' => elgg_echo('markdown_wiki:compare:button')));
+echo elgg_view('input/submit', array('value' => elgg_echo('markdown_wiki:compare:button'), 'class' => 'elgg-button-submit mtm'));

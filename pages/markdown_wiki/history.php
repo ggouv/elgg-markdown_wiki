@@ -16,7 +16,6 @@ if (!$markdown_wiki) {
 	forward();
 }
 
-elgg_load_js('markdown_wiki:history');
 elgg_load_library('markdown_wiki:fineDiff');
 
 $granularity = get_input('granularity', 'word');
@@ -99,6 +98,7 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
 		$diff[$i] = new FineDiff(htmlspecialchars($values[$i-1]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[$i]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
 		$diffOutput = str_replace(' ','&nbsp;', $diff[$i]->renderDiffToHTML());
+		$diffOutput = preg_replace('#\r\n</del>#sU','</del>', $diffOutput);
 		$diffOutput = str_replace(CHR(13),'<br/>', $diffOutput);
 		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diffOutput . '</div>';
 	} else {
@@ -122,6 +122,8 @@ $diffOwner .= <<<HTML
 </div>
 HTML;
 }
+
+$diffHTML = preg_replace('#<del>(.*)</del><ins>\1<br/>#sU','$1<ins><br/>',$diffHTML);  //skip line break
 
 $title = elgg_echo('markdown_wiki:history', array($markdown_wiki->title)); 
 $content = "<div class='diff-output'>" . $diffHTML . '</div>';

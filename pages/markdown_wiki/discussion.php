@@ -29,7 +29,7 @@ elgg_register_menu_item('title', array(
 	'link_class' => 'elgg-button-toggle-modification active',
 ));
 
-$title = $markdown_wiki->title . ": " . elgg_echo('markdown_wiki:discussion');
+$title = elgg_echo('markdown_wiki:discussion', array($markdown_wiki->title));
 
 if (elgg_instanceof($container, 'group')) {
 	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");
@@ -63,6 +63,7 @@ $content = elgg_trigger_plugin_hook('markdown_wiki_discussion', 'header', $markd
 $form_vars = array('name' => 'elgg_add_comment');
 $vars['entity'] = $markdown_wiki;
 $content .= elgg_view_form('comments/add', $form_vars, $vars);
+$content .= '<div class="comments_order hidden" value="desc"></div>';
 
 $content .= elgg_list_annotations(array(
 	'types' => 'object',
