@@ -50,6 +50,7 @@ if ($owner->guid == elgg_get_logged_in_user_guid()) {
 $sidebar = elgg_view('markdown_wiki/sidebar/sidebar');
 
 $params = array(
+	'sidebar' => $sidebar,
 	'filter_context' => $filter_context,
 	'content' => $content,
 	'title' => $title,
