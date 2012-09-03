@@ -23,7 +23,6 @@ $french = array(
 	'wiki:edit' => "Ajouter une page",
 
 	'groups:enable_markdown_wiki' => "Activer le wiki du groupe",
-	'groups:enable_markdown_wiki:home' => "Wiki du groupe :<br/>On: le lien de la sidebar va sur toutes les pages wikis du groupe. Off: le lien de la sidebar va sur la page wiki d'accueil",
 
 	'markdown_wiki:none' => "Pas de page créée pour l'instant",
 	
@@ -58,6 +57,11 @@ $french = array(
 	'markdown_wiki:redirect_from' => "Redirigé depuis",
 	
 	'markdown_wiki:compare:button' => "Comparer ces révisions",
+	
+	'markdown_wiki:settings' => "Options du wiki",
+	'markdown_wiki:group:settings:title' => "Options du wiki du groupe %s",
+	'markdown_wiki:group:settings:option' => "Afficher toutes les pages au lieu de la page d'accueil",
+	'markdown_wiki:group:settings:info' => "Activez cette option pour que le lien de la sidebar pointe sur toutes les pages wikis du groupe et non sur la page wiki d'accueil",
 
 	/**
 	* River
@@ -106,6 +110,8 @@ $french = array(
 	'markdown_wiki:error:already_exist' => "Une page avec le même nom existe déjà.",
 	'markdown_wiki:saved' => "La page a été enregistrée.",
 	'markdown_wiki:redirected' => "La page a été redirigée depuis %s",
+	'markdown_wiki:group:settings:save:success' => "Options enregistrées.",
+	'markdown_wiki:group:settings:save:failed' => "Impossibles d'enregistrer les options.",
 
 	/**
 	 * Object

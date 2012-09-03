@@ -12,11 +12,20 @@
 $owner = elgg_get_page_owner_entity();
 
 if (!$owner) {
-	forward('markdown_wiki/all');
+	forward('wiki/all');
 }
 
 // access check for closed groups
 group_gatekeeper();
+
+if ($owner->canEdit() || elgg_is_admin_logged_in()) {
+	elgg_register_menu_item('title', array(
+		'name' => 'settings',
+		'href' => "wiki/group/$owner->guid/settings",
+		'text' => elgg_echo('markdown_wiki:settings'),
+		'link_class' => 'elgg-button elgg-button-action edit-button gwfb group_admin_only',
+	));
+}
 
 $title = elgg_echo('markdown_wiki:owner', array($owner->name));
 

@@ -131,7 +131,6 @@ elgg.markdown_wiki.edit.init = function() {
 				previewHeight = previewPane.hasClass('hidden') ? 0 : previewPane.innerHeight(),
 				textareaHeight = textarea.get(0).scrollHeight + 10,
 				maxHeight = Math.max(outputHeight, previewHeight, textareaHeight, 188); // min-height: 188px
-			console.log(formBottom);
 			if (previewPane.innerHeight() < maxHeight) previewPane.innerHeight(maxHeight);
 			textarea.innerHeight(maxHeight + 10 + 2); // padding (cannot set to textarea) + border
 			outputPane.innerHeight(maxHeight);
@@ -141,6 +140,7 @@ elgg.markdown_wiki.edit.init = function() {
 		$('.previewPaneWrapper .elgg-input-dropdown').change(function() {
 			$('.pane').addClass('hidden');
 			$('#'+$(this).val()).removeClass('hidden');
+			textarea.trigger('keyup');
 			ResizePanes();
 		});
 		
@@ -148,8 +148,9 @@ elgg.markdown_wiki.edit.init = function() {
 			var converter = new Showdown.converter().makeHtml;
 			textarea.keyup(function() {
 				var text_md = converter(convertCodeBlocks(normalizeLineBreaks(textarea.val())));
-				htmltext = convertCodeBlocks(normalizeLineBreaks('```html\r\n' + text_md + '\r\n```')); 
-				outputPane.html(htmltext);
+				if (!outputPane.hasClass('hidden')) {
+					outputPane.html( convertCodeBlocks(normalizeLineBreaks('```html\r\n' + text_md + '\r\n```')) );
+				}
 				previewPane.html(text_md);
 				ResizePanes();
 			}).trigger('keyup');

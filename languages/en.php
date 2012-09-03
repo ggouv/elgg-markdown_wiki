@@ -23,7 +23,6 @@ $english = array(
 	'wiki:edit' => "Add wiki page",
 
 	'groups:enable_markdown_wiki' => "Enable group wiki",
-	'groups:enable_markdown_wiki:home' => "Group wiki:<br/>On: group wiki link go to all group's wiki pages. Off: group wiki link go to group's home page",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
 	
@@ -58,6 +57,11 @@ $english = array(
 	'markdown_wiki:redirect_from' => "Redirected from",
 	
 	'markdown_wiki:compare:button' => "Compare these revisions",
+	
+	'markdown_wiki:settings' => "Wiki settings",
+	'markdown_wiki:group:settings:title' => "Settings of wiki's group %s",
+	'markdown_wiki:group:settings:option' => "Display all pages instead of home page",
+	'markdown_wiki:group:settings:info' => "Turn on this option if you want that the link in the sidebar go to all pages instead of group's home page",
 
 	/**
 	* River
@@ -107,6 +111,8 @@ $english = array(
 	'markdown_wiki:error:already_exist' => "A page with the same name already exist.",
 	'markdown_wiki:saved' => "Page edited.",
 	'markdown_wiki:redirected' => "Page redirected from %s",
+	'markdown_wiki:group:settings:save:success' => "Settings saved.",
+	'markdown_wiki:group:settings:save:failed' => "Cannot save settings.",
 
 	/**
 	 * Object

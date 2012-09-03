@@ -56,10 +56,10 @@ function markdown_wiki_init() {
 	$base_dir = "$root/actions/markdown_wiki";
 	elgg_register_action('markdown_wiki/edit', "$base_dir/edit.php");
 	elgg_register_action('markdown_wiki/compare', "$root/pages/markdown_wiki/compare.php");
+	elgg_register_action('markdown_wiki/settings', "$base_dir/settings.php");
 
 	// add to groups
 	add_group_tool_option('markdown_wiki', elgg_echo('groups:enable_markdown_wiki'), true);
-	add_group_tool_option('markdown_wiki_all', elgg_echo('groups:enable_markdown_wiki:home'), false);
 	elgg_extend_view('groups/tool_latest', 'markdown_wiki/group_module');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'markdown_wiki_owner_block_menu');
 
@@ -135,11 +135,13 @@ function markdown_wiki_page_handler($page) {
 		case 'group':
 			if ($page[2] == 'all' ) {
 				include "$base_dir/owner.php";
+			} else if ($page[2] == 'settings' ) {
+				include "$base_dir/settings.php";
 			} else if ($page[2] == 'page' ) {
 				if (is_numeric($page[3])) {
 					set_input('guid', $page[3]);
 				} else {
-					$query = search_markdown_wiki_by_title($page[3], elgg_get_page_owner_guid());
+					$query = search_markdown_wiki_by_title($page[3], elgg_get_page_owner_guid()); // @todo security ?
 					if ($query) {
 						set_input('guid', $query);
 					} else {
@@ -148,8 +150,8 @@ function markdown_wiki_page_handler($page) {
 				}
 				include "$base_dir/view.php";
 			} else {
-				$group = get_input($page[1]);
-				if ($group->markdown_wiki_all_enable  == 'yes') {
+				$group = get_entity((int)$page[1]);
+				if ($group->markdown_wiki_all_enabled  == 'on') {
 					forward("/wiki/group/$page[1]/all");
 				} else {
 					forward('/wiki/group/' . $page[1] . '/page/' . elgg_echo('markdown_wiki:home')); // go to the wiki page home of the group
@@ -205,7 +207,7 @@ function markdown_wiki_owner_block_menu($hook, $type, $return, $params) {
 		$return[] = $item;
 	} else {
 		if ($params['entity']->markdown_wiki_enable != "no") {
-			if ($params['entity']->markdown_wiki_all_enable  == 'yes') {
+			if ($params['entity']->markdown_wiki_all_enabled == 'on') {
 				$url = "/wiki/group/{$params['entity']->guid}/all";
 			} else {
 				$url = "wiki/group/{$params['entity']->guid}/page/" . elgg_echo('markdown_wiki:home');

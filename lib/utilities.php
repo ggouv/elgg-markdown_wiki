@@ -52,6 +52,39 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $container_guid 
 
 
 /**
+ * Prepare the group settings form variables
+ *
+ * @param ElggObject $group A group object.
+ * @return array
+ */
+function markdown_wiki_group_settings_prepare_form_vars($group = null) {
+	
+	$values = array(
+		'markdown_wiki_all_enabled' => get_input('markdown_wiki_all_enabled', false),
+	);
+
+	if ($group) {
+		foreach (array_keys($values) as $field) {
+			if (isset($group->$field)) {
+				$values[$field] = $group->$field;
+			}
+		}
+	}
+
+	if (elgg_is_sticky_form('markdown_wiki_settings')) {
+		$sticky_values = elgg_get_sticky_values('markdown_wiki_settings');
+		foreach ($sticky_values as $key => $value) {
+			$values[$key] = $value;
+		}
+	}
+
+	elgg_clear_sticky_form('markdown_wiki_settings');
+
+	return $values;
+}
+
+
+/**
  * Get markdown_wiki by title
  *
  * @param string $title The title's markdown_wiki
