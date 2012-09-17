@@ -157,6 +157,7 @@
 .elgg-form-markdown-wiki-edit .description, .previewPaneWrapper {
 	float: left;
 	width: 50%;
+	clear: none;
 }
 .elgg-form-markdown-wiki-edit .elgg-input-markdown {
 	overflow: hidden;
@@ -169,7 +170,6 @@
 }
 .previewPaneWrapper .pane {
 	border: 1px solid #CCCCCC;
-	border-radius: 5px 5px 5px 5px;
 	margin-top: 0px;
 }
 #previewPane {

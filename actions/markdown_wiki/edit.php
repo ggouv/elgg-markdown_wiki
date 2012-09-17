@@ -110,7 +110,7 @@ if ($markdown_wiki->save()) {
 		add_to_river('river/object/markdown_wiki/create', 'create', $user_guid, $markdown_wiki->guid);
 	} else {
 		if (!get_input('minorchange', false)) {
-			add_to_river('river/object/markdown_wiki/modified', 'modified', $user_guid, $markdown_wiki->guid, '', 0, $annotation_id);
+			add_to_river('river/object/markdown_wiki/update', 'update', $user_guid, $markdown_wiki->guid, '', 0, $annotation_id);
 		}
 	}
 

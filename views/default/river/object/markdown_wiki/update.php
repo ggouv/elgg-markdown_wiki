@@ -6,7 +6,7 @@
  *	@license GNU Affero General Public License, version 3 or late
  *	@link https://github.com/ManUtopiK/elgg-markdown_wiki
  *
- *	Elgg-markdown_wiki river modified
+ *	Elgg-markdown_wiki river update
  **/
 
 $object = $vars['item']->getObjectEntity();
@@ -26,5 +26,4 @@ $message = $diff_text . '&nbsp;' . $summary;
 echo elgg_view('river/elements/layout', array(
 	'item' => $vars['item'],
 	'message' => $message,
-	//'responses' =>
 ));

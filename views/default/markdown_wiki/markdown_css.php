@@ -55,8 +55,8 @@
     color: #777777;
     font-size: 14px;
 }
-.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body li, .markdown-body table, .markdown-body pre {
-    margin: 15px 0;
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin: 5px 0;
 }
 .markdown-body hr {
     border: 1px solid;
