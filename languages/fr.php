@@ -16,6 +16,7 @@ $french = array(
 	 */
 	'markdown_wiki' => "Wikis",
 	'markdown_wiki:owner' => "Les pages éditées par %s",
+	'markdown_wiki:groupowner' => "Les pages du groupe %s",
 	'markdown_wiki:friends' => "Les pages éditées par vos abonnés",
 	'markdown_wiki:all' => "Toutes les pages",
 	'markdown_wiki:group' => "Wiki du groupe",
@@ -68,7 +69,7 @@ $french = array(
 	**/
 	'river:create:object:markdown_wiki' => "%s a créé la page %s",
 	'river:comment:object:markdown_wiki' => "%s a commenté la page %s",
-	'river:modified:object:default' => "%s a modifié la page %s",
+	'river:update:object:markdown_wiki' => "%s a modifié la page %s",
 
 	/**
 	* Widget

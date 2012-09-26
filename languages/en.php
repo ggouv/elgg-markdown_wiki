@@ -16,6 +16,7 @@ $english = array(
 	 */
 	'markdown_wiki' => "Wikis",
 	'markdown_wiki:owner' => "%s's edited wiki pages",
+	'markdown_wiki:groupowner' => "Group %s's wiki pages",
 	'markdown_wiki:friends' => "Wiki pages edited by your friends",
 	'markdown_wiki:all' => "All site wiki pages",
 	'markdown_wiki:group' => "Group wiki",
@@ -68,7 +69,7 @@ $english = array(
 	**/
 	'river:create:object:markdown_wiki' => "%s submited the page %s",
 	'river:comment:object:markdown_wiki' => "%s commented on the page %s",
-	'river:modified:object:default' => "%s modified the page %s",
+	'river:update:object:markdown_wiki' => "%s modified the page %s",
 
 	/**
 	* Widget

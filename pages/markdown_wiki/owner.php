@@ -27,11 +27,8 @@ if ($owner->canEdit() || elgg_is_admin_logged_in()) {
 	));
 }
 
-$title = elgg_echo('markdown_wiki:owner', array($owner->name));
-
-elgg_push_breadcrumb($owner->name);
-
 if (elgg_instanceof($owner, 'group')) {
+	$title = elgg_echo('markdown_wiki:groupowner', array($owner->name));
 	$content = elgg_list_entities(array(
 		'types' => 'object',
 		'subtypes' => 'markdown_wiki',
@@ -39,6 +36,7 @@ if (elgg_instanceof($owner, 'group')) {
 		'full_view' => false,
 	));
 } else {
+	$title = elgg_echo('markdown_wiki:owner', array($owner->name));
 	$content = elgg_list_entities_from_annotations(array(
 		'types' => 'object',
 		'subtypes' => 'markdown_wiki',
@@ -46,6 +44,8 @@ if (elgg_instanceof($owner, 'group')) {
 		'full_view' => false,
 	));
 }
+
+elgg_push_breadcrumb($owner->name);
 
 if (!$content) {
 	$content = '<p>' . elgg_echo('markdown_wiki:none') . '</p>';
