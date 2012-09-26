@@ -343,8 +343,9 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 
 	if (!function_exists('_parse_link_callback')) {
 		function _parse_link_callback($matches) {
-			// external link
-			$title = rtrim($matches[1], '/');
+			$array_match = explode('#', $matches[1]);
+			$title = rtrim($array_match[0], '/');
+			$hash = $array_match[1] ? '#' . $array_match[1] : '';
 			$group = elgg_get_page_owner_guid();
 			$site_url = elgg_get_site_url();
 			
@@ -355,10 +356,10 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					return "<a href='$title'>$matches[2]</a>";
 				}
 			} else {
-				if (!$title) { // markdown syntax like [a link]()
+				if (!$title) { // markdown syntax like [a link]() or [a link](#paragraph)
 					if ( $page_guid = search_markdown_wiki_by_title(rtrim($matches[2], '/'), $group) ) { // page exists
 						$page = get_entity($page_guid);
-						return "<a href='{$page->getUrl()}'>$matches[2]</a>";
+						return "<a href='{$page->getUrl()}{$hash}'>$matches[2]</a>";
 					} else { // page doesn't exists
 						return "<a href='{$site_url}wiki/search?container_guid=$group&q=$matches[2]' class='new'>$matches[2]</a>";
 					}
@@ -366,10 +367,10 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					if ( is_numeric($relative[1]) ) {
 						if ( is_numeric($relative[2]) ) {
 							$page = get_entity($relative[2]);
-							return "<a href='{$page->getUrl()}'>$matches[2]</a>";
+							return "<a href='{$page->getUrl()}{$hash}'>$matches[2]</a>";
 						} elseif ( $page_guid = search_markdown_wiki_by_title($relative[2], $relative[1]) ) { // page exists
 							$page = get_entity($page_guid);
-							return "<a href='{$page->getUrl()}'>$matches[2]</a>";
+							return "<a href='{$page->getUrl()}{$hash}'>$matches[2]</a>";
 						} else { // page doesn't exists
 							return "<a href='{$site_url}wiki/search?container_guid={$relative[1]}&q=$relative[2]' class='new'>$matches[2]</a>";
 						}
@@ -378,7 +379,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					}
 				} elseif ( $page_guid = search_markdown_wiki_by_title($title, $group) ) { // page exists
 					$page = get_entity($page_guid);
-					return "<a href='{$page->getUrl()}'>$matches[2]</a>";
+					return "<a href='{$page->getUrl()}{$hash}'>$matches[2]</a>";
 				} else { // page doesn't exists
 					return "<a href='{$site_url}wiki/search?container_guid=$group&q=$title' class='new'>$matches[2]</a>";
 				}
