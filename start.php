@@ -349,7 +349,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			$group = elgg_get_page_owner_guid();
 			$site_url = elgg_get_site_url();
 			
-			if ( strpos($title, 'http://') !== false ){
+			if ( strpos($title, '://') !== false ){
 				if ( strpos($title, $site_url) === false ) { // external link
 					return "<a rel='nofollow' target='_blank' href='$title' class='external'>$matches[2]</a><span class='elgg-icon external'></span>";
 				} else { // internal link with http://
