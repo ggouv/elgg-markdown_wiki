@@ -93,14 +93,16 @@ foreach($annotations as $key => $annotation) {
 $diffHTML = $diffOwner = '';
 for($i=count($annotations)-1; $i>=0; $i--) {
 	if ($i != 0) {
-		$diff[$i] = new FineDiff(htmlspecialchars($values[$i-1]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[$i]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
-		$diffOutput = str_replace(' ','&nbsp;', $diff[$i]->renderDiffToHTML());
-		$diffOutput = preg_replace('#\r\n</del>#sU','</del>', $diffOutput);
-		$diffOutput = str_replace(CHR(13),'<br/>', $diffOutput);
-		$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diffOutput . '</div>';
+		$diff = new FineDiff(htmlspecialchars($values[$i-1]['text'], ENT_QUOTES, 'UTF-8', false), htmlspecialchars($values[$i]['text'], ENT_QUOTES, 'UTF-8', false), $granularity_fine);
+		$diffOutput = $diff->renderDiffToHTML();
 	} else {
-		$diffHTML .= "<div id='diff-0' class='diff hidden'>" . htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false) . '</div>';
+		$diffOutput = htmlspecialchars($values[0]['text'], ENT_QUOTES, 'UTF-8', false);
 	}
+	$diffOutput = str_replace(' ','&nbsp;', $diffOutput);
+	$diffOutput = preg_replace('#\r\n</del>#sU','</del>', $diffOutput);
+	$diffOutput = str_replace(CHR(13),'<br/>', $diffOutput);
+	$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diffOutput . '</div>';
+	
 	$owner = get_entity($annotations[$i]->owner_guid);
 	$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
 	$time = htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$i]->time_created));
