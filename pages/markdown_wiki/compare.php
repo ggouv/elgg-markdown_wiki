@@ -90,9 +90,6 @@ if ($from && $to && $to > $from) {
 		'annotation_ids' => array($from, $to),
 	));
 	
-	$user = elgg_get_logged_in_user_entity();
-	setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupper($user->language));
-	
 	foreach($annotations as $key => $annotation) {
 		$values[] = unserialize($annotation->value);
 		

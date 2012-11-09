@@ -43,9 +43,6 @@ echo elgg_view_image_block($icon, $body);
 
 } else if ($vars['summary_view'] === true) {
 
-	$user = elgg_get_logged_in_user_entity();
-	setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupper($user->language));
-
 	$owner_link = "<a href=\"{$owner->getURL()}\">$owner->name</a>";
 
 	$summary = $value['summary'];

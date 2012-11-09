@@ -24,9 +24,6 @@ if ($granularity == 'word') $granularity_fine = array(FineDiff::wordDelimiters);
 if ($granularity == 'sentence') $granularity_fine = array(FineDiff::sentenceDelimiters);
 if ($granularity == 'paragraph') $granularity_fine = array(FineDiff::paragraphDelimiters);
 
-$user = elgg_get_logged_in_user_entity();
-setlocale(LC_TIME, $user->language, strtolower($user->language) . '_' . strtoupper($user->language));
-
 $container = $markdown_wiki->getContainerEntity();
 
 if (elgg_instanceof($container, 'group')) {
@@ -61,7 +58,7 @@ elgg_register_menu_item('page', array(
 	'href' => "wiki/compare/$markdown_wiki_guid/$markdown_wiki->title",
 	'text' => elgg_echo('markdown_wiki:page:compare'),
 ));
-if ($markdown_wiki->canEdit($user_guid)) {
+if ($markdown_wiki->canEdit()) {
 	elgg_register_menu_item('page', array(
 		'name' => 'edit-page',
 		'href' => "wiki/edit/$markdown_wiki_guid/$markdown_wiki->title",
