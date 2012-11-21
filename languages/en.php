@@ -118,7 +118,7 @@ $english = array(
 	/**
 	 * Object
 	 */
-	'item:object:markdown_wiki' => "Page",
+	'item:object:markdown_wiki' => "Pages",
 	'markdown_wiki:strapline' => "Last modified %s by %s in group %s",
 	
 	'markdown_wiki:history:date' => "By %s on",

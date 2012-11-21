@@ -117,7 +117,7 @@ $french = array(
 	/**
 	 * Object
 	 */
-	'item:object:markdown_wiki' => "Page",
+	'item:object:markdown_wiki' => "Pages",
 	'markdown_wiki:strapline' => "Dernière modification %s par %s dans le groupe %s",
 	
 	'markdown_wiki:history:date' => "Par %s le",

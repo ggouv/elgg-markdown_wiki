@@ -122,14 +122,9 @@ elgg.markdown_wiki.edit.init = function() {
 			syntaxPane = $('#syntaxPane');
 	
 		var ResizePanes = function() {
-			previewPane.css('height', '100%');
-			textarea.css('height', '100%');
-			outputPane.css('height', '100%');
-			
-			var formBottom = formWiki.offset().top + formWiki.height(),
-				outputHeight = outputPane.hasClass('hidden') ? 0 : outputPane.innerHeight(),
+			var outputHeight = outputPane.hasClass('hidden') ? 0 : outputPane.innerHeight(),
 				previewHeight = previewPane.hasClass('hidden') ? 0 : previewPane.innerHeight(),
-				textareaHeight = textarea.get(0).scrollHeight + 10,
+				textareaHeight = $.browser.mozilla ? textarea.get(0).scrollHeight + 10 : textarea.get(0).scrollHeight,
 				maxHeight = Math.max(outputHeight, previewHeight, textareaHeight, 188); // min-height: 188px
 			if (previewPane.innerHeight() < maxHeight) previewPane.innerHeight(maxHeight);
 			textarea.innerHeight(maxHeight + 10 + 2); // padding (cannot set to textarea) + border
