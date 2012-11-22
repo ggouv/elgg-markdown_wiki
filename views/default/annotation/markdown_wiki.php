@@ -46,7 +46,7 @@ echo elgg_view_image_block($icon, $body);
 	$owner_link = "<a href=\"{$owner->getURL()}\">$owner->name</a>";
 
 	$summary = $value['summary'];
-	$array_diff = $value['diff']['character'];
+	$array_diff = $value['diff']['word'];
 
 	$diff_text = '';
 	if ( $array_diff[0] != 0 ) $diff_text .= '<ins class="elgg-subtext">&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';

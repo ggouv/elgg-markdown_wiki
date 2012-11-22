@@ -38,6 +38,26 @@ if ($markdown_wiki == '0' && !$query || !$container->canWritetoContainer()) {
 elgg_set_page_owner_guid($container_guid);
 
 elgg_push_breadcrumb($container->name, $container->getURL());
+
+elgg_register_menu_item('title', array(
+	'name' => 'history',
+	'href' => "wiki/history/$markdown_wiki_guid/$markdown_wiki->title",
+	'text' => elgg_echo('markdown_wiki:page:history'),
+	'link_class' => 'elgg-button elgg-button-action'
+));
+elgg_register_menu_item('title', array(
+	'name' => 'compare',
+	'href' => "wiki/compare/$markdown_wiki_guid/$markdown_wiki->title",
+	'text' => elgg_echo('markdown_wiki:page:compare'),
+	'link_class' => 'elgg-button elgg-button-action'
+));
+elgg_register_menu_item('title', array(
+	'name' => 'discussion',
+	'href' => "wiki/discussion/$markdown_wiki_guid/$markdown_wiki->title",
+	'text' => elgg_echo('markdown_wiki:page:discussion'),
+	'link_class' => 'elgg-button elgg-button-action'
+));
+
 if ($query) {
 	elgg_push_breadcrumb($query);
 	$title = elgg_echo("markdown_wiki:edit", array($query));
@@ -49,8 +69,8 @@ elgg_push_breadcrumb(elgg_echo('edit'));
 
 $body = elgg_view_layout('one_column', array(
 	'filter' => '',
-	'content' => $content,
-	'title' => $title,
+	'content' => elgg_view('page/layouts/content/header', array('title' => $title)) . $content,
+	'title' => ''
 ));
 
 echo elgg_view_page($title, $body);
