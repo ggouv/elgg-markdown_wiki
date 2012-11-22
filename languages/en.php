@@ -96,6 +96,7 @@ $english = array(
 	'markdown_wiki:search:result:not_found:create_it' => "Create the page %s in %s's wiki group.",
 	'markdown_wiki:search:result:not_found:similar' => "Check before the search results below to see whether the topic is already covered.",
 	'markdown_wiki:search:result:found:page' => "There is a page named %s in %s's wiki group.",
+	'markdown_wiki:create' => "This page doesn't exist. Create it !",
 
 	/**
 	 * Status and error messages

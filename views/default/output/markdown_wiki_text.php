@@ -29,4 +29,4 @@ unset($vars['value']);
 
 $attributes = elgg_format_attributes($vars);
 
-echo "<div $attributes>$text</div>";
+echo "<xmp $attributes>$text</xmp>";

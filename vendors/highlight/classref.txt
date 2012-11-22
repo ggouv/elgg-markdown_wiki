@@ -26,6 +26,7 @@ Python profiler results ("profile"):
   keyword          column header
   function         function name in an entry (including parentheses)
   title            actual name of a function in an entry (excluding parentheses)
+  prompt           interpreter prompt (>>> or ...)
 
 Ruby ("ruby"):
 
@@ -39,7 +40,6 @@ Ruby ("ruby"):
   title            name of a function or a class inside a header
   parent           name of a parent class
   symbol           symbol
-  instancevar      instance variable
 
 Perl ("perl"):
 
@@ -69,7 +69,7 @@ Scala ("scala"):
   number           number
   string           string
   comment          comment
-  annotaion        annotation
+  annotation       annotation
   javadoc          javadoc comment
   javadoctag       @-tag in javadoc
   class            class header
@@ -86,27 +86,19 @@ Go language ("go"):
   typename         built-in plain types (int, string etc.)
   built_in         built-in functions
 
-XML ("xml"):
+HTML, XML ("xml"):
 
   tag              any tag from "<" till ">"
-  comment          comment
-  pi               processing instruction (<? ... ?>)
-  cdata            CDATA section
-  attribute        attribute
-  value            attribute's value
-
-HTML ("html"):
-
-  keyword          HTML tag
-  tag              any tag from "<" till ">"
-  comment          comment
-  doctype          <!DOCTYPE ... > declaration
   attribute        tag's attribute with or without value
   value            attribute's value
+  comment          comment
+  pi               processing instruction (<? ... ?>)
+  doctype          <!DOCTYPE ... > declaration
+  cdata            CDATA section
 
 CSS ("css"):
 
-  tag              HTML tag in selectors
+  tag              tag in selectors
   id               #some_name in selectors
   class            .some_name in selectors
   at_rule          @-rule till first "{" or ";"
@@ -114,14 +106,13 @@ CSS ("css"):
   pseudo           pseudo classes and elemens (:after, ::after etc.)
   comment          comment
   rules            everything from "{" till "}"
-  property         property name inside a rule
+  attribute        property name inside a rule
   value            property value inside a rule, from ":" till ";" or
                    till the end of rule block
   number           number within a value
   string           string within a value
   hexcolor         hex color (#FFFFFF) within a value
   function         CSS function within a value
-  params           everything between "(" and ")" within a function
   important        "!important" symbol
 
 Markdown ("markdown"):
@@ -150,6 +141,14 @@ Django ("django"):
   filter           filter from "|" till the next filter or the end of tag
   argument         filter argument
 
+JSON ("json"):
+
+  number           number
+  literal          "true", "false" and "null"
+  string           string value
+  attribute        name of an object property
+  value            value of an object property
+
 JavaScript ("javascript"):
 
   keyword          keyword
@@ -171,8 +170,27 @@ CoffeeScript ("coffeescript"):
   string           string
   regexp           regular expression
   function         header of a function
+  class            header of a class
   title            name of a function variable inside a header
   params           parentheses and everything inside them in a function's header
+  property         @-property within class and functions
+
+ActionScript ("actionscript"):
+
+  comment          comment
+  string           string
+  number           number
+  keyword          keywords
+  literal          literal
+  reserved         reserved keyword
+  title            name of declaration (package, class or function)
+  preprocessor     preprocessor directive (import, include)
+  type             type of returned value (for functions)
+  package          package (named or not)
+  class            class/interface
+  function         function
+  param            params of function
+  rest_arg         rest argument of function
 
 VBScript ("vbscript"):
 
@@ -181,6 +199,14 @@ VBScript ("vbscript"):
   string           string
   comment          comment
   built_in         built-in function
+
+HTTP ("http"):
+
+  request          first line of a request
+  status           first line of a response
+  attribute        header name
+  string           header value or query string in a request line
+  number           status code
 
 Lua ("lua"):
 
@@ -236,6 +262,7 @@ Objective C ("objectivec"):
   comment          comment
   preprocessor     preprocessor directive
   class            interface/implementation, protocol and forward class declaration
+  variable         properties and struct accesors
 
 Vala ("vala"):
 
@@ -254,6 +281,15 @@ C# ("cs"):
   string           string
   comment          commment
   xmlDocTag        xmldoc tag ("///", "<!--", "-->", "<..>")
+
+D language ("d"):
+
+  comment          comment
+  string           string constant
+  number           number
+  keyword          language keywords (including @attributes)
+  constant         true false null
+  built_in         built-in plain types (int, string etc.)
 
 RenderMan RSL ("rsl"):
 
@@ -315,6 +351,16 @@ Lisp ("lisp"):
   body             remainder of the non-quoted list
   quoted           quoted list, both "(quote .. )" and "'(..)"
 
+Clojure ("clojure"):
+
+  comment          comments and hints
+  string           string
+  number           number
+  collection       collections
+  attribute        :keyword
+  title            function name (built-in or user defined)
+  built_in         built-in function name
+
 Ini ("ini"):
 
   title            title of a section
@@ -335,12 +381,13 @@ Apache ("apache"):
 
 Nginx ("nginx"):
 
-  keyword          keyword
+  title            directive title
   string           string
   number           number
   comment          comment
   built_in         built-in constant
   variable         $-variable
+  regexp           regexp
 
 Diff ("diff"):
 
@@ -418,6 +465,8 @@ VHDL ("vhdl")
   string           string
   comment          commment
   literal          signal logical value
+  typename         typename
+  attribute        signal attribute
 
 Parser3 ("parser3"):
 
@@ -440,13 +489,13 @@ TeX ("tex"):
 Haskell ("haskell"):
 
   keyword          keyword
-  built_in         built-in typeclass/functions (Bool, Int)
   number           number
   string           string
   comment          comment
   class            type classes and other data types
   title            function name
-  label            type class name
+  type             type class name
+  typedef          definition of types (type, newtype, data)
 
 Erlang ("erlang"):
 
@@ -468,23 +517,6 @@ Rust ("rust"):
   keyword          keyword
   title            name of declaration
   preprocessor     preprocessor directive
-  
-ActionScript ("actionscript"):
-
-  comment          comment
-  string           string
-  number           number
-  keyword          keywords
-  literal          literal
-  reserved         reserved keyword
-  title            name of declaration (package, class or function)
-  preprocessor     preprocessor directive (import, include)
-  type             type of returned value (for functions)
-  package          package (named or not)
-  class            class/interface
-  function         function
-  param            params of function
-  rest_arg         rest argument of function
 
 Matlab ("matlab"):
 
@@ -495,3 +527,42 @@ Matlab ("matlab"):
   title            function name
   function         function
   param            params of function
+  matrix           matrix in [ .. ]
+  cell             cell in { .. }
+
+R ("r"):
+
+  comment          comment
+  string           string constant
+  number           number
+  keyword          language keywords (function, if) plus "structural"
+                   functions (attach, require, setClass)
+  literal          special literal: TRUE, FALSE, NULL, NA, etc.
+
+OpenGL Shading Language ("glsl"):
+
+  comment          comment
+  number           number
+  preprocessor     preprocessor directive
+  keyword          keyword
+  built_in         GLSL built-in functions and variables
+  literal          true false
+
+AppleScript ("applescript"):
+
+  keyword          keyword
+  command          core AppleScript command
+  constant         AppleScript built in constant
+  type             AppleScript variable type (integer, etc.)
+  property         Applescript built in property (length, etc.)
+  number           number
+  string           string
+  comment          comment
+  title            name of a handler
+
+Brainfuck ("brainfuck"):
+
+  title            Brainfuck while loop command
+  literal          Brainfuck inc and dec commands
+  comment          comment
+  string           Brainfuck input and output commands

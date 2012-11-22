@@ -63,7 +63,7 @@ if (elgg_in_context('widgets')) {
 
 if ($full) {
 	$value = unserialize($annotation->value);
-	$content = markdown_wiki_to_html($value['text']);
+	$content = format_markdown_wiki_hooks($value['text']);
 	
 	$body = '';
 	if ($redirect_from) {

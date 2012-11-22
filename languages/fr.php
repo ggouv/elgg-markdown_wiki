@@ -42,6 +42,7 @@ $french = array(
 	'markdown_wiki:search_in_all_group' => "Chercher une page dans tous les groupes",
 	'markdown_wiki:search:title' => "Résultat de la recherche %s",
 	'markdown_wiki:search:in_text:title' => "Autres pages contenant %s :",
+	'markdown_wiki:create' => "Cette page n'existe pas. Créez là !",
 
 	'markdown_wiki:sidebar:granularity' => "Granularité",
 	'markdown_wiki:sidebar:history' => "Historique",

@@ -130,30 +130,23 @@ function search_markdown_wiki_by_title($title, $group = null) {
 
 
 /**
- * Format a markdown_wiki text object to html
+ * Apply hooks to format markdown_wiki output
  *
- * @param string with markdown syntax
+ * @param	$text string with markdown syntax
+ *			$guid GUID of the markdow_wiki object
  *
  * @return html
  */
-function markdown_wiki_to_html($text, $guid = null) {
+function format_markdown_wiki_hooks($text, $guid = null) {
 
-	elgg_load_library('markdown_wiki:markdown');
 	$params = array('guid' => $guid);
 	
-	$result = elgg_trigger_plugin_hook('format_markdown', 'all', $params, null);
+	$result = elgg_trigger_plugin_hook('format_markdown', 'override', $params, null);
 	if ($result) {
 		return $result;
 	}
 
-	$result = elgg_trigger_plugin_hook('format_markdown', 'before', $params, $text);
-
-	$result = Markdown($result);
-
-	$params['text'] = $text;
-	$result = elgg_trigger_plugin_hook('format_markdown', 'after', $params, $result);
-
-	return $result;
+	return elgg_trigger_plugin_hook('format_markdown', 'format', $params, $text);
 }
 
 
