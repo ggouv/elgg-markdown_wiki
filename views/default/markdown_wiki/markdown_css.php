@@ -252,7 +252,7 @@
     font-size: 13px;
     line-height: 19px;
     overflow: auto;
-    padding: 6px 10px;
+    padding: 5px 10px;
 }
 .markdown-body pre code, .markdown-body pre tt {
     background-color: transparent;

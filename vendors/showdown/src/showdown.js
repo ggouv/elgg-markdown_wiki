@@ -1269,7 +1269,7 @@ var _EncodeBackslashEscapes = function(text) {
 	// as an optimization for Firefox.  This function gets called a LOT.
 
 	text = text.replace(/\\(\\)/g,escapeCharacters_callback);
-	text = text.replace(/\\([`*_{}\[\]()>#+-.!])/g,escapeCharacters_callback);
+	text = text.replace(/\\([`*_{}\[\]()>#+-.!@~])/g,escapeCharacters_callback); // hack ggouv ! Added "@~". We don't want to parse again in extensions showdownggouv for code block to improve performance
 	return text;
 }
 

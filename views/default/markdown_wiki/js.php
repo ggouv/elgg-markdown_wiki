@@ -22,7 +22,7 @@ elgg.markdown_wiki.view.init = function() {
 		// convert markdown to html
 		var markdownOutput = $('.elgg-content .elgg-output.markdown-body');
 		if (markdownOutput.length) {
-			var converter = new Showdown.converter();
+			var converter = new Showdown.converter({ extensions: ['showdownggouv'] });
 			markdownOutput.replaceWith($('<div>', {class: 'elgg-output markdown-body'}).html(converter.makeHtml($('.elgg-output.markdown-body').html())));
 			$('pre code').each(function(i, e) {
 				if (e.className == '') $(e).addClass('no-highlight');
@@ -149,7 +149,7 @@ elgg.markdown_wiki.edit.init = function() {
 		});
 		
 		if (formWiki) {
-			var converter = new Showdown.converter(true).makeHtml;
+			var converter = new Showdown.converter({ extensions: ['showdownggouv'] }).makeHtml;
 			textarea.keyup(function() {
 				var text_md = converter(convertCodeBlocks(normalizeLineBreaks(textarea.val())));
 				if (!outputPane.hasClass('hidden')) {
@@ -211,11 +211,14 @@ elgg.markdown_wiki.discussion.init = function() {
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.discussion.init);
 
+
+
 // hook for galliComments plugin
 elgg.markdown_wiki.discussion.submit = function() {
 	if ($('.elgg-main .comments_order').attr('value') == 'desc')	return 'desc';
 }
 elgg.register_hook_handler('getOptions', 'galliComments.submit', elgg.markdown_wiki.discussion.submit);
+
 
 
 /**
@@ -247,6 +250,8 @@ elgg.markdown_wiki.compare.init = function() {
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.compare.init);
 
+
+
 /**
  * Elgg-markdown_wiki re-initialization for ajax call
  *
@@ -259,6 +264,8 @@ elgg.markdown_wiki.reload = function() {
 	elgg.markdown_wiki.discussion.init();
 	elgg.markdown_wiki.compare.init();
 }
+
+
 
 // End of js for elgg-markdown_wiki plugin
 

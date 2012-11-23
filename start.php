@@ -24,7 +24,9 @@ function markdown_wiki_init() {
 	
 	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
+	elgg_register_js('showdownggouv', "/mod/elgg-markdown_wiki/vendors/showdown/src/extensions/showdownggouv.js");
 	elgg_load_js('showdown');
+	elgg_load_js('showdownggouv');
 	elgg_register_js('highlight', "/mod/elgg-markdown_wiki/vendors/highlight/highlight.pack.js", 'footer', 100);
 	elgg_load_js('highlight');
 	elgg_extend_view('js/elgg', 'markdown_wiki/js');
@@ -290,54 +292,82 @@ function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue,
  */
 function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue, $params) {
 
+	// escape all markdown link in code block
+	function _escape_link_in_block($matches) {
+		if (substr($matches[0], -1) == '`') { // do this because 4 spaces regex eat last char, and it could be `
+			$last = true;
+			$matches[0] = substr_replace($matches[0], "", -1);
+		}
+		if ($matches[0][0] == '`') { // escape if first char is `
+			$first = true;
+			$matches[0] = substr($matches[0], 1);
+		}
+		$return = preg_replace('/`/', '„„', $matches[0]); // used with 4 spaces code block to escape ` inside block
+		if ($last) $return .= '`';
+		if ($first) $return = '`' . $return;
+		return preg_replace('/\]\(/U', '=]=(=', $return);
+	}
+	$returnvalue = preg_replace('{\r\n?}', "\n", $returnvalue); // 	# Standardize line endings: # DOS to Unix and Mac to Unix
+	$returnvalue = preg_replace_callback('/(?:^|\n)```.*\n```/Us', '_escape_link_in_block', $returnvalue); // github style code block (seems we don't need it because span code block do same thing
+	$returnvalue = preg_replace_callback('/\n\n(?:(?:[ ]{4}|\t).*\n+)+\n*[ ]{0,3}[^ \t\n]|(?=~0)/Um', '_escape_link_in_block', $returnvalue); // 4 spaces code block
+	$returnvalue = preg_replace_callback('/`+.*`/Um', '_escape_link_in_block', $returnvalue); // span style code block
+	$returnvalue = preg_replace('/„„/', '`', $returnvalue);
+
+	// search wiki page link
 	function _parse_link_callback($matches) {
+		if ($matches[0][0] == '!') return $matches[0]; // skip image ![image](linkOfImage)
 		// link
 		$array_match = explode('#', $matches[2]);
 		$link = rtrim($array_match[0], '/');
+		$html_link = urlencode($link);
 		$hash = $array_match[1] ? '#' . $array_match[1] : ''; // check if link is like (apage#aparagraph)
 		// title
 		$word = strip_tags(rtrim($matches[1], '/'));
-		
+		$html_word = urlencode($word);
+
 		$group = elgg_get_page_owner_guid();
 		$site_url = elgg_get_site_url();
 		$info = elgg_echo('markdown_wiki:create');
 		
 		if ( strpos($link, '://') !== false ){
 			if ( strpos($link, $site_url) === false ) { // external link
-				return "<a rel='nofollow' target='_blank' href='$link' class='external'>$matches[1]</a><span class='elgg-icon external'></span>";
+				return "<a rel='nofollow' target='_blank' href='" . $link . "' class='external'>$matches[1]</a><span class='elgg-icon external'></span>";
 			} else { // internal link with http://
-				return "<a href='$link'>$matches[1]</a>";
+				return '<a href="' . $link .'">' . $matches[1] . '</a>';
 			}
 		} else {
 			if (!$link) { // markdown syntax like [a link]() or [a link](#paragraph)
 				if ( $page_guid = search_markdown_wiki_by_title(rtrim($matches[1], '/'), $group) ) { // page exists
 					$page = get_entity($page_guid);
-					return "<a href='{$page->getUrl()}{$hash}'>$matches[1]</a>";
+					return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
 				} else { // page doesn't exists
-					return "<a href='{$site_url}wiki/search?container_guid=$group&q=$matches[1]' class='tooltip s new' title=\"{$info}\">$matches[1]</a>";
+					return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 				}
 			} else if (preg_match('/^wiki\/group\/(\\d+)\/page\/(.*)/', $link, $relative)) {
 				if ( is_numeric($relative[1]) ) {
 					if ( is_numeric($relative[2]) ) {
 						$page = get_entity($relative[2]);
-						return "<a href='{$page->getUrl()}{$hash}'>$matches[1]</a>";
+						return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
 					} elseif ( $page_guid = search_markdown_wiki_by_title($relative[2], $relative[1]) ) { // page exists
 						$page = get_entity($page_guid);
-						return "<a href='{$page->getUrl()}{$hash}'>$matches[1]</a>";
+						return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
 					} else { // page doesn't exists
-						return "<a href='{$site_url}wiki/search?container_guid={$relative[1]}&q=$relative[2]' class='tooltip s new' title=\"{$info}\">$matches[1]</a>";
+						$relative[2] = urlencode($relative[2]);
+						return "<a href='{$site_url}wiki/search?container_guid={$relative[1]}&q={$relative[2]}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 					}
 				} else {
-					return "<a href='{$site_url}wiki/search?container_guid=$group&q=$matches[1]' class='tooltip s new' title=\"{$info}\">$matches[1]</a>";
+					return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 				}
 			} elseif ( $page_guid = search_markdown_wiki_by_title($link, $group) ) { // page exists
 				$page = get_entity($page_guid);
-				return "<a href='{$page->getUrl()}{$hash}'>$matches[1]</a>";
+				return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
 			} else { // page doesn't exists
-				return "<a href='{$site_url}wiki/search?container_guid=$group&q=$link' class='tooltip s new' title=\"{$info}\">$matches[1]</a>";
+				return "<a href='{$site_url}wiki/search?container_guid=${group}&q={$html_link}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 			}
 		}
 	}
-
-	return preg_replace_callback("/\[(.*)\]\((.*)\)/U", '_parse_link_callback', $returnvalue);
+	$return = preg_replace_callback("/[!]?\[(.*)\]\((.*)\)/U", '_parse_link_callback', $returnvalue);
+	
+	// unescape link =]=(=
+	return preg_replace('/=\]=\(=/U', '](', $return);
 }
