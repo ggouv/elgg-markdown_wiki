@@ -101,6 +101,7 @@ $french = array(
 	 * Status and error messages
 	 */
 	'markdown_wiki:no_access' => "Vous ne pouvez pas éditer cette page.",
+	'markdown_wiki:no_group' => "Le groupe n'existe pas.",
 	'markdown_wiki:error:no_access' => "Vous n'avez pas la permission d'éditer cette page.",
 	'markdown_wiki:delete:success' => "Page supprimée.",
 	'markdown_wiki:delete:failure' => "La page n'a pas été supprimée.",

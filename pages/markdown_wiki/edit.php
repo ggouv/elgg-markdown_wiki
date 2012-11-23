@@ -20,7 +20,7 @@ $markdown_wiki = get_entity($markdown_wiki_guid);
 if (!$container_guid) $container_guid = $markdown_wiki->getContainerGUID();
 $container = get_entity($container_guid);
 
-if (!$container) {
+if (!$container || $container->type != 'group') {
 	register_error(elgg_echo('markdown_wiki:no_group'));
 	forward(REFERER);
 }

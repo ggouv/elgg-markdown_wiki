@@ -102,6 +102,7 @@ $english = array(
 	 * Status and error messages
 	 */
 	'markdown_wiki:no_access' => "You cannot edit this page.",
+	'markdown_wiki:no_group' => "Group doesn't exist.",
 	'markdown_wiki:error:no_access' => "You don't got permission to edit this page.",
 	'markdown_wiki:delete:success' => "Page deleted.",
 	'markdown_wiki:delete:failure' => "Page doesn't deleted.",
