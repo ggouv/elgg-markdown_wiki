@@ -20,7 +20,6 @@ function markdown_wiki_init() {
 	$root = dirname(__FILE__);
 	elgg_register_library('markdown_wiki:utilities', "$root/lib/utilities.php");
 	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
-	elgg_register_library('markdown_wiki:markdown', "$root/vendors/php-markdown/markdown.php");
 	
 	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");

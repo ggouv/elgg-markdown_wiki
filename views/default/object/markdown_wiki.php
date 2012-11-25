@@ -90,9 +90,8 @@ if ($full) {
 	));
 
 } else {	// brief view
-	elgg_load_library('markdown_wiki:markdown');
 	$value = unserialize($annotation->value);
-	$excerpt = elgg_get_excerpt(Markdown($value['text']));
+	$excerpt = elgg_get_excerpt($value['text']);
 
 	$params = array(
 		'entity' => $markdown_wiki,
