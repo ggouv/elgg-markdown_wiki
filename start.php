@@ -23,7 +23,7 @@ function markdown_wiki_init() {
 	
 	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
-	elgg_register_js('showdownggouv', "/mod/elgg-markdown_wiki/vendors/showdown/src/extensions/showdownggouv.js");
+	elgg_register_js('showdownggouv', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/extensions/showdownggouv.js");
 	elgg_load_js('showdown');
 	elgg_load_js('showdownggouv');
 	elgg_register_js('highlight', "/mod/elgg-markdown_wiki/vendors/highlight/highlight.pack.js", 'footer', 100);
