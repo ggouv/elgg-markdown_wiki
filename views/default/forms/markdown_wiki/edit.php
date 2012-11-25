@@ -20,32 +20,34 @@ foreach ($variables as $name => $type) {
 
 	switch ($name) {
 		case 'description': 
-			echo '<div class="description"><label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+			echo '<div class="description-wrapper"><div class="description"><label>' . elgg_echo("markdown_wiki:$name") . '</label>';
 				echo elgg_view("input/$type", array(
 					'name' => $name,
 					'value' => $vars[$name],
+					'class' => 'allWidth'
 				));
-			echo '</div><div class="previewPaneWrapper"><div class="prm">';
+			echo '</div><div class="pane-markdown"><div class="prm">';
 				echo elgg_view("input/dropdown", array(
-					'name' => 'previewPaneDisplay',
-					'value' => 'previewPane',
+					'name' => 'swich-pane',
+					'value' => 'preview-markdown',
 					'options_values' => array(
-						'previewPane' => elgg_echo('markdown_wiki:preview'),
-						'outputPane' => elgg_echo('markdown_wiki:HTML_output'),
-						'syntaxPane' => elgg_echo('markdown_wiki:syntax')
+						'preview-markdown' => elgg_echo('markdown_wiki:preview'),
+						'output-markdown' => elgg_echo('markdown_wiki:HTML_output'),
+						'help-markdown' => elgg_echo('markdown_wiki:syntax')
 					)
 				));
-				echo '<div id="previewPane" class="elgg-output pane markdown-body mlm pas"></div>';
-				echo '<div id="outputPane" class="pane hidden mlm pas"></div>';
-					if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
-						echo elgg_view('markdown_wiki/syntax/' . $user->language);
-					} else {
-						echo elgg_view('markdown_wiki/syntax/en');
-					}
-			echo '</div></div>';
+				echo '<div class="pane preview-markdown markdown-body mlm pas"></div>';
+				echo '<div class="pane output-markdown hidden mlm pas"></div>';
+				if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
+					echo elgg_view('markdown_wiki/syntax/' . $user->language);
+				} else {
+					echo elgg_view('markdown_wiki/syntax/en');
+				}
+				echo '</div></div></div>';
 			break;
+		
 		case 'summary':
-			echo '<div class="summary">';
+			echo '<div class="summary ptl">';
 			echo elgg_trigger_plugin_hook('markdown_wiki_edit', 'summary', $vars['guid'], '');
 			echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
 			echo elgg_view("input/$type", array(
@@ -58,8 +60,10 @@ foreach ($variables as $name => $type) {
 			echo elgg_echo('markdown_wiki:minorchange');
 			echo '</div>';
 			break;
+		
 		case 'tags':
 			break;
+		
 		case 'write_access_id':
 			if ($user) {
 				$entity = get_entity($vars['guid']);
@@ -79,12 +83,14 @@ foreach ($variables as $name => $type) {
 				}
 			}
 			break;
+		
 		case 'title';
 			echo elgg_view("input/$type", array(
 				'name' => $name,
 				'value' => $vars[$name],
 			));
 			break;
+		
 		case 'guid':
 			if ($vars['guid']) {
 				echo elgg_view("input/$type", array(
@@ -93,6 +99,7 @@ foreach ($variables as $name => $type) {
 				));
 			}
 			break;
+		
 		default:
 			$viewInput = elgg_view("input/$type", array(
 				'name' => $name,
@@ -103,6 +110,7 @@ foreach ($variables as $name => $type) {
 			} else {
 				echo $viewInput;
 			}
+			break;
 	}
 
 }

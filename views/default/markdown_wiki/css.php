@@ -11,9 +11,6 @@
  /*
   * view and search
   */
-.elgg-output.markdown-body a.new {
-	color: red;
-}
 .elgg-icon.external {
 	background-position: 0 -252px;
 	background-size: 8px auto;
@@ -154,56 +151,59 @@
 		margin-top: 5px;
 	}
 }
-.elgg-form-markdown-wiki-edit .description, .previewPaneWrapper {
+.elgg-form-markdown-wiki-edit .description, .pane-markdown {
 	float: left;
 	width: 50%;
 	clear: none;
 }
-.elgg-form-markdown-wiki-edit .elgg-input-markdown {
-	overflow: hidden;
-}
-.previewPaneWrapper .elgg-input-dropdown {
+.pane-markdown .elgg-input-dropdown {
 	margin-left: 10px;
 }
-.elgg-input-markdown, .previewPaneWrapper .pane {
+.input-markdown {
+	overflow: hidden;
 	resize: none;
 }
-.previewPaneWrapper .pane {
+.pane-markdown .pane {
 	border: 1px solid #CCCCCC;
 	margin-top: 0px;
+	resize: none;
 }
-#previewPane {
+.preview-markdown {
+	overflow: auto;
+	display: table;
+}
+.output-markdown {
 	margin-right: -10px;
 	min-height: 188px;
 	overflow: auto;
 }
-#outputPane {
+.output-markdown {
 	color: black;
 	background-color: #F0F0F0;
 	font-size: 110%;
 	display: table;
 }
-#outputPane.hidden {
+.output-markdown.hidden {
 	display: none;
 }
-#outputPane > pre {
+.output-markdown > pre {
 	margin: 0;
 	padding: 0;
 }
-#outputPane > pre > code {
+.output-markdown > pre > code {
 	padding: 0;
 }
-#outputPane > pre > code .tag {
+.output-markdown > pre > code .tag {
 	padding: 0;
 	color: grey;
 }
-#outputPane > pre > code .title {
+.output-markdown > pre > code .title {
 	color: grey;
 }
-#outputPane > pre > code .value {
+.output-markdown > pre > code .value {
 	color: SlateGrey;
 }
-#syntaxPane {
+.help-markdown {
 	color: black;
 	background-color: #FFC;
 	font-size: 100%;
@@ -211,35 +211,38 @@
 	border: medium none;
 	overflow: auto;
 }
-#syntaxPane  h3 span {
+.help-markdown h3 span {
 	color: #999999;
 	font-size: 0.8em;
 	line-height: 2em;
 	padding-left: 3px;
 }
-#syntaxPane a.elgg-widget-collapse-button {
+.help-markdown a.elgg-widget-collapse-button {
 	color: #555;
 }
-#syntaxPane pre {
+.help-markdown pre {
 	background-color: #FFF38B;
 	line-height: 1.4em;
 }
-#syntaxPane .spaces {
+.help-markdown .spaces {
 	background-color: white;
 	border-right: 2px solid #FFF38B;
 }
-#syntaxPane .bl {
+.help-markdown .bl {
 	background-color: white;
 	color: gray;
 	float: left;
 	padding: 0 10px;
 }
-#syntaxPane .hi {
+.help-markdown .hi {
 	background-color: #CCCCCC;
 	border-right: 2px solid #FFF38B;
 }
 .elgg-form-markdown-wiki-edit .summary {
 	clear: both;
+}
+.preview-markdown a.new {
+	color: red;
 }
 
 /*

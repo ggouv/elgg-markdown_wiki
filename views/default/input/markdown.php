@@ -15,27 +15,14 @@
  */
 
 if (isset($vars['class'])) {
-	$vars['class'] = "elgg-input-markdown {$vars['class']}";
+	$vars['class'] = "input-markdown {$vars['class']}";
 } else {
-	$vars['class'] = "elgg-input-markdown";
+	$vars['class'] = "input-markdown";
 }
-
-$defaults = array(
-	'value' => '',
-	'id' => 'elgg-input-' . rand(), //@todo make this more robust
-);
-
-$vars = array_merge($defaults, $vars);
 
 $value = $vars['value'];
 unset($vars['value']);
-/*
-echo elgg_view_menu('markdown', array(
-	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz',
-	'id' => $vars['id'],
-));
-*/
+
 ?>
 
 <textarea <?php echo elgg_format_attributes($vars); ?>>

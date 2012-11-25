@@ -12,7 +12,7 @@
 $clickToExpand = elgg_echo('markdown_wiki:syntax:clicktoexpand');
 
 $body = <<<HTML
-<div id="syntaxPane" class="pane hidden mlm pas">
+<div class="pane help-markdown hidden mlm pas">
 
 <h2>Manuel d'écriture markdown</h2>
 
