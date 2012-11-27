@@ -20,12 +20,13 @@ foreach ($variables as $name => $type) {
 
 	switch ($name) {
 		case 'description': 
-			echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
-				echo elgg_view("input/$type", array(
-					'name' => $name,
-					'value' => $vars[$name],
-					'class' => 'allWidth'
-				));
+			echo '<div><label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+			echo elgg_view("input/$type", array(
+				'name' => $name,
+				'value' => $vars[$name],
+				'cansave' => true,
+				'class' => 'allWidth'
+			)) . '</div>';
 			break;
 		
 		case 'summary':

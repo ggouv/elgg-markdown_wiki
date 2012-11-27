@@ -29,6 +29,7 @@ function markdown_wiki_init() {
 	elgg_register_js('highlight', "/mod/elgg-markdown_wiki/vendors/highlight/highlight.pack.js", 'footer', 100);
 	elgg_load_js('highlight');
 	elgg_extend_view('js/elgg', 'markdown_wiki/js');
+	elgg_extend_view('js/elgg', 'markdown_wiki/editor_js');
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
 	elgg_extend_view('css/elgg', 'markdown_wiki/markdown_css');
 	elgg_extend_view('css/elgg', 'markdown_wiki/highlight_css');

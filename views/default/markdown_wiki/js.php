@@ -120,7 +120,7 @@ elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.history.init);
 elgg.markdown_wiki.resizePanes = function(textarea, previewPane, outputPane, syntaxPane) {
 	var textareaHeight = $.browser.mozilla ? textarea.get(0).scrollHeight + 10 : textarea.get(0).scrollHeight,
 		areawidth = textarea.hasClass('allWidth') ? 0 : 11;
-		previewHeight = previewPane.width(textarea.width() - areawidth).hasClass('hidden') ? 0 : previewPane.innerHeight(),
+		previewHeight = previewPane.width(textarea.width() - areawidth).hasClass('hidden') ? 0 : previewPane.get(0).scrollHeight,
 		outputHeight = outputPane.hasClass('hidden') ? 0 : outputPane.innerHeight(),
 		maxHeight = Math.max(outputHeight, previewHeight, textareaHeight, 188); // min-height: 188px
 	
@@ -161,6 +161,8 @@ elgg.markdown_wiki.edit.init = function() {
 				syntaxPane = wrapper.find('.help-markdown'),
 				converter = new Showdown.converter({ extensions: ['showdownggouv'] }).makeHtml;
 			
+			if (textarea.hasClass('editor')) textarea.wysiwym();
+			
 			// livepreview: convert markdown at each keyup !
 			$(this).keyup(function() {
 				var text_md = converter(convertCodeBlocks(normalizeLineBreaks(textarea.val())));
@@ -173,6 +175,23 @@ elgg.markdown_wiki.edit.init = function() {
 			}).trigger('keyup');
 			
 			// Buttons
+			$(this).click(function(e) {
+				var liveeditor = $(this).parents('.description-wrapper').find('.markdown-editor'),
+					pos = e.pageY - textarea.offset().top,
+					oldpos = parseInt(liveeditor.css('top'));
+				
+				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('top').css({top: 0});
+				if (pos < 190) pos = 31;
+				if (Math.abs(oldpos - pos+50) > 10) {
+					liveeditor.removeClass('hidden top').animate({top: pos -50, opacity: 0.3}, '', function() {
+						if (pos < 190) {
+							liveeditor.addClass('top');
+						} else {
+							liveeditor.removeClass('top');
+						}
+					});
+				}
+			});
 			wrapper.find('.toggle-preview').click(function() {
 				if ($(this).html() == 'e') {
 					$(this).html('y');

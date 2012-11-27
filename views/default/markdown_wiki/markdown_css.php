@@ -74,6 +74,12 @@
 .markdown-body h1 + p, .markdown-body h2 + p, .markdown-body h3 + p, .markdown-body h4 + p, .markdown-body h5 + p, .markdown-body h6 + p {
     margin-top: 0;
 }
+.markdown-body ol {
+    list-style-type: decimal;
+}
+.markdown-body ul {
+    list-style-type: disc;
+}
 .markdown-body li p.first {
     display: inline-block;
 }

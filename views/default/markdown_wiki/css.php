@@ -169,7 +169,6 @@
 }
 .preview-markdown {
 	overflow: auto;
-	display: table-caption;
 }
 @-moz-document url-prefix() { /* hack Firefox */
 	.preview-markdown {
