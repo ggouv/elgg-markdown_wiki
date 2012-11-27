@@ -19,7 +19,7 @@ foreach ($variables as $name => $type) {
 	if ($name != 'summary') $input[$name] = get_input($name);
 	if ($name == 'title') $input[$name] = strip_tags($input[$name]);
 	if ($type == 'tags') $input[$name] = string_to_tag_array($input[$name]);
-	if ($name == 'description') $input[$name] = strip_tags($_REQUEST[$name], '<iframe><img><div><span><br><table><th><tr><td><a>');
+	if ($name == 'description') $input[$name] = get_markdown_input($_REQUEST[$name]);
 }
 
 elgg_make_sticky_form('markdown_wiki');

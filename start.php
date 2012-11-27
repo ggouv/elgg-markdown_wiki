@@ -80,7 +80,6 @@ function markdown_wiki_init() {
 
 	// Parse link
 	elgg_register_plugin_hook_handler('format_markdown', 'format', 'markdown_wiki_parse_link_plugin_hook', 600);
-
 }
 
 
@@ -369,4 +368,20 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 	
 	// unescape link =]=(=
 	return preg_replace('/=\]=\(=/U', '](', $return);
+}
+
+
+
+/**
+ * Function to replace get_input. Skip htmlawed, so we use strips_tags.
+ * Markdown use link like <http://example.com>
+ * 
+ * @return string
+ */
+function get_markdown_input($text) {
+	$text = preg_replace('/<(https?|ftp|dict):/U', '%%%$1:', $text);
+	$text = strip_tags($text, '<iframe><img><div><span><br><table><th><tr><td>');
+	$text = str_replace(array('\r\n', '\n'), chr(13), $text);
+	$text = preg_replace('/%%%/U', '<', $text);
+	return $text;
 }

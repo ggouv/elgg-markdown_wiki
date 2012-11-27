@@ -116,9 +116,10 @@
     margin-bottom: 0;
 }
 .markdown-body blockquote {
-    border-left: 4px solid #DDDDDD;
-    color: #777777;
-    padding: 0 15px;
+    background-color: rgba(0, 110, 255, 0.1);
+    border-left: 4px solid rgba(0, 0, 0, 0.1);
+    color: #555;
+    padding-left: 15px;
 }
 .markdown-body blockquote > *:first-child {
     margin-top: 0;

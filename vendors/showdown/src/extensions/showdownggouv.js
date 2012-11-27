@@ -51,7 +51,10 @@
 			}},
 			
 			// pro/con
-			{ type: 'html', regex: '(?:|\\n){(pro|con|not)\\s(.*)\\n([\\s\\S]*?)\\n}', replace: function(match, type, title, content) {
+			{ type: 'html', regex: '(?:|\\n){(\\+|0|\\-)\\s(.*)\\n([\\s\\S]*?)\\n}', replace: function(match, type, title, content) {
+				if (type == '+') type = 'pro';
+				if (type == '0') type = 'not';
+				if (type == '-') type = 'con';
 				return '%%%<div class="' + type + '@@@"><div>' + title + '</div>' + content + '</div>%%%';
 			}},
 			{ type: 'html', regex: '%%%%%%', replace: ''},
