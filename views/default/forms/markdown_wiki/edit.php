@@ -20,34 +20,16 @@ foreach ($variables as $name => $type) {
 
 	switch ($name) {
 		case 'description': 
-			echo '<div class="description-wrapper"><div class="description"><label>' . elgg_echo("markdown_wiki:$name") . '</label>';
+			echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
 				echo elgg_view("input/$type", array(
 					'name' => $name,
 					'value' => $vars[$name],
 					'class' => 'allWidth'
 				));
-			echo '</div><div class="pane-markdown"><div class="prm">';
-				echo elgg_view("input/dropdown", array(
-					'name' => 'swich-pane',
-					'value' => 'preview-markdown',
-					'options_values' => array(
-						'preview-markdown' => elgg_echo('markdown_wiki:preview'),
-						'output-markdown' => elgg_echo('markdown_wiki:HTML_output'),
-						'help-markdown' => elgg_echo('markdown_wiki:syntax')
-					)
-				));
-				echo '<div class="pane preview-markdown markdown-body mlm pas"></div>';
-				echo '<div class="pane output-markdown hidden mlm pas"></div>';
-				if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
-					echo elgg_view('markdown_wiki/syntax/' . $user->language);
-				} else {
-					echo elgg_view('markdown_wiki/syntax/en');
-				}
-				echo '</div></div></div>';
 			break;
 		
 		case 'summary':
-			echo '<div class="summary ptl">';
+			echo '<div class="summary">';
 			echo elgg_trigger_plugin_hook('markdown_wiki_edit', 'summary', $vars['guid'], '');
 			echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label>';
 			echo elgg_view("input/$type", array(

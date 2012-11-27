@@ -1,30 +1,68 @@
 <?php
 /**
- *	Elgg-markdown_wiki plugin
+ *	Elgg-markdown_wiki plugin
  *	@package elgg-markdown_wiki
  *	@author Emmanuel Salomon @ManUtopiK
  *	@license GNU Affero General Public License, version 3 or late
  *	@link https://github.com/ManUtopiK/elgg-markdown_wiki
  *
  *	Elgg-markdown_wiki markdown text input
- *	Displays a markdown text input field that can use WYSIWYG editor
+ *	Displays a markdown text input field that can use WYSIWYM editor
  *
  * @uses $vars['value']    The current value, if any - will be html encoded
+ * @uses $vars['preview']  False to disable preview, toggle for toggled preview. defaut TRUE
  * @uses $vars['disabled'] Is the input field disabled?
  * @uses $vars['class']    Additional CSS class
  */
+$user = elgg_get_logged_in_user_entity();
 
-if (isset($vars['class'])) {
-	$vars['class'] = "input-markdown {$vars['class']}";
+$preview = elgg_extract('preview', $vars, true);
+$disabled = elgg_extract('disabled', $vars, false);
+
+if ($preview === false) {
+	$vars['class'] = "{$vars['class']} allWidth";
+} else if ($preview === 'toggle') {
+	$vars['class'] = "{$vars['class']} allWidth hidden";
 } else {
-	$vars['class'] = "input-markdown";
+	$preview = '';
+	$vars['class'] = "{$vars['class']}";
 }
 
-$value = $vars['value'];
-unset($vars['value']);
+if (isset($vars['class'])) {
+	$vars['class'] = "pane input-markdown {$vars['class']}";
+} else {
+	$vars['class'] = "pane input-markdown";
+}
+
+echo elgg_view_menu('markdown', array(
+	'sort_by' => 'priority',
+	'class' => 'elgg-menu-hz',
+	'id' => $vars['id'],
+));
 
 ?>
 
-<textarea <?php echo elgg_format_attributes($vars); ?>>
-<?php echo $value; ?>
-</textarea>
+<div class="description-wrapper float"><div class="description">
+	<?php if ($preview === 'toggle') {
+		echo '<div class="toggle-preview gwf">e</div>';
+	} else {
+		if (!$disabled) echo elgg_view('input/markdown-editor');
+	}
+	
+	echo '<textarea ' . elgg_format_attributes($vars) . '>' . $vars['value'] . '</textarea></div>';
+	
+	if ($preview !== false) { ?>
+		<div class="pane-markdown<?php echo ' '.$preview; ?>">
+			<div class="pane preview-markdown markdown-body mlm pas"></div>
+			<div class="pane output-markdown hidden mlm pas"></div>
+			<div class="pane help-markdown hidden mlm pas"><?php echo elgg_echo('ggouv:longtext:help');?></div>
+			<?php
+				if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
+					echo elgg_view('markdown_wiki/syntax/' . $user->language);
+				} else {
+					echo elgg_view('markdown_wiki/syntax/en');
+				}
+			?>
+		</div>
+	<?php }?>
+</div>

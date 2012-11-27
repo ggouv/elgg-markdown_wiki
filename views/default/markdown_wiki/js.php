@@ -18,20 +18,18 @@
 elgg.provide('elgg.markdown_wiki.view');
 
 elgg.markdown_wiki.view.init = function() {
-	$(document).ready(function() {
-		// convert markdown to html
-		var markdownOutput = $('.elgg-output.markdown-body');
-		if (markdownOutput.length) {
-			$.each(markdownOutput, function() {
-				var converter = new Showdown.converter({ extensions: ['showdownggouv'] });
-				$(this).replaceWith($('<div>', {class: 'elgg-output markdown-body'}).html(converter.makeHtml($(this).html())));
-				$('pre code').each(function(i, e) {
-					if (e.className == '') $(e).addClass('no-highlight');
-					hljs.highlightBlock(e);
-				});
+	// convert markdown to html
+	var markdownOutput = $('.elgg-output.markdown-body');
+	if (markdownOutput.length) {
+		$.each(markdownOutput, function() {
+			var converter = new Showdown.converter({ extensions: ['showdownggouv'] });
+			$(this).replaceWith($('<div>', {class: 'elgg-output markdown-body'}).html(converter.makeHtml($(this).html())));
+			$('pre code').each(function(i, e) {
+				if (e.className == '') $(e).addClass('no-highlight');
+				hljs.highlightBlock(e);
 			});
-		}
-	});
+		});
+	}
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.view.init);
 
@@ -156,7 +154,8 @@ elgg.markdown_wiki.edit.init = function() {
 	$(document).ready(function() {
 		$.each($('textarea.input-markdown'), function() {
 			var textarea = $(this),
-				wrapper = textarea.parents('fieldset'),
+				wrapper = textarea.parents('.description-wrapper'),
+				editor = wrapper.find('.markdown-editor'),
 				previewPane = wrapper.find('.preview-markdown'),
 				outputPane = wrapper.find('.output-markdown'),
 				syntaxPane = wrapper.find('.help-markdown'),

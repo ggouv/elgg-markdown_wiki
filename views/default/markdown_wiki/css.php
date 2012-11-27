@@ -145,23 +145,22 @@
 /*
  * Editor
  */
- /* hack Chrome / Safari */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-	.elgg-form-markdown-wiki-edit .description {
-		margin-top: 5px;
-	}
+.description-wrapper {
+	width: 100%;
+	margin: 1px 0 15px 0;
 }
-.elgg-form-markdown-wiki-edit .description, .pane-markdown {
+.description-wrapper .description, .pane-markdown {
 	float: left;
 	width: 50%;
 	clear: none;
-}
-.pane-markdown .elgg-input-dropdown {
-	margin-left: 10px;
+	position: relative;
 }
 .input-markdown {
 	overflow: hidden;
 	resize: none;
+}
+.pane-markdown .elgg-input-dropdown {
+	margin-left: 10px;
 }
 .pane-markdown .pane {
 	border: 1px solid #CCCCCC;
@@ -170,7 +169,12 @@
 }
 .preview-markdown {
 	overflow: auto;
-	display: table;
+	display: table-caption;
+}
+@-moz-document url-prefix() { /* hack Firefox */
+	.preview-markdown {
+		margin-top: 1px !important;
+	}
 }
 .output-markdown {
 	margin-right: -10px;
@@ -244,6 +248,8 @@
 .preview-markdown a.new {
 	color: red;
 }
+
+
 
 /*
  * Discussion
