@@ -62,8 +62,8 @@ $content = elgg_trigger_plugin_hook('markdown_wiki_discussion', 'header', $markd
 
 $form_vars = array('name' => 'elgg_add_comment');
 $vars['entity'] = $markdown_wiki;
+$vars['order'] = 'desc';
 $content .= elgg_view_form('comments/add', $form_vars, $vars);
-$content .= '<div class="comments_order hidden" value="desc"></div>';
 
 $content .= elgg_list_annotations(array(
 	'types' => 'object',
@@ -78,10 +78,7 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/sidebar/sidebar_tagcloud_block', array(
-		'subtypes' => array('markdown_wiki'),
-		'container_guid' => $container_guid,
-	)),
+	'sidebar' => elgg_view('markdown_wiki/sidebar/sidebar'),
 ));
 
 echo elgg_view_page($title, $body);
