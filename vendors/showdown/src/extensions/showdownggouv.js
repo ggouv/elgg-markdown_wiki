@@ -67,6 +67,7 @@
 			// unescape ! and @. Don't need #
 			{ type: 'html', regex: '\\\\!', replace: '!'},
 			{ type: 'html', regex: '\\\\@', replace: '@'},
+			{ type: 'html', regex: '\\\\#', replace: '#'},
 		];
 	};
 	

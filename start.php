@@ -323,7 +323,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			$array_match = explode('#', $matches[2]);
 			$link = rtrim($array_match[0], '/');
 			$html_link = urlencode($link);
-			$hash = $array_match[1] ? '#' . $array_match[1] : ''; // check if link is like (apage#aparagraph)
+			$hash = $array_match[1] ? '\#' . $array_match[1] : ''; // check if link is like (apage#aparagraph)
 			// title
 			$word = strip_tags(rtrim($matches[1], '/'));
 			$html_word = urlencode($word);
@@ -347,7 +347,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					} else { // page doesn't exists
 						return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 					}
-				} else if (preg_match('/^wiki\/group\/(\\d+)\/page\/(.*)/', $link, $relative)) {
+				} else if (preg_match('/^wiki\/group\/(\\w+)\/page\/(.*)/', $link, $relative)) {
 					if ( is_numeric($relative[1]) ) {
 						if ( is_numeric($relative[2]) ) {
 							$page = get_entity($relative[2]);
@@ -358,6 +358,14 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 						} else { // page doesn't exists
 							$relative[2] = urlencode($relative[2]);
 							return "<a href='{$site_url}wiki/search?container_guid={$relative[1]}&q={$relative[2]}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
+						}
+					} else if ($gtitle = search_group_by_title($relative[1])) {
+						if ( $page_guid = search_markdown_wiki_by_title($relative[2], $gtitle) ) { // page exists
+							$page = get_entity($page_guid);
+							return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
+						} else { // page doesn't exists
+							$relative[2] = urlencode($relative[2]);
+							return "<a href='{$site_url}wiki/search?container_guid={$gtitle}&q={$relative[2]}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 						}
 					} else {
 						return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
