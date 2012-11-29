@@ -71,7 +71,7 @@ foreach ($tabs as $name => $tab) {
 	echo '</div>';
 	
 	if ($preview !== false) { 
-		echo elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu'));
+		echo elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu prs'));
 	?>
 		<div class="pane-markdown<?php if ($preview !== true) echo ' ' . $preview; ?>">
 			<div class="pane preview-markdown markdown-body mlm pas"></div>

@@ -149,11 +149,16 @@
 	width: 100%;
 	margin: 1px 0 15px 0;
 }
-.description {
+fieldset .description {
 	float: left;
 	width: 50%;
 	clear: none;
 	position: relative;
+}
+@-moz-document url-prefix() { /* hack Firefox */
+	fieldset .description {
+		margin-top: -1px !important;
+	}
 }
 .input-markdown {
 	overflow: hidden;
@@ -201,11 +206,6 @@
 }
 .preview-markdown {
 	overflow: auto;
-}
-@-moz-document url-prefix() { /* hack Firefox 
-	.preview-markdown {
-		margin-top: 1px !important;
-	}*/
 }
 .output-markdown {
 	min-height: 188px;

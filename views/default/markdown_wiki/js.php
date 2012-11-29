@@ -182,7 +182,8 @@ elgg.markdown_wiki.edit.init = function() {
 					oldpos = parseInt(liveeditor.css('top'));
 				
 				menu.stop(true, true).fadeIn(500);
-				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('fly').css({top: 0});
+				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('fly').css({top: 0, opacity: 0});
+				$('.markdown-menu').not(menu).stop(true).fadeOut(500);
 				if (pos < 190) {
 					pos = 31;
 				} else {
