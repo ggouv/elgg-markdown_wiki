@@ -119,8 +119,7 @@ elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.history.init);
  */
 elgg.markdown_wiki.resizePanes = function(textarea, previewPane, outputPane, syntaxPane) {
 	var textareaHeight = $.browser.mozilla ? textarea.get(0).scrollHeight + 10 : textarea.get(0).scrollHeight,
-		areawidth = textarea.hasClass('allWidth') ? 0 : 11;
-		previewHeight = previewPane.width(textarea.width() - areawidth).hasClass('hidden') ? 0 : previewPane.get(0).scrollHeight,
+		previewHeight = previewPane.hasClass('hidden') ? 0 : previewPane.get(0).scrollHeight,
 		outputHeight = outputPane.hasClass('hidden') ? 0 : outputPane.innerHeight(),
 		maxHeight = Math.max(outputHeight, previewHeight, textareaHeight, 188); // min-height: 188px
 	
@@ -128,7 +127,7 @@ elgg.markdown_wiki.resizePanes = function(textarea, previewPane, outputPane, syn
 	
 	textarea.innerHeight(maxHeight + 10 + 2); // padding (cannot set to textarea) + border
 	outputPane.innerHeight(maxHeight);
-	syntaxPane.innerHeight(maxHeight + 2);
+	syntaxPane.innerHeight(maxHeight);
 }
 
 
@@ -155,7 +154,7 @@ elgg.markdown_wiki.edit.init = function() {
 		$.each($('textarea.input-markdown'), function() {
 			var textarea = $(this),
 				wrapper = textarea.parents('.description-wrapper'),
-				editor = wrapper.find('.markdown-editor'),
+				menu = wrapper.find('.markdown-menu'),
 				previewPane = wrapper.find('.preview-markdown'),
 				outputPane = wrapper.find('.output-markdown'),
 				syntaxPane = wrapper.find('.help-markdown'),
@@ -164,7 +163,9 @@ elgg.markdown_wiki.edit.init = function() {
 			if (textarea.hasClass('editor')) textarea.wysiwym();
 			
 			// livepreview: convert markdown at each keyup !
-			$(this).keyup(function() {
+			textarea.keyup(function() {
+				wrapper.find('.markdown-editor').stop(true, true);
+				menu.stop(true, true);
 				var text_md = converter(convertCodeBlocks(normalizeLineBreaks(textarea.val())));
 				previewPane.html(text_md);
 				
@@ -172,28 +173,45 @@ elgg.markdown_wiki.edit.init = function() {
 					outputPane.html( convertCodeBlocks(normalizeLineBreaks('```html\r\n' + text_md + '\r\n```')) );
 				}
 				elgg.markdown_wiki.resizePanes(textarea, previewPane, outputPane, syntaxPane);
-			}).trigger('keyup');
-			
-			// Buttons
-			$(this).click(function(e) {
+			})
+			.trigger('keyup')
+			.click(function(e) { // Buttons
 				var liveeditor = $(this).parents('.description-wrapper').find('.markdown-editor'),
 					pos = e.pageY - textarea.offset().top,
+					opa = 1;
 					oldpos = parseInt(liveeditor.css('top'));
 				
-				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('top').css({top: 0});
-				if (pos < 190) pos = 31;
+				menu.stop(true, true).fadeIn(500);
+				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('fly').css({top: 0});
+				if (pos < 190) {
+					pos = 31;
+				} else {
+					opa = 0.3;
+				}
 				if (Math.abs(oldpos - pos+50) > 10) {
-					liveeditor.removeClass('hidden top').animate({top: pos -50, opacity: 0.3}, '', function() {
-						if (pos < 190) {
-							liveeditor.addClass('top');
+					liveeditor.stop(true).removeClass('hidden').css({display: 'block'}).animate({top: pos -50, opacity: opa}, '', function() {
+						if (pos > 190) {
+							liveeditor.addClass('fly');
 						} else {
-							liveeditor.removeClass('top');
+							liveeditor.removeClass('fly');
 						}
 					});
 				}
+			})
+			.focusout(function() {
+				menu.delay(1000).fadeOut(500);
+				wrapper.find('.markdown-editor').delay(1000).fadeOut(500, function(){$(this).css({top: 0, opacity: 0}).removeClass('fly').addClass('hidden')});
 			});
-			wrapper.find('.toggle-preview').click(function() {
-				if ($(this).html() == 'e') {
+			
+			// menus
+			menu.find('li').click(function() {
+				$(this).parent().find('li').removeClass('elgg-state-selected');
+				var pane = $(this).addClass('elgg-state-selected').last().attr('class').split(' ')[0].split('-').pop(-1), // get pane name
+					paneS = wrapper.find('.'+pane+'-markdown');
+
+				wrapper.find('.pane').removeClass('hidden').not(paneS).addClass('hidden');
+				textarea.click().keyup();
+				/*if ($(this).html() == 'e') {
 					$(this).html('y');
 					wrapper.find('.pane').addClass('hidden');
 					textarea.removeClass('hidden');
@@ -205,7 +223,8 @@ elgg.markdown_wiki.edit.init = function() {
 			});
 			if (textarea.val() == '') {
 				wrapper.find('.toggle-preview').click();
-			}
+			}*/
+			});
 		});
 		
 		function normalizeLineBreaks(str, lineEnd) {

@@ -17,7 +17,7 @@ var Wysiwym = {};
 
 $.fn.wysiwym = function(options) {
 	this.EDITORCLASS = null;							// Class to use for the wysiwym editor
-	this.BUTTONCLASS = 'markdown-editor hidden top';	// Class to use for the wysiwym buttons
+	this.BUTTONCLASS = 'markdown-editor hidden fly';	// Class to use for the wysiwym buttons
 	this.textelem = this;								// Javascript textarea element
 	this.textarea = $(this);							// jQuery textarea object
 	this.markup = new Wysiwym.Markdown(this);			// Wysiwym Markup set to use
@@ -583,7 +583,7 @@ Wysiwym.block = function(event) {
  * Handles auto-indentation when enter is pressed
  *--------------------------------------------------------------------------------------------- */
 Wysiwym.autoIndent = function(event) {
-console.log(event.keyCode);
+
 	// ctrl or command key
 	if (event.metaKey) {
 		var wrapper = $(event.currentTarget).parents('.description-wrapper');
@@ -599,8 +599,9 @@ console.log(event.keyCode);
 			if (wrapper.hasClass('cansave')) {
 				var fieldset = $(event.currentTarget).parents('fieldset');
 				fieldset.find('.elgg-button-submit').click();
+				return false;
 			}
-			return false;
+			return true;
 		}
 	}
 	
@@ -617,7 +618,7 @@ console.log(event.keyCode);
 			if (event.shiftKey) {
 				wysiwym.selection.removeLinePrefixes('    ');
 			} else {
-				wysiwym.selection.setLinePrefixes('    ');
+				wysiwym.selection.addLinePrefixes('    ');
 			}
 			wysiwym.update();
 			return false;
@@ -682,8 +683,8 @@ Wysiwym.Markdown = function(textarea) {
 		new Wysiwym.Button('italic', Wysiwym.span, {prefix:'_', suffix:'_',  text:'italic text'}),
 		new Wysiwym.Button('strike', Wysiwym.span, {prefix:'~~', suffix:'~~',  text:'strike text'}),
 		new Wysiwym.Button('sep'),
-		new Wysiwym.Button('link', Wysiwym.span, {prefix:'[', suffix:'](http://example.com)', text:'link text'}),
-		new Wysiwym.Button('image', Wysiwym.span, {prefix:'![', suffix:'](http://example.com)', text:'image text'}),
+		new Wysiwym.Button('link', Wysiwym.span, {prefix:'[', suffix:']()', text:'link text'}),
+		new Wysiwym.Button('image', Wysiwym.span, {prefix:'![', suffix:']()', text:'image text'}),
 		new Wysiwym.Button('sep'),
 		new Wysiwym.Button('bullet', Wysiwym.list, {prefix:'* ', wrap:true}),
 		new Wysiwym.Button('numeric', Wysiwym.list, {prefix:'0. ', wrap:true, regex:/^\s*\d+\.\s/}),

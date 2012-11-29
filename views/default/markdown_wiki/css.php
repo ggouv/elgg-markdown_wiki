@@ -149,7 +149,7 @@
 	width: 100%;
 	margin: 1px 0 15px 0;
 }
-.description-wrapper .description, .pane-markdown {
+.description {
 	float: left;
 	width: 50%;
 	clear: none;
@@ -158,6 +158,38 @@
 .input-markdown {
 	overflow: hidden;
 	resize: none;
+}
+.markdown-menu {
+	border: medium none;
+	float: right;
+	font-size: 90%;
+	margin: -20px 10px 0 0;
+	width: auto;
+	display: none;
+}
+.markdown-menu > li {
+	border-width: 1px 1px 0;
+}
+.markdown-menu > .elgg-state-selected {
+	z-index: 1;
+}
+.markdown-menu > li > a {
+	height: 19px;
+	padding: 0 8px;
+}
+.markdown-menu > .elgg-state-selected > a {
+	top: 1px;
+	border-radius: 2px 2px 0 0;
+}
+.markdown-menu > .elgg-menu-item-output.elgg-state-selected {
+	background-color: #F8F8FF;
+}
+.markdown-menu > .elgg-menu-item-help.elgg-state-selected {
+	background-color: #FFFFCC;
+}
+.pane-markdown {
+	float: left;
+	width: 50%;
 }
 .pane-markdown .elgg-input-dropdown {
 	margin-left: 10px;
@@ -170,30 +202,21 @@
 .preview-markdown {
 	overflow: auto;
 }
-@-moz-document url-prefix() { /* hack Firefox */
+@-moz-document url-prefix() { /* hack Firefox 
 	.preview-markdown {
 		margin-top: 1px !important;
-	}
+	}*/
 }
 .output-markdown {
-	margin-right: -10px;
 	min-height: 188px;
 	overflow: auto;
-}
-.output-markdown {
-	color: black;
-	background-color: #F0F0F0;
-	font-size: 110%;
-	display: table;
+	background-color: #F8F8FF;
 }
 .output-markdown.hidden {
 	display: none;
 }
 .output-markdown > pre {
 	margin: 0;
-	padding: 0;
-}
-.output-markdown > pre > code {
 	padding: 0;
 }
 .output-markdown > pre > code .tag {
@@ -244,7 +267,7 @@
 .elgg-form-markdown-wiki-edit .summary {
 	clear: both;
 }
-.preview-markdown a.new {
+.markdown-body a.new, .preview-markdown a.new {
 	color: red;
 }
 

@@ -31,16 +31,32 @@ if ($preview === false) {
 }
 
 if (isset($vars['class'])) {
-	$vars['class'] = "pane input-markdown {$vars['class']}";
+	$vars['class'] = "input-markdown {$vars['class']}";
 } else {
-	$vars['class'] = "pane input-markdown";
+	$vars['class'] = "input-markdown";
 }
 
-echo elgg_view_menu('markdown', array(
-	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz',
-	'id' => $vars['id'],
-));
+$tabs['preview'] = array(
+	'text' => elgg_echo('markdown_wiki:preview'),
+	'href' => "#",
+	'selected' => true,
+	'priority' => 200,
+);
+$tabs['output'] = array(
+	'text' => elgg_echo('markdown_wiki:HTML_output'),
+	'href' => "#",
+	'priority' => 300,
+);
+$tabs['help'] = array(
+	'text' => elgg_echo('markdown_wiki:syntax'),
+	'href' => "#",
+	'priority' => 400,
+);
+
+foreach ($tabs as $name => $tab) {
+	$tab['name'] = $name;
+	elgg_register_menu_item('filter', $tab);
+}
 
 ?>
 
@@ -54,10 +70,12 @@ echo elgg_view_menu('markdown', array(
 		echo '<textarea ' . elgg_format_attributes($vars) . '>' . $vars['value'] . '</textarea>';
 	echo '</div>';
 	
-	if ($preview !== false) { ?>
+	if ($preview !== false) { 
+		echo elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu'));
+	?>
 		<div class="pane-markdown<?php if ($preview !== true) echo ' ' . $preview; ?>">
 			<div class="pane preview-markdown markdown-body mlm pas"></div>
-			<div class="pane output-markdown hidden mlm pas"></div>
+			<div class="pane output-markdown hidden mlm"></div>
 			<?php
 				if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
 					echo elgg_view('markdown_wiki/syntax/' . $user->language);
