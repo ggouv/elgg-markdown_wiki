@@ -141,15 +141,6 @@ elgg.provide('elgg.markdown_wiki.edit');
 
 elgg.markdown_wiki.edit.init = function() {
 
-	/*$('.pane-markdown .elgg-input-dropdown').change(function() {
-		$('.pane').addClass('hidden');
-		$('.'+$(this).val()).removeClass('hidden');
-		textarea.trigger('keyup');
-		//ResizePanes();
-	});*/
-	
-
-
 	$(document).ready(function() {
 		$.each($('textarea.input-markdown'), function() {
 			var textarea = $(this),
@@ -166,9 +157,10 @@ elgg.markdown_wiki.edit.init = function() {
 			textarea.keyup(function() {
 				wrapper.find('.markdown-editor').stop(true, true);
 				menu.stop(true, true);
-				var text_md = converter(convertCodeBlocks(normalizeLineBreaks(textarea.val())));
-				previewPane.html(text_md);
+				var textVal = textarea.val().replace(/<iframe/g, '<table class="iframe"').replace(/<\/iframe/g, '</table'),
+					text_md = converter(convertCodeBlocks(normalizeLineBreaks(textVal)));
 				
+				previewPane.html(text_md);
 				if (outputPane.length && !outputPane.hasClass('hidden')) { // perform html output only if output-markdown exist and not hidden. Performance.
 					outputPane.html( convertCodeBlocks(normalizeLineBreaks('```html\r\n' + text_md + '\r\n```')) );
 				}
