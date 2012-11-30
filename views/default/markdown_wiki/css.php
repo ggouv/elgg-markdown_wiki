@@ -164,7 +164,8 @@ fieldset .description {
 	overflow: hidden;
 	resize: none;
 }
-.markdown-menu {
+
+.elgg-menu-markdown {
 	border: medium none;
 	float: right;
 	font-size: 90%;
@@ -172,24 +173,46 @@ fieldset .description {
 	width: auto;
 	display: none;
 }
-.markdown-menu > li {
-	border-width: 1px 1px 0;
+.elgg-menu-markdown > li {
+	float: left;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	background: #eee;
+	margin: 0 0 0 10px;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
 }
-.markdown-menu > .elgg-state-selected {
+.elgg-menu-markdown > li:hover {
+	background: #dedede;
+}
+.elgg-menu-markdown > .elgg-state-selected {
+	border-color: #ccc;
+	background: white;
 	z-index: 1;
 }
-.markdown-menu > li > a {
+.elgg-menu-markdown > li > a {
+	color: #999999;
+	display: block;
 	height: 19px;
 	padding: 0 8px;
+	text-align: center;
+	text-decoration: none;
+	transition: all 0.25s ease 0s;
 }
-.markdown-menu > .elgg-state-selected > a {
+.elgg-menu-markdown > li > a:hover {
+	background: inherit;
+	color: #4690D6;
+}
+.elgg-menu-markdown > .elgg-state-selected > a {
+	background: inherit;
 	top: 1px;
 	border-radius: 2px 2px 0 0;
 }
-.markdown-menu > .elgg-menu-item-output.elgg-state-selected {
+.elgg-menu-markdown > .elgg-menu-item-output.elgg-state-selected {
 	background-color: #F8F8FF;
 }
-.markdown-menu > .elgg-menu-item-help.elgg-state-selected {
+.elgg-menu-markdown > .elgg-menu-item-help.elgg-state-selected {
 	background-color: #FFFFCC;
 }
 .pane-markdown {

@@ -55,7 +55,7 @@ $tabs['help'] = array(
 
 foreach ($tabs as $name => $tab) {
 	$tab['name'] = $name;
-	elgg_register_menu_item('filter', $tab);
+	elgg_register_menu_item('markdown', $tab);
 }
 
 ?>
@@ -71,7 +71,7 @@ foreach ($tabs as $name => $tab) {
 	echo '</div>';
 	
 	if ($preview !== false) { 
-		echo elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu prs'));
+		echo elgg_view_menu('markdown', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu prs t25'));
 	?>
 		<div class="pane-markdown<?php if ($preview !== true) echo ' ' . $preview; ?>">
 			<div class="pane preview-markdown markdown-body mlm pas"></div>

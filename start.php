@@ -347,7 +347,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					} else { // page doesn't exists
 						return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 					}
-				} else if (preg_match('/^wiki\/group\/(\\w+)\/page\/(.*)/', $link, $relative)) {
+				} else if (preg_match('/^wiki\/group\/(\\w+)\/page\/(.*)/', $link, $relative) || preg_match('/^(\\w+):(.*)/', $link, $relative)) {
 					if ( is_numeric($relative[1]) ) {
 						if ( is_numeric($relative[2]) ) {
 							$page = get_entity($relative[2]);

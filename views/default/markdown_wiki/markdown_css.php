@@ -2,7 +2,6 @@
 
 .markdown-body {
     font-size: 14px;
-    line-height: 1.6;
 }
 .markdown-body > *:first-child {
     margin-top: 0 !important;
