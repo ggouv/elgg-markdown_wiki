@@ -234,6 +234,7 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 		'name' => 'history',
 		'text' => elgg_echo('markdown_wiki:page:history'),
 		'title' => elgg_echo('markdown_wiki:page:history'),
+		'class' => 'gwfb tooltip s t',
 		'href' => "wiki/history/{$params['entity']->guid}/{$params['entity']->title}",
 		'priority' => 110,
 	);
@@ -244,6 +245,7 @@ function markdown_wiki_object_menu($hook, $type, $return, $params) {
 		'name' => 'discussion',
 		'text' => elgg_echo('markdown_wiki:page:discussion'),
 		'title' => elgg_echo('markdown_wiki:page:discussion'),
+		'class' => 'gwfb tooltip s t',
 		'href' => "wiki/discussion/{$params['entity']->guid}/{$params['entity']->title}",
 		'priority' => 130,
 	);
