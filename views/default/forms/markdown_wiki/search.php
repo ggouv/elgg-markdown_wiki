@@ -9,7 +9,7 @@
  *	Elgg-markdown_wiki search form
  **/
 
-$container_guid = elgg_extract('container_guid', $vars, elgg_get_page_owner_guid());
+$container_guid = elgg_extract('container_guid', $vars, false);
 if (!$container_guid) $container_guid = (int)get_input('container_guid');
 
 echo elgg_view('input/text', array(

@@ -86,6 +86,7 @@ $english = array(
 	'markdown_wiki:minorchange' => "Minor change.",
 	'markdown_wiki:tags' => "Tags",
 	'markdown_wiki:write_access_id' => "Write access",
+	'markdown_wiki:access:private' => "Group's administrators",
 
 	'markdown_wiki:preview' => "Preview",
 	'markdown_wiki:HTML_output' => "HTML output",

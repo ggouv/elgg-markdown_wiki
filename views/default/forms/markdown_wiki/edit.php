@@ -52,9 +52,8 @@ foreach ($variables as $name => $type) {
 				$entity = get_entity($vars['guid']);
 				if (!$vars['guid'] && can_write_to_container($user, $vars['container_guid'], 'object', 'markdown_wiki') || $entity && $entity->canEdit($user_guid) ) {
 					$list = get_write_access_array();
-					$list = array($list[1], $list[2]);
-					$group_access_collections = get_user_access_collections($vars['container_guid']);
-					$list[$group_access_collections[0]->id] = $group_access_collections[0]->name;
+					$list[0] = elgg_echo('markdown_wiki:access:private');
+					unset($list[2]); // no public. 
 					echo '<div>';
 					echo '<label>' . elgg_echo("markdown_wiki:$name") . '</label><br/>';
 					echo elgg_view("input/$type", array(

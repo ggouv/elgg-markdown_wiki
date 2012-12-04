@@ -15,6 +15,18 @@
  *
  * @return void
  */
+ShowdownConvert = function(textToConvert) {
+	var converter = new Showdown.converter({ extensions: ['showdownggouv'] });
+	return converter.makeHtml(textToConvert);
+}
+
+
+
+/**
+ * Elgg-markdown_wiki view initialization
+ *
+ * @return void
+ */
 elgg.provide('elgg.markdown_wiki.view');
 
 elgg.markdown_wiki.view.init = function() {
@@ -22,8 +34,7 @@ elgg.markdown_wiki.view.init = function() {
 	var markdownOutput = $('.elgg-output.markdown-body');
 	if (markdownOutput.length) {
 		$.each(markdownOutput, function() {
-			var converter = new Showdown.converter({ extensions: ['showdownggouv'] });
-			$(this).replaceWith($('<div>', {class: 'elgg-output markdown-body'}).html(converter.makeHtml($(this).html())));
+			$(this).replaceWith($('<div>', {class: 'elgg-output markdown-body'}).html(ShowdownConvert($(this).html())));
 			$('pre code').each(function(i, e) {
 				if (e.className == '') $(e).addClass('no-highlight');
 				hljs.highlightBlock(e);
@@ -143,7 +154,8 @@ elgg.markdown_wiki.edit.init = function() {
 
 	$(document).ready(function() {
 		$.each($('textarea.input-markdown'), function() {
-			var textarea = $(this),
+			if ($(this).hasClass('triggered')) return true;
+			var textarea = $(this).addClass('triggered'),
 				wrapper = textarea.parents('.description-wrapper'),
 				menu = wrapper.find('.markdown-menu'),
 				previewPane = wrapper.find('.preview-markdown'),
@@ -173,7 +185,7 @@ elgg.markdown_wiki.edit.init = function() {
 					opa = 1;
 					oldpos = parseInt(liveeditor.css('top'));
 				
-				menu.stop(true, true).fadeIn(500);
+				if (!wrapper.hasClass('toggle')) menu.stop(true, true).fadeIn(500);
 				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('fly').css({top: 0, opacity: 0});
 				$('.markdown-menu').not(menu).stop(true).fadeOut(500);
 				if (pos < 190) {
@@ -204,20 +216,23 @@ elgg.markdown_wiki.edit.init = function() {
 
 				wrapper.find('.pane').removeClass('hidden').not(paneS).addClass('hidden');
 				textarea.click().keyup();
-				/*if ($(this).html() == 'e') {
+			});
+			wrapper.find('.toggle-preview').click(function() {
+				if ($(this).html() == 'e') {
 					$(this).html('y');
-					wrapper.find('.pane').addClass('hidden');
-					textarea.removeClass('hidden');
+					wrapper.find('.pane-markdown').addClass('hidden');
+					wrapper.find('.description').removeClass('hidden');
+					menu.hide();
 				} else {
 					$(this).html('e');
-					wrapper.find('.pane').addClass('hidden');
-					previewPane.removeClass('hidden');
+					wrapper.find('.description').addClass('hidden');
+					wrapper.find('.pane-markdown').removeClass('hidden');
+					menu.stop(true, true).fadeIn(500);
 				}
 			});
-			if (textarea.val() == '') {
+			if (textarea.val() != '') {
 				wrapper.find('.toggle-preview').click();
-			}*/
-			});
+			}
 		});
 		
 		function normalizeLineBreaks(str, lineEnd) {

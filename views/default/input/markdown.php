@@ -24,7 +24,7 @@ $cansave = elgg_extract('cansave', $vars, false);
 if ($preview === false) {
 	$vars['class'] = "{$vars['class']} allWidth";
 } else if ($preview === 'toggle') {
-	$vars['class'] = "{$vars['class']} allWidth hidden";
+	$vars['class'] = "{$vars['class']}";
 } else {
 	$preview = '';
 	$vars['class'] = "{$vars['class']}";
@@ -60,20 +60,19 @@ foreach ($tabs as $name => $tab) {
 
 ?>
 
-<div class="description-wrapper float<?php if ($cansave == true) echo ' cansave'; ?>">
+<div class="description-wrapper float<?php if ($cansave == true) echo ' cansave'; if ($preview === toggle) echo ' ' .$preview; ?>">
+	<?php if ($preview === 'toggle') echo '<div class="toggle-preview gwf">y</div>'; ?>
 	<div class="description">
-		<?php if ($preview === 'toggle') {
-			echo '<div class="toggle-preview gwf">e</div>';
-		} else {
-			if (!$disabled) $vars['class'] = "{$vars['class']} editor";
-		}
+	<?php
+		if (!$disabled) $vars['class'] = "{$vars['class']} editor";
+			
 		echo '<textarea ' . elgg_format_attributes($vars) . '>' . $vars['value'] . '</textarea>';
 	echo '</div>';
 	
 	if ($preview !== false) { 
 		echo elgg_view_menu('markdown', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu prs t25'));
 	?>
-		<div class="pane-markdown<?php if ($preview !== true) echo ' ' . $preview; ?>">
+		<div class="pane-markdown<?php if ($preview === 'toggle') echo ' hidden ' . $preview; ?>">
 			<div class="pane preview-markdown markdown-body mlm pas"></div>
 			<div class="pane output-markdown hidden mlm"></div>
 			<?php

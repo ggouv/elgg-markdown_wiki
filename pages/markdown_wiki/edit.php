@@ -25,7 +25,7 @@ if (!$container || $container->type != 'group') {
 	forward(REFERER);
 }
 
-if ($markdown_wiki == '0' && !$query || !$container->canWritetoContainer()) {
+if ($markdown_wiki == '0' && !$query || !$markdown_wiki->canEdit()) {
 	register_error(elgg_echo('markdown_wiki:no_access'));
 	forward(REFERER);
 } else {
@@ -37,7 +37,11 @@ if ($markdown_wiki == '0' && !$query || !$container->canWritetoContainer()) {
 
 elgg_set_page_owner_guid($container_guid);
 
-elgg_push_breadcrumb($container->name, $container->getURL());
+if (elgg_instanceof($container, 'group')) {
+	elgg_push_breadcrumb($container->name, "wiki/group/$container->guid/all");
+} else {
+	elgg_push_breadcrumb($container->name, "wiki/owner/$container->username");
+}
 
 elgg_register_menu_item('title', array(
 	'name' => 'history',

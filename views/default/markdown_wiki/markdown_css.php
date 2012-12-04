@@ -1,7 +1,8 @@
 /* downloaded from github */
 
 .markdown-body {
-    font-size: 14px;
+	font-size: 13px;
+    line-height: 1.4;
 }
 .markdown-body > *:first-child {
     margin-top: 0 !important;
@@ -33,25 +34,27 @@
     font-size: inherit;
 }
 .markdown-body h1 {
-    color: #000000;
+	border-bottom: 1px solid #CCC;
+    color: #000;
     font-size: 28px;
 }
 .markdown-body h2 {
-    border-bottom: 1px solid #CCCCCC;
-    color: #000000;
-    font-size: 24px;
+    border-bottom: 1px solid #EEE;
+    color: #555;
+    font-size: 22px;
 }
 .markdown-body h3 {
     font-size: 18px;
 }
 .markdown-body h4 {
     font-size: 16px;
+    color: #555
 }
 .markdown-body h5 {
     font-size: 14px;
 }
 .markdown-body h6 {
-    color: #777777;
+    color: #777;
     font-size: 14px;
 }
 .markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
@@ -59,7 +62,7 @@
 }
 .markdown-body hr {
     border: 1px solid;
-    color: #CCCCCC;
+    color: #CCC;
     padding: 0;
 }
 .markdown-body > h2:first-child, .markdown-body > h1:first-child, .markdown-body > h1:first-child + h2, .markdown-body > h3:first-child, .markdown-body > h4:first-child, .markdown-body > h5:first-child, .markdown-body > h6:first-child {

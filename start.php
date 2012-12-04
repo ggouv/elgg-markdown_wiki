@@ -271,10 +271,9 @@ function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue,
 	if ($params['entity']->getSubtype() == 'markdown_wiki') {
 		$write_permission = $params['entity']->write_access_id;
 		$user = $params['user'];
-		
 		if (($write_permission) && ($user)) {
 			$list_access = get_access_array($user->guid);
-			if ( can_write_to_container($user, $params['entity']->container_guid, 'object', 'markdown_wiki') && $write_permission != 0 && in_array($write_permission, $list_access) ) {
+			if ( can_write_to_container($user, $params['entity']->container_guid, 'object', 'markdown_wiki') || in_array($write_permission, $list_access)) {
 				return true;
 			}
 		}
@@ -329,7 +328,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			$html_word = urlencode($word);
 	
 			$group = elgg_get_page_owner_guid();
-			if ($group == 0) $group = elgg_get_logged_in_user_guid();
+			//if ($group == 0) $group = elgg_get_logged_in_user_guid(); no wiki for user ?
 			$site_url = elgg_get_site_url();
 			$info = elgg_echo('markdown_wiki:create');
 			

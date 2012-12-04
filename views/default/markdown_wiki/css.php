@@ -229,6 +229,7 @@ fieldset .description {
 }
 .preview-markdown {
 	overflow: auto;
+	background: white;
 }
 .output-markdown {
 	min-height: 188px;

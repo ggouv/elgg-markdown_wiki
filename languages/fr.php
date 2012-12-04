@@ -87,6 +87,7 @@ $french = array(
 	'markdown_wiki:minorchange' => "Changement mineur. Votre modification ne sera pas notifiée dans l'activité du groupe.",
 	'markdown_wiki:tags' => "Tags",
 	'markdown_wiki:write_access_id' => "Accès en écriture",
+	'markdown_wiki:access:private' => "Administrateurs du groupe",
 
 	'markdown_wiki:preview' => "Prévisualisation",
 	'markdown_wiki:HTML_output' => "Sortie HTML",

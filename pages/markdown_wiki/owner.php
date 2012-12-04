@@ -18,16 +18,17 @@ if (!$owner) {
 // access check for closed groups
 group_gatekeeper();
 
-if ($owner->canEdit() || elgg_is_admin_logged_in()) {
-	elgg_register_menu_item('title', array(
-		'name' => 'settings',
-		'href' => "wiki/group/$owner->guid/settings",
-		'text' => elgg_echo('markdown_wiki:settings'),
-		'link_class' => 'elgg-button elgg-button-action edit-button gwfb group_admin_only',
-	));
-}
-
 if (elgg_instanceof($owner, 'group')) {
+
+	if ($owner->canEdit() || elgg_is_admin_logged_in()) {
+		elgg_register_menu_item('title', array(
+			'name' => 'settings',
+			'href' => "wiki/group/$owner->guid/settings",
+			'text' => elgg_echo('markdown_wiki:settings'),
+			'link_class' => 'elgg-button elgg-button-action edit-button gwfb group_admin_only',
+		));
+	}
+
 	$title = elgg_echo('markdown_wiki:groupowner', array($owner->name));
 	$content = elgg_list_entities(array(
 		'types' => 'object',
