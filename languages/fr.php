@@ -90,7 +90,7 @@ $french = array(
 
 	'markdown_wiki:preview' => "Prévisualisation",
 	'markdown_wiki:HTML_output' => "Sortie HTML",
-	'markdown_wiki:syntax' => "Guide de syntaxe markdown",
+	'markdown_wiki:syntax' => "Guide",
 
 	'markdown_wiki:search:result:not_found' => "Il n'y a pas de résultat correspondant à votre recherche.",
 	'markdown_wiki:search:result:not_found:create_it' => "Créer la page %s dans le wiki du groupe %s.",

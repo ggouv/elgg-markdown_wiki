@@ -60,9 +60,11 @@ if ($markdown_wiki->canEdit($user_guid)) {
 
 $content = elgg_trigger_plugin_hook('markdown_wiki_discussion', 'header', $markdown_wiki, '');
 
-$form_vars = array('name' => 'elgg_add_comment');
+$form_vars = array(
+	'name' => 'elgg_add_comment',
+	'class' => 'desc',
+);
 $vars['entity'] = $markdown_wiki;
-$vars['order'] = 'desc';
 $content .= elgg_view_form('comments/add', $form_vars, $vars);
 
 $content .= elgg_list_annotations(array(
