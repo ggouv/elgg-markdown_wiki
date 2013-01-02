@@ -25,7 +25,7 @@ if (!$container || $container->type != 'group') {
 	forward(REFERER);
 }
 
-if ($markdown_wiki == '0' && !$query || !$markdown_wiki->canEdit()) {
+if ($markdown_wiki == '0' && !$query || $markdown_wiki && !$markdown_wiki->canEdit()) {
 	register_error(elgg_echo('markdown_wiki:no_access'));
 	forward(REFERER);
 } else {
