@@ -65,7 +65,7 @@ $form_vars = array(
 	'class' => 'desc',
 );
 $vars['entity'] = $markdown_wiki;
-$content .= elgg_view_form('comments/add', $form_vars, $vars);
+$content .= '<div class="elgg-comments">' . elgg_view_form('comments/add', $form_vars, $vars);
 
 $content .= elgg_list_annotations(array(
 	'types' => 'object',
@@ -75,6 +75,8 @@ $content .= elgg_list_annotations(array(
 	'order_by' => 'time_created desc',
 	'summary_view' => true
 	));
+
+$content .= '</div>';
 
 $body = elgg_view_layout('content', array(
 	'filter' => '',
