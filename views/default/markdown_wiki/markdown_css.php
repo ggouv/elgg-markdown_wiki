@@ -1,7 +1,7 @@
 /* downloaded from github */
 
 .markdown-body {
-	font-size: 13px;
+    font-size: 13px;
     line-height: 1.4;
 }
 .markdown-body > *:first-child {

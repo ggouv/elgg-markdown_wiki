@@ -102,7 +102,7 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	$diffOutput = preg_replace('#\r\n</del>#sU','</del>', $diffOutput);
 	$diffOutput = str_replace(CHR(13),'<br/>', $diffOutput);
 	$diffHTML .= "<div id='diff-$i' class='diff hidden'>" . $diffOutput . '</div>';
-	
+
 	$owner = get_entity($annotations[$i]->owner_guid);
 	$owner_link = elgg_echo('markdown_wiki:history:date', array("<a href=\"{$owner->getURL()}\">$owner->name</a>"));
 	$time = htmlspecialchars(strftime(elgg_echo('markdown_wiki:history:date_format'), $annotations[$i]->time_created));
@@ -111,7 +111,7 @@ for($i=count($annotations)-1; $i>=0; $i--) {
 	$diff_text = '';
 	if ( $array_diff[0] != 0 ) $diff_text .= '<ins class="elgg-subtext">&nbsp;+' . $array_diff[0] . '&nbsp;</ins>';
 	if ( $array_diff[1] != 0 ) $diff_text .= '<del class="elgg-subtext">&nbsp;-' . $array_diff[1] . '&nbsp;</del>';
-	
+
 $diffOwner .= <<<HTML
 <div id='owner-$i' class='owner pam hidden'>
 	$summary<br/>
@@ -122,9 +122,7 @@ $diffOwner .= <<<HTML
 HTML;
 }
 
-$diffHTML = preg_replace('#<del>(.*)</del><ins>\1<br/>#sU','$1<ins><br/>',$diffHTML);  //skip line break
-
-$title = elgg_echo('markdown_wiki:history', array($markdown_wiki->title)); 
+$title = elgg_echo('markdown_wiki:history', array($markdown_wiki->title));
 $content = "<div class='diff-output'>" . $diffHTML . '</div>';
 $sidebar = elgg_view('markdown_wiki/sidebar/granularity_sidebar', array('granularity' => $granularity));
 $sidebar .= elgg_view('markdown_wiki/sidebar/history_sidebar', array('diffOwner' => $diffOwner, 'count' => $count));
