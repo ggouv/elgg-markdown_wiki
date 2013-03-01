@@ -99,7 +99,7 @@
 	left: -3px;
 	margin-bottom: -6px;
 }
-#sliderContainer .ui-state-hover, .ui-state-active, .ui-state-focus {
+#sliderContainer .ui-state-hover, #sliderContainer .ui-state-focus {
 	box-shadow: 0px 0px 2px 1px #4690D6 !important;
 		-webkit-box-shadow: 0px 0px 2px 1px !important;
 }
