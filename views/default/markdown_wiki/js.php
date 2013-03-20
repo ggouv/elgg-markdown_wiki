@@ -35,7 +35,7 @@ elgg.markdown_wiki.view.init = function() {
 	if (markdownOutput.length) {
 		$.each(markdownOutput, function() {
 			var t = $(this);
-			t.replaceWith($('<div>', {class: t.attr('class')}).html(ShowdownConvert(t.html())));
+			t.replaceWith($('<div>', {'class': t.attr('class')}).html(ShowdownConvert(t.html())));
 			$('pre code').each(function(i, e) {
 				if (e.className == '') $(e).addClass('no-highlight');
 				hljs.highlightBlock(e);
@@ -89,14 +89,14 @@ elgg.markdown_wiki.history.init = function() {
 					slideSidebar(ui);
 				}
 			});
-			
+
 			$('.owner').click(function() {
 				var valString = $(this).attr('id');
 				$("#slider").slider({
-					value: valString.substr(valString.indexOf('owner-') + "owner-".length),
+					value: valString.substr(valString.indexOf('owner-') + "owner-".length)
 				});
 			});
-			
+
 			$('#ownerContainer').bind('mousewheel DOMMouseScroll', function(e) {
 				if ($('.history-module .elgg-body').height() > $('#ownerContainer').height()) return;
 				var delta = e.wheelDelta || -e.detail;
@@ -104,12 +104,12 @@ elgg.markdown_wiki.history.init = function() {
 				var max = $(this).height() - $('.history-module .elgg-body').height();
 				var top = OwnerContainerOffset.top + ( delta < 0 ? -1 : 1 ) * 30;
 				if ( top > 0 ) top =0;
-				if ( top < -max ) top = -max; 
+				if ( top < -max ) top = -max;
 				$(this).css({top: top});
 				e.preventDefault();
 			});
 		}
-		
+
 		// toggle ins and delt
 		$('.elgg-button-ins, .elgg-button-del').click(function() {
 			x = $(this).hasClass('elgg-button-ins') ? 'ins' : 'del';
@@ -134,9 +134,9 @@ elgg.markdown_wiki.resizePanes = function(textarea, previewPane, outputPane, syn
 		previewHeight = previewPane.hasClass('hidden') ? 0 : previewPane.get(0).scrollHeight,
 		outputHeight = outputPane.hasClass('hidden') ? 0 : outputPane.innerHeight(),
 		maxHeight = Math.max(outputHeight, previewHeight, textareaHeight, 188); // min-height: 188px
-	
+
 	if (previewPane.innerHeight() < maxHeight) previewPane.innerHeight(maxHeight);
-	
+
 	textarea.innerHeight(maxHeight + 10 + 2); // padding (cannot set to textarea) + border
 	outputPane.innerHeight(maxHeight);
 	syntaxPane.innerHeight(maxHeight);
@@ -157,22 +157,22 @@ elgg.markdown_wiki.edit.init = function() {
 		$.each($('textarea.input-markdown'), function() {
 			if ($(this).hasClass('triggered')) return true;
 			var textarea = $(this).addClass('triggered'),
-				wrapper = textarea.parents('.description-wrapper'),
+				wrapper = textarea.closest('.description-wrapper'),
 				menu = wrapper.find('.markdown-menu'),
 				previewPane = wrapper.find('.preview-markdown'),
 				outputPane = wrapper.find('.output-markdown'),
 				syntaxPane = wrapper.find('.help-markdown'),
+				Editor = wrapper.find('.markdown-editor'),
 				converter = new Showdown.converter({ extensions: ['showdownggouv'] }).makeHtml;
-			
+
 			if (textarea.hasClass('editor')) textarea.wysiwym();
-			
+
 			// livepreview: convert markdown at each keyup !
 			textarea.keyup(function() {
-				wrapper.find('.markdown-editor').stop(true, true);
-				menu.stop(true, true);
+				Editor.add(menu).stop(true, true);
 				var textVal = textarea.val().replace(/<iframe/g, '<table class="iframe"').replace(/<\/iframe/g, '</table'),
 					text_md = converter(convertCodeBlocks(normalizeLineBreaks(textVal)));
-				
+
 				previewPane.html(text_md);
 				if (outputPane.length && !outputPane.hasClass('hidden')) { // perform html output only if output-markdown exist and not hidden. Performance.
 					outputPane.html( convertCodeBlocks(normalizeLineBreaks('```html\r\n' + text_md + '\r\n```')) );
@@ -181,11 +181,11 @@ elgg.markdown_wiki.edit.init = function() {
 			})
 			.trigger('keyup')
 			.click(function(e) { // Buttons
-				var liveeditor = $(this).parents('.description-wrapper').find('.markdown-editor'),
+				var liveeditor = $(this).closest('.description-wrapper').find('.markdown-editor'),
 					pos = e.pageY - textarea.offset().top,
 					opa = 1;
 					oldpos = parseInt(liveeditor.css('top'));
-				
+
 				if (!wrapper.hasClass('toggle')) menu.stop(true, true).fadeIn(500);
 				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('fly').css({top: 0, opacity: 0});
 				$('.markdown-menu').not(menu).stop(true).fadeOut(500);
@@ -208,7 +208,7 @@ elgg.markdown_wiki.edit.init = function() {
 				menu.delay(1000).fadeOut(500);
 				wrapper.find('.markdown-editor').delay(1000).fadeOut(500, function(){$(this).css({top: 0, opacity: 0}).removeClass('fly').addClass('hidden')});
 			});
-			
+
 			// menus
 			menu.find('li').click(function() {
 				$(this).parent().find('li').removeClass('elgg-state-selected');
@@ -235,7 +235,7 @@ elgg.markdown_wiki.edit.init = function() {
 				wrapper.find('.toggle-preview').click();
 			}
 		});
-		
+
 		function normalizeLineBreaks(str, lineEnd) {
 			var lineEnd = lineEnd || '\n';
 			return str
@@ -243,7 +243,7 @@ elgg.markdown_wiki.edit.init = function() {
 				.replace(/\r/g, lineEnd) // Mac
 				.replace(/\n/g, lineEnd); // Unix
 		}
-		
+
 		function wrapCode(match, lang, code) {
 			var hl;
 			if (lang) {
@@ -254,7 +254,7 @@ elgg.markdown_wiki.edit.init = function() {
 			hl = hl || hljs.highlightAuto(code).value;
 			return '<pre><code class="' + lang + '">' + $.trim(hl) + '</code></pre>';
 		}
-		
+
 		function convertCodeBlocks(mdown){
 			var re = /^```\s*(\w+)\s*$([\s\S]*?)^```$/gm;
 			return mdown.replace(re, wrapCode);
@@ -277,13 +277,13 @@ elgg.markdown_wiki.discussion.init = function() {
 	$('.elgg-button-toggle-modification').click(function() {
 		if ($(this).hasClass('active')) {
 			$(this).removeClass('active');
-			$('.history-module ').parents('.elgg-item').hide();
+			$('.history-module').closest('.elgg-item').hide();
 		} else {
 			$(this).addClass('active');
-			$('.history-module ').parents('.elgg-item').show();
+			$('.history-module').closest('.elgg-item').show();
 		}
 	});
-	
+
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.discussion.init);
 
@@ -305,10 +305,10 @@ elgg.register_hook_handler('getOptions', 'galliComments.submit', elgg.markdown_w
 elgg.provide('elgg.markdown_wiki.compare');
 
 elgg.markdown_wiki.compare.init = function() {
-	
+
 	var updateDiffRadios = function() {
 		if($(this).css('visibility') == 'hidden') return false;
-		var i = $('.elgg-form-markdown-wiki-compare .history-module > li').index($(this).parents('li.elgg-item'))+1;
+		var i = $('.elgg-form-markdown-wiki-compare .history-module > li').index($(this).closest('li.elgg-item'))+1;
 		var e = $('.elgg-form-markdown-wiki-compare .history-module > li:nth-child('+i+')');
 		if ($(this).attr('name') == 'from') {
 			e.prevAll().find('.elgg-input-radio[name=to]').css('visibility', 'visible')
@@ -318,11 +318,11 @@ elgg.markdown_wiki.compare.init = function() {
 			e.nextAll().find('.elgg-input-radio[name=from]').css('visibility', 'visible');
 		}
 	};
-	
+
 	$('.elgg-form-markdown-wiki-compare .history-module > li .elgg-input-radio').click(updateDiffRadios);
 	$('.elgg-form-markdown-wiki-compare .history-module > li:nth-child(2) .elgg-input-radio[name=from]').click();
 	$('.elgg-form-markdown-wiki-compare .history-module > li:first .elgg-input-radio[name=to]').click();
-	
+
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.compare.init);
 

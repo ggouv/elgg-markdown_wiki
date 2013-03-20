@@ -22,7 +22,7 @@ $.fn.wysiwym = function(options) {
 	this.textarea = $(this);							// jQuery textarea object
 	this.markup = new Wysiwym.Markdown(this);			// Wysiwym Markup set to use
 	this.defaults = {									// Default option values
-		containerButtons: undefined,					// jQuery elem to place buttons (makes one by default)
+		containerButtons: undefined					// jQuery elem to place buttons (makes one by default)
 	};
 	this.options = $.extend(this.defaults, options ? options : {});
 
@@ -30,7 +30,7 @@ $.fn.wysiwym = function(options) {
 	this.initializeButtons = function() {
 		var markup = this.markup;
 		if (this.options.containerButtons == undefined)
-			this.options.containerButtons = $('<div>', {class: this.BUTTONCLASS}).insertBefore(this.textarea);
+			this.options.containerButtons = $('<div>', {'class': this.BUTTONCLASS}).insertBefore(this.textarea);
 		for (var i=0; i<markup.buttons.length; i++) {
 			// Create the button and apply first / last classes
 			var button = markup.buttons[i];
@@ -44,7 +44,7 @@ $.fn.wysiwym = function(options) {
 				offset: 8,
 				fade: true,
 				delayIn: 500,
-				gravity: 's',
+				gravity: 's'
 			});
 			this.options.containerButtons.append(jqbutton);
 		}
@@ -59,7 +59,7 @@ $.fn.wysiwym = function(options) {
 	};
 
 	// Initialize the Wysiwym Editor
-	if (this.EDITORCLASS) this.textarea.wrap($('<div>', {class: this.EDITORCLASS}));
+	if (this.EDITORCLASS) this.textarea.wrap($('<div>', {'class': this.EDITORCLASS}));
 	this.initializeButtons();
 	this.initializeAutoIndent();
 };
@@ -489,10 +489,10 @@ Wysiwym.Button = function(name, callback, data, cssclass) {
 	// Create and return a new Button jQuery element
 	this.create = function() {
 		if (this.name == 'sep') {
-			var button = $('<span>', {class: 'sep mls'});
+			var button = $('<span>', {'class': 'sep mls'});
 		} else {
 			var button = $('<div>', {
-				class: 'btn gwfb t25 tooltip s o8 editor-'+ this.name + ' ' + this.cssclass,
+				'class': 'btn gwfb t25 tooltip s o8 editor-'+ this.name + ' ' + this.cssclass,
 				title: this.name,
 				unselectable: 'on' // Make everything 'unselectable' so IE doesn't freak out
 			});
@@ -604,7 +604,7 @@ Wysiwym.autoIndent = function(event) {
 			return true;
 		}
 	}
-	
+
 	// Only continue if keyCode == 13 or 9
 	if (event.keyCode == 13 || event.keyCode == 9 ) {
 		// ReturnKey pressed, lets indent!
@@ -613,7 +613,7 @@ Wysiwym.autoIndent = function(event) {
 		var linenum = wysiwym.selection.start.line;
 		var line = wysiwym.lines[linenum];
 		var postcursor = line.substring(wysiwym.selection.start.position, line.length);
-		
+
 		if (event.keyCode == 9) {
 			if (event.shiftKey) {
 				wysiwym.selection.removeLinePrefixes('    ');
@@ -627,8 +627,8 @@ Wysiwym.autoIndent = function(event) {
 			wysiwym.update();
 			return false;
 		}
-		
-		
+
+
 		// Make sure nothing is selected & there is no text after the cursor
 		if ((wysiwym.selection.length() != 0) || (postcursor))
 			return true;
