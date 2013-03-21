@@ -51,20 +51,20 @@
 			}},
 
 			// pro/con
-			{ type: 'html', regex: '(?:|\\n){(\\+|\\d|\\-)\\s(.*)\\n([\\s\\S]*?)}', replace: function(match, type, title, content) {
-				console.log(type);
-				if (Number(type) || type == '0') {
-					type = 'num color'+type;
-				} else if (type == '+') {
-					type = 'pro';
-				} else if (type == '-') type = 'con';
-				return '%%%<div class="' + type + '@@@"><div>' + title + '</div>' + content + '</div>%%%';
+			{ type: 'html', regex: '(?:|\\n){(\\d)(\\d)?([A-Za-z])?\\s(.*)\\n([\\s\\S]*?)}', replace: function(match, color, type, icon, title, content) {
+				color = 'block color'+color;
+				if (type) color += ' type'+type;
+				if (icon) {
+					icon = ' gwfb" aria-icon="'+icon+'">';
+				} else {
+					icon = '">';
+				}
+				return '%%%<div class="' + color + '@@@"><div class="header' + icon + title + '</div><div class="content">' + content + '</div></div>%%%';
 			}},
 			{ type: 'html', regex: '%%%%%%', replace: ''},
 			{ type: 'html', regex: '%%%([\\s\\S]*?)%%%', replace: function(match, content) {
 				var count = content.match(/@@@/g).length;
-				content = content.replace(/@@@/g, " span" + 12/count);
-				return '<div class="row-fluid">' + content + '</div>';
+				return '<div class="row-fluid">' + content.replace(/@@@/g, " span" + 12/count) + '</div>';
 			}},
 
 			// unescape ! and @. Don't need #

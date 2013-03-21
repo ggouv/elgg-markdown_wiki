@@ -20,7 +20,7 @@ function markdown_wiki_init() {
 	$root = dirname(__FILE__);
 	elgg_register_library('markdown_wiki:utilities', "$root/lib/utilities.php");
 	elgg_register_library('markdown_wiki:fineDiff', "$root/vendors/PHP-FineDiff/finediff.php");
-	
+
 	// js and css
 	elgg_register_js('showdown', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/showdown.js");
 	elgg_register_js('showdownggouv', "/mod/elgg-markdown_wiki/vendors/showdown/compressed/extensions/showdownggouv.js");
@@ -181,7 +181,7 @@ function markdown_wiki_page_handler($page) {
 
 /**
  * Override the markdown_wiki url
- * 
+ *
  * @param ElggObject $entity markdown_wiki object
  * @return string
  */
@@ -287,7 +287,7 @@ function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue,
 /**
  * Plugin hook hander that parse for link and return intern link of non exist wiki page,
  * exist page or external link
- * 
+ *
  * @return string
  */
 function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue, $params) {
@@ -328,12 +328,12 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			// title
 			$word = strip_tags(rtrim($matches[1], '/'));
 			$html_word = urlencode($word);
-	
+
 			$group = elgg_get_page_owner_guid();
 			//if ($group == 0) $group = elgg_get_logged_in_user_guid(); no wiki for user ?
 			$site_url = elgg_get_site_url();
 			$info = elgg_echo('markdown_wiki:create');
-			
+
 			if ( strpos($link, '://') !== false ){
 				if ( strpos($link, $site_url) === false ) { // external link
 					return "<a rel='nofollow' target='_blank' href='" . $link . "' class='external'>$matches[1]</a><span class='elgg-icon external'></span>";
@@ -381,7 +381,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 		}
 	}
 	$return = preg_replace_callback("/[!]?\[(.*)\]\((.*)\)/U", '_parse_link_callback', $returnvalue);
-	
+
 	// unescape link =]=(=
 	return preg_replace('/=\]=\(=/U', '](', $return);
 }
@@ -391,7 +391,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 /**
  * Function to replace get_input. Skip htmlawed, so we use strips_tags.
  * Markdown use link like <http://example.com>
- * 
+ *
  * @return string
  */
 function get_markdown_input($text) {

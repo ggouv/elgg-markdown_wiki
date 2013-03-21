@@ -335,3 +335,142 @@ background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.5) 10%, rgba(0, 0
 .compare-module .elgg-head h3 {
 	color: #555;
 }
+
+/*
+ * blocks
+ */
+.block {
+	border-radius: 3px;
+}
+.block > .header {
+	padding: 2px 5px;
+	font-size: 1.1em;
+}
+.block > .content {
+	padding: 4px 8px;
+}
+.block > .header.gwfb:before {
+	content: attr(aria-icon);
+	font-size: 2.6em;
+	margin: -16px -10px;
+	padding: 0 15px 0 10px;
+}
+.color0 {
+	background: white;
+	border: 1px solid #DDD;
+}
+.color1 {
+	background: #DFD;
+	border: 1px solid #3C3;
+}
+.color2 {
+	background: #9F9;
+	border: 1px solid #393;
+}
+.color3 {
+	background: #FDD;
+	border: 1px solid #F66;
+}
+.color4 {
+	background: #F99;
+	border: 1px solid #C00;
+}
+.color5 {
+	background: #FFC;
+	border: 1px solid #FC6;
+}
+.color6 {
+	background: #FE9;
+	border: 1px solid #F90;
+}
+.color7 {
+	background: #D9EDF7;
+	border: 1px solid #7BCCF7;
+}
+.color8 {
+	background: #4690D6;
+	border: 1px solid #1F2E3D;
+	color: white;
+}
+.color0 > .header {
+	background: #F4F4F4;
+}
+.color1 > .header {
+	background: #9F9;
+}
+.color2 > .header {
+	background: #3C3;
+}
+.color3 > .header {
+	background: #F99;
+}
+.color4 > .header {
+	background: #F33;
+}
+.color5 > .header {
+	background: #FE9;
+}
+.color6 > .header {
+	background: #FC6;
+}
+.color7 > .header {
+	background: #A4DAF7;
+}
+.color8 > .header {
+	background: #1F2E3D;
+}
+.type0 > .header, .type1 > .header, .type3, .type4, .type7 > .header {
+	background: transparent;
+}
+.type1, .type2, .type3, .type4, .type7 {
+	border: none;
+}
+.type3 > .header, .type6 > .content, .type7 > .content {
+	border-radius: 2px;
+}
+.type4 > .header {
+	border-radius: 14px;
+	padding: 2px 8px;
+}
+.type4 > .content {
+	color: #555;
+}
+.type5 > .header {
+	border-radius: 3px 0 5px 0;
+	display: table;
+}
+.type6 > .header {
+	display: table;
+}
+.type6 > .content {
+	background: white;
+}
+.type7 {
+	border-radius: 5px;
+}
+.type7 > .content {
+	background: white;
+	margin: 2px 5px 5px;
+}
+.type8 {
+	display: table !important;
+	padding: 0;
+}
+.type8 > .content {
+	padding: 2px 5px;
+}
+.type8 > .header {
+	display: table-cell;
+	width: 20%;
+}
+.type9 {
+	position: absolute;
+	right: 0;
+	width: 23.0769% !important;
+	z-index: 1;
+}
+@media (max-width: 1199px) {
+	.block {
+		margin-top: 5px;
+	}
+}
