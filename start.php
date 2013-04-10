@@ -313,13 +313,12 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 	$returnvalue = preg_replace_callback('/(?:^|\n)```.*\n```/Us', '_escape_link_in_block', $returnvalue); // github style code block (seems we don't need it because span code block do same thing
 	$returnvalue = preg_replace_callback('/\n\n(?:(?:[ ]{4}|\t).*\n+)+\n*[ ]{0,3}[^ \t\n]|(?=~0)/Um', '_escape_link_in_block', $returnvalue); // 4 spaces code block
 	$returnvalue = preg_replace_callback('/`+.*`/Um', '_escape_link_in_block', $returnvalue); // span style code block
+	$returnvalue = preg_replace('/\!\[(.*)\]\((.*)\)/U', '![$1=]=(=$2)', $returnvalue); // escape image in link
 	$returnvalue = preg_replace('/„„/', '`', $returnvalue);
-
 
 	// search wiki page link
 	if (!function_exists('_parse_link_callback')) {
 		function _parse_link_callback($matches) {
-			if ($matches[0][0] == '!') return $matches[0]; // skip image ![image](linkOfImage)
 			// link
 			$array_match = explode('#', $matches[2]);
 			$link = rtrim($array_match[0], '/');
@@ -327,7 +326,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			$hash = $array_match[1] ? '\#' . $array_match[1] : ''; // check if link is like (apage#aparagraph)
 			// title
 			$word = strip_tags(rtrim($matches[1], '/'));
-			$html_word = urlencode($word);
+			$html_word = strpos($word, '=]=(=') ? $word : urlencode($word); // check if title contain link (eg: wrap link on image)
 
 			$group = elgg_get_page_owner_guid();
 			//if ($group == 0) $group = elgg_get_logged_in_user_guid(); no wiki for user ?
@@ -369,19 +368,18 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 							return "<a href='{$site_url}wiki/search?container_guid={$gtitle}&q={$relative[2]}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 						}
 					} else {
-						return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
+						return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$relative[2]}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 					}
 				} elseif ( $page_guid = search_markdown_wiki_by_title($link, $group) ) { // page exists
 					$page = get_entity($page_guid);
 					return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
 				} else { // page doesn't exists
-					return "<a href='{$site_url}wiki/search?container_guid=${group}&q={$html_link}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
+					return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_link}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
 				}
 			}
 		}
 	}
-	$return = preg_replace_callback("/[!]?\[(.*)\]\((.*)\)/U", '_parse_link_callback', $returnvalue);
-
+	$return = preg_replace_callback("/(?<!\!)\[(.*)\]\((.*)\)/U", '_parse_link_callback', $returnvalue);
 	// unescape link =]=(=
 	return preg_replace('/=\]=\(=/U', '](', $return);
 }

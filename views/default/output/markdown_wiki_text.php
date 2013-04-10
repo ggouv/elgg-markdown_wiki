@@ -12,7 +12,7 @@
  * @uses $vars['class']
  */
 
-$class = 'elgg-output';
+$class = 'elgg-output hidden';
 $additional_class = elgg_extract('class', $vars, '');
 if ($additional_class) {
 	$vars['class'] = "$class $additional_class";
