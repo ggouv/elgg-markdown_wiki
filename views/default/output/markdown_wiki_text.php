@@ -12,7 +12,7 @@
  * @uses $vars['class']
  */
 
-$class = 'elgg-output hidden';
+$class = 'elgg-output';
 $additional_class = elgg_extract('class', $vars, '');
 if ($additional_class) {
 	$vars['class'] = "$class $additional_class";
@@ -29,4 +29,4 @@ unset($vars['value']);
 
 $attributes = elgg_format_attributes($vars);
 
-echo "<xmp $attributes>$text</xmp>";
+echo "<md style=\"display:none\" $attributes>$text</md>";

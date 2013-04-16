@@ -35,7 +35,7 @@ elgg.markdown_wiki.view.init = function() {
 	if (markdownOutput.length) {
 		$.each(markdownOutput, function() {
 			var t = $(this);
-			t.replaceWith($('<div>', {'class': t.attr('class')}).removeClass('hidden').html(ShowdownConvert(t.html())));
+			t.replaceWith($('<div>', {'class': t.attr('class')}).html(ShowdownConvert(t.html())));
 			$('pre code').each(function(i, e) {
 				if (e.className == '') $(e).addClass('no-highlight');
 				hljs.highlightBlock(e);

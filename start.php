@@ -387,6 +387,18 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 
 
 /**
+ * Wrapper for markdown_wiki_parse_link_plugin_hook
+ * @param  [type] $text The markdown text to parse
+ * @return text         Return markdown text with link formated for wiki (ie: red link = page doesn't exist, blue link = page exist)
+ */
+function markdown_wiki_parse_link($text) {
+	elgg_load_library('markdown_wiki:utilities');
+	return markdown_wiki_parse_link_plugin_hook('', '', $text, '');
+}
+
+
+
+/**
  * Function to replace get_input. Skip htmlawed, so we use strips_tags.
  * Markdown use link like <http://example.com>
  *
