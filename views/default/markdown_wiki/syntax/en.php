@@ -8,32 +8,31 @@
  *
  *	Elgg-markdown_wiki Syntax file
  **/
- 
+
 $clickToExpand = elgg_echo('markdown_wiki:syntax:clicktoexpand');
-$rand = rand();
 
 $body = <<<HTML
-<div class="pane help-markdown hidden mlm pas">
+<div id="help-markdown" class="hidden">
 
 <h2>Markdown syntax help</h2>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-text-$rand" title="$clickToExpand"> Text<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-text-%%%%" title="$clickToExpand"> Text<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>for linebreak add 2 spaces at end, _italic_ or **bold**</span>
 </h3>
 
-<div id="link-text-$rand" style="display: none;">
+<div id="link-text-%%%%" style="display: none;">
 
 	<h4 id="link-linebreaks">Linebreaks</h4>
 	<p>End a line with two spaces to add a <code>&lt;br/&gt;</code> linebreak:</p>
 	<pre>How do I love thee?<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><br/>Let me count the ways</pre>
-	
+
 	<h4 id="link-italics-bold">Italics and Bold</h4>
 	<pre><span class="hi">*</span>This is italicized<span class="hi">*</span>, and so is <span class="hi">_</span>this<span class="hi">_</span>.
 	<span class="hi">**</span>This is bold<span class="hi">**</span>, and so is <span class="hi">__</span>this<span class="hi">__</span>.
 	Use <span class="hi">***</span>italics and bold together<span class="hi">***</span> if you <span class="hi">___</span>have to<span class="hi">___</span>.
 	<span class="hi">~~</span>Strike text<span class="hi">~~</span>.</pre>
-	
+
 	<h4 id="link-echap-char">Escape special char</h4>
 	<p>You can escape special char <code>* _ # @ ! `</code> with <code>\</code> :</p>
 	<pre>This is not strong <span class="hi">\</span>*strong<span class="hi">\</span>*.</pre>
@@ -41,11 +40,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-headers-$rand" title="$clickToExpand"> Headers<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-headers-%%%%" title="$clickToExpand"> Headers<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>underline by = and - or use #</span>
 </h3>
 
-<div id="link-headers-$rand" style="display: none;">
+<div id="link-headers-%%%%" style="display: none;">
 
 	<p>Underline text to make the two <code>&lt;h1&gt;</code> <code>&lt;h2&gt;</code> top-level headers :</p>
 	<pre>Header 1
@@ -67,11 +66,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-horizontal-rules-$rand" title="$clickToExpand"> Horizontal Rules<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-horizontal-rules-%%%%" title="$clickToExpand"> Horizontal Rules<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>3 or more -, + or *</span>
 </h3>
 
-<div id="link-horizontal-rules-$rand" style="display: none;">
+<div id="link-horizontal-rules-%%%%" style="display: none;">
 
 	<p>Insert a horizontal rule <code>&lt;hr/&gt;</code> by putting three or more hyphens, asterisks, or underscores on a line by themselves:</p>
 	<pre><span class="hi">---</span></pre>
@@ -85,11 +84,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-lists-$rand" title="$clickToExpand"> Lists<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-lists-%%%%" title="$clickToExpand"> Lists<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>bullet with -, + or * and list with 1.</span>
 </h3>
 
-<div id="link-lists-$rand" style="display: none;">
+<div id="link-lists-%%%%" style="display: none;">
 
 	<h4 id="link-simple-lists">Simple lists</h4>
 	<p>A bulleted <code>&lt;ul&gt;</code> list:</p>
@@ -133,11 +132,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#blockquotes-$rand" title="$clickToExpand"> Simple blockquotes</a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#blockquotes-%%%%" title="$clickToExpand"> Simple blockquotes</a>
 	<span class="expander-arrow-small-hide expander-arrow-small-show">
 </h3>
 
-<div id="blockquotes-$rand" style="display: none;">
+<div id="blockquotes-%%%%" style="display: none;">
 
 	<p>Add a <code>&gt;</code> to the beginning of any line to create a <code>&lt;blockquote&gt;</code>.</p>
 	<pre><span class="hi">&gt;</span> The syntax is based on the way email programs
@@ -169,15 +168,15 @@ $body = <<<HTML
 		<span class="hi">&gt;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>Indent five spaces total.  The first
 		<span class="hi">&gt;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>one is part of the blockquote designator.
 	</pre>
-	
+
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-links-$rand" title="$clickToExpand"> Links<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-links-%%%%" title="$clickToExpand"> Links<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>[foo](http://foo.com)</span>
 </h3>
 
-<div id="link-links-$rand" style="display: none;">
+<div id="link-links-%%%%" style="display: none;">
 
 	<h4 id="link-basic-links">Basic Links</h4>
 	<p>There are three ways to write links. Each is easier to read than the last:</p>
@@ -226,11 +225,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-image-$rand" title="$clickToExpand"> Images<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-image-%%%%" title="$clickToExpand"> Images<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>![foo](http://foo.com/img.jpeg)</span>
 </h3>
 
-<div id="link-image-$rand" style="display: none;">
+<div id="link-image-%%%%" style="display: none;">
 
 	<p>Images are exactly like links, but they have an exclamation point in front of them:</p>
 	<pre>![foo](http://foo.com/img.jpeg).</pre>
@@ -251,11 +250,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-code-$rand" title="$clickToExpand"> Code<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-code-%%%%" title="$clickToExpand"> Code<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>indent by 4 spaces</span>
 </h3>
 
-<div id="link-code-$rand" style="display: none;">
+<div id="link-code-%%%%" style="display: none;">
 
 	<h4 id="link-block-code">Block Code</h4>
 	<p>Indent four spaces to create an escaped <code>&lt;pre&gt;</code><code>&lt;code&gt;</code> block:</p>
@@ -272,7 +271,7 @@ $body = <<<HTML
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>   wrapped in a code block.
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>&lt;/blink&gt;
 	</pre>
-	
+
 	<p>An other way is to wrap your code by three backticks. You can also specify the type of code in the block-code:
 	<pre>```php
 			echo = 'Hello World!';
@@ -288,11 +287,11 @@ $body = <<<HTML
 
 </div>
 
-<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-html-$rand" title="$clickToExpand">
+<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-html-%%%%" title="$clickToExpand">
 	Inline HTML<span class="expander-arrow-small-hide expander-arrow-small-show">
 </a></h3>
 
-<div id="link-html-$rand" style="display: none;">
+<div id="link-html-%%%%" style="display: none;">
 
 	<p>If you need to do something that Markdown can&#39;t handle, use HTML. Note that only a very strict subset of HTML are supported!</a></p>
 	<pre> To reboot your computer, press <span class="hi">&lt;kbd&gt;</span>ctrl<span class="hi">&lt;/kbd&gt;</span>+&lt;kbd&gt;alt&lt;/kbd&gt;+&lt;kbd&gt;del&lt;/kbd&gt;.
@@ -311,11 +310,11 @@ $body = <<<HTML
 
 </div>
 
-<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-need-more-detail-$rand" title="$clickToExpand">
+<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-need-more-detail-%%%%" title="$clickToExpand">
 	Need More Detail?<span class="expander-arrow-small-hide expander-arrow-small-show">
 </a></h3>
 
-<div id="link-need-more-detail-$rand" style="display: none;">
+<div id="link-need-more-detail-%%%%" style="display: none;">
 
 	<p>Visit the <a target="_blank" href="http://daringfireball.net/projects/markdown/syntax">official Markdown syntax reference page</a>.</p><br/>
 

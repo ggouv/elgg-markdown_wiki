@@ -21,6 +21,29 @@ ShowdownConvert = function(textToConvert) {
 }
 
 
+/**
+ * Elgg-markdown_wiki view initialization
+ * @vars elem A jQuery element where we find to add help. If none, all is taken.
+ * @return void
+ */
+CloneHelpMarkdown = function(elem) {
+	var randomToggles = function() { // random toggle block
+		var h = $('#help-markdown').html(),
+			r = Math.random().toString().split('.')[1];
+		return h.replace(/%%%%/g, r);
+	}
+	if (elem) {
+		if (elem.hasClass('help-markdown')) {
+			elem.html(randomToggles);
+		} else {
+			elem.find('.help-markdown').html(randomToggles);
+		}
+	} else {
+		$('.help-markdown').html(randomToggles);
+	}
+}
+
+
 
 /**
  * Elgg-markdown_wiki view initialization
@@ -41,6 +64,11 @@ elgg.markdown_wiki.view.init = function() {
 				hljs.highlightBlock(e);
 			});
 		});
+	}
+
+	// add help-markdown
+	if ($('.help-markdown').length) {
+		CloneHelpMarkdown();
 	}
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.view.init);

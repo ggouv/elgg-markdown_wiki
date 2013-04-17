@@ -8,26 +8,25 @@
  *
  *	Elgg-markdown_wiki Syntax file
  **/
- 
+
 $clickToExpand = elgg_echo('markdown_wiki:syntax:clicktoexpand');
-$rand = rand();
 
 $body = <<<HTML
-<div class="pane help-markdown hidden mlm pas">
+<div id="help-markdown" class="hidden">
 
 <h2>Manuel d'écriture markdown</h2>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-text-$rand" title="$clickToExpand"> Texte<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-text-%%%%" title="$clickToExpand"> Texte<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>2 espaces à la fin pour un retour à la ligne, _italique_ ou **gras** ou ~~barré~~</span>
 </h3>
 
-<div id="link-text-$rand" style="display: none;">
+<div id="link-text-%%%%" style="display: none;">
 
 	<h4 id="link-linebreaks">Retour à la ligne</h4>
 	<p>Terminez une ligne par 2 espaces pour ajouter un retour à la ligne <code>&lt;br/&gt;</code> :</p>
 	<pre>Quel est le nouveau paradigme ?<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><br/>Décroissance quantitative et croissance qualitative</pre>
-	
+
 	<h4 id="link-italics-bold">Italique et gras</h4>
 	<pre><span class="hi">*</span>Cette phrase est en italique<span class="hi">*</span>, et la tour de Pise <span class="hi">_</span>en Italie<span class="hi">_</span>.
 	<span class="hi">**</span>Ce texte est en gras<span class="hi">**</span>, et mal se nourrir rend <span class="hi">__</span>gras aussi<span class="hi">__</span>.
@@ -41,11 +40,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-headers-$rand" title="$clickToExpand"> Titres<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-headers-%%%%" title="$clickToExpand"> Titres<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>Soulignez par = ou - ou utilisez des #</span>
 </h3>
 
-<div id="link-headers-$rand" style="display: none;">
+<div id="link-headers-%%%%" style="display: none;">
 
 	<p>Soulignez le titre pour créer des titres de niveau <code>&lt;h1&gt;</code> et <code>&lt;h2&gt;</code> :</p>
 	<pre>Titre 1
@@ -69,11 +68,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-horizontal-rules-$rand" title="$clickToExpand"> Ligne horizontale<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-horizontal-rules-%%%%" title="$clickToExpand"> Ligne horizontale<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>3 ou plus de -, + ou *</span>
 </h3>
 
-<div id="link-horizontal-rules-$rand" style="display: none;">
+<div id="link-horizontal-rules-%%%%" style="display: none;">
 
 	<p>Insérez une ligne horizontale <code>&lt;hr/&gt;</code> en écrivant 3 ou plus de signe moins, astérisques, or trait du bas à la suite :</p>
 	<pre><span class="hi">---</span></pre>
@@ -87,11 +86,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-links-$rand" title="$clickToExpand"> Liens<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-links-%%%%" title="$clickToExpand"> Liens<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>[foo](http://foo.com)</span>
 </h3>
 
-<div id="link-links-$rand" style="display: none;">
+<div id="link-links-%%%%" style="display: none;">
 
 	<h4 id="link-basic-links">Liens simples</h4>
 	<p>Il y a 3 manières de faire un lien :</p>
@@ -137,11 +136,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-image-$rand" title="$clickToExpand"> Images<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-image-%%%%" title="$clickToExpand"> Images<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>![foo](http://foo.com/img.jpeg)</span>
 </h3>
 
-<div id="link-image-$rand" style="display: none;">
+<div id="link-image-%%%%" style="display: none;">
 
 	<p>Ajouter une image se fait comme les liens, mais avec un point d&#39;exclamation avant le crochet. :</p>
 	<pre>![foo](http://foo.com/img.jpeg).</pre>
@@ -162,11 +161,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-lists-$rand" title="$clickToExpand"> Listes<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-lists-%%%%" title="$clickToExpand"> Listes<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>Faites des puces avec -, + ou * et numérotation avec 1.</span>
 </h3>
 
-<div id="link-lists-$rand" style="display: none;">
+<div id="link-lists-%%%%" style="display: none;">
 
 	<h4 id="link-simple-lists">Liste simple</h4>
 	<p>Une liste <code>&lt;ul&gt;</code> à puces :</p>
@@ -211,11 +210,11 @@ $body = <<<HTML
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#blockquotes-$rand" title="$clickToExpand"> Bloc de citation<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#blockquotes-%%%%" title="$clickToExpand"> Bloc de citation<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
 	<span>Commencez par &gt;</span>
 </h3>
 
-<div id="blockquotes-$rand" style="display: none;">
+<div id="blockquotes-%%%%" style="display: none;">
 
 	<p>Ajoutez <code>&gt;</code> au début de la ligne pour faire un <code>&lt;blockquote&gt;</code>.</p>
 	<pre><span class="hi">&gt;</span> La syntaxe est la même que les mails.
@@ -240,15 +239,15 @@ $body = <<<HTML
 		<span class="hi">&gt;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>Indentez de 5 espaces au total.  Le premier
 		<span class="hi">&gt;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>est pour la citation.
 	</pre>
-	
+
 </div>
 
 <h3>
-	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-code-$rand" title="$clickToExpand"> Bloc de code<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
-	<span>Indetez la ligne de 4 espaces</span>
+	<a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-code-%%%%" title="$clickToExpand"> Bloc de code<span class="expander-arrow-small-hide expander-arrow-small-show"></a>
+	<span>Indentez la ligne de 4 espaces</span>
 </h3>
 
-<div id="link-code-$rand" style="display: none;">
+<div id="link-code-%%%%" style="display: none;">
 
 	<p>Indenter la ligne de 4 espaces créé un bloc de code <code>&lt;pre&gt;</code><code>&lt;code&gt;</code> :</p>
 	<pre>
@@ -260,11 +259,11 @@ $body = <<<HTML
 	<p>La syntaxe Markdown et HTML seront ignorés dans un bloc de code :</p>
 	<pre>
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>&lt;blink&gt;
-		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>   Vous n&#39;aimeriez pas ça si ce 
+		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>   Vous n&#39;aimeriez pas ça si ce
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>   n&#39;était pas dans un bloc de code.
 		<span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span><span class="spaces">&nbsp;</span>&lt;/blink&gt;
 	</pre>
-	
+
 	<p>Il est possible de faire un bloc de code d&#39;une autre façon, en entourant le code par 3 backticks <code>```</code>. Vous pouvez ajouter le type de langage qu&#39;il contient afin que le code soit coloré :
 	<pre><code>```</code>php
 			&nbsp;&nbsp;&nbsp;&nbsp;echo = 'C&#39;est génial !';
@@ -281,14 +280,14 @@ $body = <<<HTML
 
 </div>
 
-<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-html-$rand" title="$clickToExpand">
+<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-html-%%%%" title="$clickToExpand">
 	Syntaxe HTML<span class="expander-arrow-small-hide expander-arrow-small-show">
 </a></h3>
 
-<div id="link-html-$rand" style="display: none;">
+<div id="link-html-%%%%" style="display: none;">
 
 	<p>Si vous avez besoin de quelques choses que la syntaxe Markdown ne peut pas faire, utilisez du HTML. Notez que seules quelques balises HTML sont supportées :</p>
-	<pre> Pour redémarrer votre ordinatuer, pressez <span class="hi">&lt;kbd&gt;</span>ctrl<span class="hi">&lt;/kbd&gt;</span>+&lt;kbd&gt;alt&lt;/kbd&gt;+&lt;kbd&gt;del&lt;/kbd&gt;.
+	<pre> Pour redémarrer votre ordinateur, pressez <span class="hi">&lt;kbd&gt;</span>ctrl<span class="hi">&lt;/kbd&gt;</span>+&lt;kbd&gt;alt&lt;/kbd&gt;+&lt;kbd&gt;del&lt;/kbd&gt;.
 	</pre>
 	<p>La syntaxe Markdown fonctionne avec les balises HTML span:</p>
 	<pre><span class="hi">&lt;b&gt;</span>La syntaxe Markdown marche <span class="hi">*</span>bien<span class="hi">*</span> ici.<span class="hi">&lt;/b&gt;</span>
@@ -303,11 +302,11 @@ $body = <<<HTML
 
 </div>
 
-<h3><a rel="toggle-$rand" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-need-more-detail" title="$clickToExpand">
+<h3><a rel="toggle" class="elgg-widget-collapse-button elgg-state-active elgg-widget-collapsed" href="#link-need-more-detail-%%%%" title="$clickToExpand">
 	En savoir plus ?<span class="expander-arrow-small-hide expander-arrow-small-show">
 </a></h3>
 
-<div id="link-need-more-detail-$rand" style="display: none;">
+<div id="link-need-more-detail-%%%%" style="display: none;">
 
 	<p>Visitez <a target="_blank" href="http://michelf.ca/projets/php-markdown/syntaxe/	">cette page</a>.</p><br/>
 

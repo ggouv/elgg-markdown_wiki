@@ -15,7 +15,6 @@
  * @uses $vars['cansave']  Can we use crtl + s to save page?
  * @uses $vars['class']    Additional CSS class
  */
-$user = elgg_get_logged_in_user_entity();
 
 $preview = elgg_extract('preview', $vars, true);
 $disabled = elgg_extract('disabled', $vars, false);
@@ -65,23 +64,17 @@ foreach ($tabs as $name => $tab) {
 	<div class="description">
 	<?php
 		if (!$disabled) $vars['class'] = "{$vars['class']} editor";
-			
+
 		echo '<textarea ' . elgg_format_attributes($vars) . '>' . $vars['value'] . '</textarea>';
 	echo '</div>';
-	
-	if ($preview !== false) { 
+
+	if ($preview !== false) {
 		echo elgg_view_menu('markdown', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz markdown-menu prs t25'));
 	?>
 		<div class="pane-markdown<?php if ($preview === 'toggle') echo ' hidden ' . $preview; ?>">
 			<div class="pane preview-markdown markdown-body mlm pas"></div>
 			<div class="pane output-markdown hidden mlm"></div>
-			<?php
-				if ( elgg_view_exists("markdown_wiki/syntax/$user->language") ) {
-					echo elgg_view('markdown_wiki/syntax/' . $user->language);
-				} else {
-					echo elgg_view('markdown_wiki/syntax/en');
-				}
-			?>
+			<div class="pane help-markdown hidden mlm pas"></div>
 		</div>
 	<?php }?>
 </div>

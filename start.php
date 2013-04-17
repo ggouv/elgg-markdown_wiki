@@ -33,6 +33,7 @@ function markdown_wiki_init() {
 	elgg_extend_view('css/elgg', 'markdown_wiki/css');
 	elgg_extend_view('css/elgg', 'markdown_wiki/markdown_css');
 	elgg_extend_view('css/elgg', 'markdown_wiki/highlight_css');
+	elgg_extend_view('page/elements/foot', 'markdown_wiki/syntax/language_selector');
 
 	// Add a menu item to the main site menu
 	$item = new ElggMenuItem('markdown_wiki_all', elgg_echo('markdown_wiki'), 'wiki/all');
