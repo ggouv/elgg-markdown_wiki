@@ -218,12 +218,12 @@ elgg.markdown_wiki.edit.init = function() {
 				$('.markdown-editor').not(liveeditor).addClass('hidden').removeClass('fly').css({top: 0, opacity: 0});
 				$('.markdown-menu').not(menu).stop(true).fadeOut(500);
 				if (pos < 190) {
-					pos = 31;
+					pos = 81;
 				} else {
-					opa = 0.3;
+					opa = 0.5;
 				}
-				if (Math.abs(oldpos - pos+50) > 10) {
-					liveeditor.stop(true).removeClass('hidden').css({display: 'block'}).animate({top: pos -50, opacity: opa}, '', function() {
+				if (Math.abs(oldpos - pos+100) > 10) {
+					liveeditor.stop(true).removeClass('hidden').css({display: 'block'}).animate({top: pos -100, opacity: opa}, '', function() {
 						if (pos > 190) {
 							liveeditor.addClass('fly');
 						} else {
@@ -247,13 +247,13 @@ elgg.markdown_wiki.edit.init = function() {
 				textarea.click().keyup();
 			});
 			wrapper.find('.toggle-preview').click(function() {
-				if ($(this).html() == 'e') {
-					$(this).html('y');
+				if ($(this).html() != 'o') {
+					$(this).html('o');
 					wrapper.find('.pane-markdown').addClass('hidden');
 					wrapper.find('.description').removeClass('hidden');
 					menu.hide();
 				} else {
-					$(this).html('e');
+					$(this).html('&#9998;'); // unicode 270E
 					wrapper.find('.description').addClass('hidden');
 					wrapper.find('.pane-markdown').removeClass('hidden');
 					menu.stop(true, true).fadeIn(500);

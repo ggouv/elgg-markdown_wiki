@@ -60,7 +60,7 @@ foreach ($tabs as $name => $tab) {
 ?>
 
 <div class="description-wrapper float<?php if ($cansave == true) echo ' cansave'; if ($preview === toggle) echo ' ' .$preview; ?>">
-	<?php if ($preview === 'toggle') echo '<div class="toggle-preview gwf">y</div>'; ?>
+	<?php if ($preview === 'toggle') echo '<div class="toggle-preview gwf">o</div>'; ?>
 	<div class="description">
 	<?php
 		if (!$disabled) $vars['class'] = "{$vars['class']} editor";

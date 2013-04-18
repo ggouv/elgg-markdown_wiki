@@ -35,17 +35,16 @@ $.fn.wysiwym = function(options) {
 			// Create the button and apply first / last classes
 			var button = markup.buttons[i];
 			var jqbutton = button.create();
-			if (i == 0) { jqbutton.addClass('first'); }
-			if (i == markup.buttons.length-1) { jqbutton.addClass('last'); }
 			// Bind the button data and click event callback
 			var data = $.extend({markup:this.markup}, button.data);
-			jqbutton.bind('click', data, button.callback).tipsy({
+			jqbutton.bind('click', data, button.callback);
+			/*if ($.fn.tipsy) jqbutton.tipsy({
 				live: true,
 				offset: 8,
 				fade: true,
 				delayIn: 500,
 				gravity: 's'
-			});
+			});*/
 			this.options.containerButtons.append(jqbutton);
 		}
 	};
@@ -489,10 +488,10 @@ Wysiwym.Button = function(name, callback, data, cssclass) {
 	// Create and return a new Button jQuery element
 	this.create = function() {
 		if (this.name == 'sep') {
-			var button = $('<span>', {'class': 'sep mls'});
+			var button = $('<span>', {'class': 'sep'}).html('|');
 		} else {
 			var button = $('<div>', {
-				'class': 'btn gwfb t25 tooltip s o8 editor-'+ this.name + ' ' + this.cssclass,
+				'class': 'btn gwfb t25 tooltip s pls editor-'+ this.name + ' ' + this.cssclass,
 				title: this.name,
 				unselectable: 'on' // Make everything 'unselectable' so IE doesn't freak out
 			});
@@ -692,9 +691,7 @@ Wysiwym.Markdown = function(textarea) {
 		new Wysiwym.Button('quote', Wysiwym.list, {prefix:'> ', wrap:true}),
 		new Wysiwym.Button('code', Wysiwym.block, {prefix:'    ', wrap:true}),
 		new Wysiwym.Button('sep'),
-		new Wysiwym.Button('plus', Wysiwym.span, {prefix:'{+ **Pour :**\n', suffix:'\n}', text:' '}),
 		new Wysiwym.Button('zero', Wysiwym.span, {prefix:'{0 **Neutre :**\n', suffix:'\n}', text:' '}),
-		new Wysiwym.Button('minus', Wysiwym.span, {prefix:'{- **Contre :**\n', suffix:'\n}', text:' '}),
 	];
 
 	// Configure auto-indenting
