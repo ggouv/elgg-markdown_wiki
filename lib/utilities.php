@@ -58,7 +58,7 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $container_guid 
  * @return array
  */
 function markdown_wiki_group_settings_prepare_form_vars($group = null) {
-	
+
 	$values = array(
 		'markdown_wiki_all_enabled' => get_input('markdown_wiki_all_enabled', false),
 	);
@@ -95,23 +95,23 @@ function markdown_wiki_group_settings_prepare_form_vars($group = null) {
 if (!function_exists('search_group_by_title')) {
 	function search_group_by_title($group) {
 		global $CONFIG, $GROUP_TITLE_TO_GUID_MAP_CACHE;
-	
+
 		$group = sanitise_string($group);
-	
+
 		// Caching
 		if ((isset($GROUP_TITLE_TO_GUID_MAP_CACHE[$group]))
 		&& (retrieve_cached_entity($GROUP_TITLE_TO_GUID_MAP_CACHE[$group]))) {
 			return retrieve_cached_entity($GROUP_TITLE_TO_GUID_MAP_CACHE[$group]);
 		}
-	
+
 		$guid = get_data("SELECT guid from {$CONFIG->dbprefix}groups_entity where name='$group'");
-	
+
 		if ($guid) {
 			$GROUP_TITLE_TO_GUID_MAP_CACHE[$group] = $guid[0]->guid;
 		} else {
 			$guid = false;
 		}
-	
+
 		if ($guid) {
 			return $guid[0]->guid;
 		} else {
@@ -178,7 +178,7 @@ function search_markdown_wiki_by_title($title, $group = null) {
 function format_markdown_wiki_hooks($text, $guid = null) {
 
 	$params = array('guid' => $guid);
-	
+
 	$result = elgg_trigger_plugin_hook('format_markdown', 'override', $params, null);
 	if ($result) {
 		return $result;
@@ -206,3 +206,45 @@ function calc_diff_markdown_wiki($text) {
 		mb_strlen(implode($del[1])),
 	);
 }
+
+
+
+/**
+ * Return text of a markdown_wiki from entity
+ * @param  Entity $markdown_wiki_entity   A markdown_wiki entity
+ * @return string                     Text of the markdown_wiki page
+ */
+function get_markdown_wiki_text_from_entity($markdown_wiki_entity) {
+	if (!$markdown_wiki_entity) {
+		return false;
+	} else {
+		// parse markdown_wiki_entity
+		$annotation = $markdown_wiki_entity->getAnnotations('markdown_wiki', 1, 0, 'desc');
+		$value = unserialize($annotation[0]->value);
+		return $value['text'];
+	}
+}
+
+
+
+/**
+ * Return text of a markdown_wiki from guid
+ * @param  GUID $markdown_wiki_guid   The guid of the markdown_wiki page
+ * @return string                     Text of the markdown_wiki page
+ */
+function get_markdown_wiki_text_from_guid($markdown_wiki_guid) {
+	// get page
+	$markdown_wiki_entity = get_entity($markdown_wiki_guid);
+	if (!$markdown_wiki_entity) {
+		return false;
+	} else {
+		return get_markdown_wiki_text_from_entity($markdown_wiki_entity);
+	}
+}
+
+
+
+
+
+
+
