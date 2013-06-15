@@ -307,14 +307,15 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			$return = preg_replace('/`/', '„„', $matches[0]); // used with 4 spaces code block to escape ` inside block
 			if ($last) $return .= '`';
 			if ($first) $return = '`' . $return;
-			return preg_replace('/\]\(/U', '=]=(=', $return);
+			$return = preg_replace('/:\/\//U', '%:%', $return); // skip plain link
+			return preg_replace('/\[/U', '%%%', $return);
 		}
 	}
 	$returnvalue = preg_replace('{\r\n?}', "\n", $returnvalue); // 	# Standardize line endings: # DOS to Unix and Mac to Unix
 	$returnvalue = preg_replace_callback('/(?:^|\n)```.*\n```/Us', '_escape_link_in_block', $returnvalue); // github style code block (seems we don't need it because span code block do same thing
 	$returnvalue = preg_replace_callback('/\n\n(?:(?:[ ]{4}|\t).*\n+)+\n*[ ]{0,3}[^ \t\n]|(?=~0)/Um', '_escape_link_in_block', $returnvalue); // 4 spaces code block
 	$returnvalue = preg_replace_callback('/`+.*`/Um', '_escape_link_in_block', $returnvalue); // span style code block
-	$returnvalue = preg_replace('/\!\[(.*)\]\((.*)\)/U', '![$1=]=(=$2)', $returnvalue); // escape image in link
+	$returnvalue = preg_replace('/\!\[(.*)\]\((.*)\)/U', '!%%%$1]($2)', $returnvalue); // escape image in link
 	$returnvalue = preg_replace('/„„/', '`', $returnvalue);
 
 	// search wiki page link
@@ -327,12 +328,16 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 			$hash = $array_match[1] ? '\#' . $array_match[1] : ''; // check if link is like (apage#aparagraph)
 			// title
 			$word = strip_tags(rtrim($matches[1], '/'));
-			$html_word = strpos($word, '=]=(=') ? $word : urlencode($word); // check if title contain link (eg: wrap link on image)
+			$html_word = strpos($word, '%%%') ? $word : urlencode($word); // check if title contain link (eg: wrap link on image)
 
 			$group = elgg_get_page_owner_guid();
 			//if ($group == 0) $group = elgg_get_logged_in_user_guid(); no wiki for user ?
 			$site_url = elgg_get_site_url();
 			$info = elgg_echo('markdown_wiki:create');
+
+			if (!$link) { // markdown syntax like [a link]() or [a link](#paragraph)
+				$link = rtrim($matches[1], '/');
+			}
 
 			if ( strpos($link, '://') !== false ){
 				if ( strpos($link, $site_url) === false ) { // external link
@@ -341,14 +346,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					return '<a href="' . $link .'">' . $matches[1] . '</a>';
 				}
 			} else {
-				if (!$link) { // markdown syntax like [a link]() or [a link](#paragraph)
-					if ( $page_guid = search_markdown_wiki_by_title(rtrim($matches[1], '/'), $group) ) { // page exists
-						$page = get_entity($page_guid);
-						return "<a href='{$page->getUrl()}{$hash}'>{$matches[1]}</a>";
-					} else { // page doesn't exists
-						return "<a href='{$site_url}wiki/search?container_guid={$group}&q={$html_word}' class='tooltip s new' title=\"{$info}\">{$matches[1]}</a>";
-					}
-				} else if (preg_match('/^wiki\/group\/(\\w+)\/page\/(.*)/', $link, $relative) || preg_match('/^(\\w+):(.*)/', $link, $relative)) {
+				if (preg_match('/^wiki\/group\/(\\w+)\/page\/(.*)/', $link, $relative) || preg_match('/^(\\w+):(.*)/', $link, $relative)) {
 					if ( is_numeric($relative[1]) ) {
 						if ( is_numeric($relative[2]) ) {
 							$page = get_entity($relative[2]);
@@ -381,8 +379,29 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 		}
 	}
 	$return = preg_replace_callback("/(?<!\!)\[(.*)\]\((.*)\)/U", '_parse_link_callback', $returnvalue);
-	// unescape link =]=(=
-	return preg_replace('/=\]=\(=/U', '](', $return);
+
+	// parse link with reference like [a link][1]
+	$return = preg_replace_callback("/\[(.*)\]\[(.*)\]/U", function (array $matchesref) use ($returnvalue) {
+		if ($matchesref[2] == '') $matchesref[2] = $matchesref[1];
+		preg_match('/\['.$matchesref[2] . '\]:(.*)"?\n/Um', $returnvalue, $ref);
+		$matchesref[2] = trim($ref[1]);
+		return _parse_link_callback($matchesref);
+	}, $return);
+
+	if (!function_exists('_parse_plainlink_callback')) {
+		function _parse_plainlink_callback($matches) {
+			if ( strpos($matches[2], elgg_get_site_url()) === false ) { // external link
+				return "$matches[1]<a rel='nofollow' target='_blank' href='" . $matches[2] . "' class='external'>$matches[2]</a><span class='elgg-icon external'></span>$matches[3]";
+			} else { // internal link.
+				return $matches[1] . '<a href="' . $matches[2] .'">' . $matches[2] . '</a>' . $matches[3];
+			}
+		}
+	}
+	$return = preg_replace_callback('/(?<!\]:)(^| +|\n)((?:ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)($| |\n)/U', '_parse_plainlink_callback', $return);
+
+	$return = preg_replace('/%:%/U', '://', $return);
+	// unescape link %%%
+	return preg_replace('/%%%/U', '[', $return);
 }
 
 
