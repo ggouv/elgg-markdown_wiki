@@ -26,7 +26,7 @@ $english = array(
 	'groups:enable_markdown_wiki' => "Enable group wiki",
 
 	'markdown_wiki:none' => 'No wiki pages created yet',
-	
+
 	'markdown_wiki:edit' => "Edit page \"%s\"",
 	'markdown_wiki:history' => "History of page \"%s\"",
 	'markdown_wiki:discussion' => "Discussion of page \"%s\"",
@@ -36,7 +36,7 @@ $english = array(
 	'markdown_wiki:page:history' => "History",
 	'markdown_wiki:page:discussion' => "Discussion",
 	'markdown_wiki:page:compare' => "Compare",
-	
+
 	'markdown_wiki:search_in_group' => "Search page in this group %s",
 	'markdown_wiki:search_in_group:or_create' => "or create it",
 	'markdown_wiki:search_in_all_group' => "Search page in all groups",
@@ -48,6 +48,7 @@ $english = array(
 	'markdown_wiki:sidebar:history:50max' => "50 max",
 	'markdown_wiki:sidebar:compare:from' => "From",
 	'markdown_wiki:sidebar:compare:to' => "To",
+	'markdown_wiki:contents' => 'Contents',
 	'markdown_wiki:granularity:character' => "Character",
 	'markdown_wiki:granularity:word' => "Word",
 	'markdown_wiki:granularity:sentence' => "Sentence",
@@ -56,9 +57,9 @@ $english = array(
 	'markdown_wiki:ins' => 'ins',
 	'markdown_wiki:toggle-modification' => "Toggle modifications",
 	'markdown_wiki:redirect_from' => "Redirected from",
-	
+
 	'markdown_wiki:compare:button' => "Compare these revisions",
-	
+
 	'markdown_wiki:settings' => "Wiki settings",
 	'markdown_wiki:group:settings:title' => "Settings of wiki's group %s",
 	'markdown_wiki:group:settings:option' => "Display all pages instead of home page",
@@ -81,6 +82,7 @@ $english = array(
 	/**
 	 * Form fields
 	 */
+	'markdown_wiki:title' => "Title",
 	'markdown_wiki:description' => "Text",
 	'markdown_wiki:summary' => "Summary",
 	'markdown_wiki:minorchange' => "Minor change.",
@@ -123,7 +125,8 @@ $english = array(
 	 */
 	'item:object:markdown_wiki' => "Pages",
 	'markdown_wiki:strapline' => "Last modified %s by %s in group %s",
-	
+	'markdown_wiki:link-title:info' => "Permanent link for this title",
+
 	'markdown_wiki:history:date' => "By %s on",
 	'markdown_wiki:history:date_format' => "%e %B %Y at %H:%M",
 

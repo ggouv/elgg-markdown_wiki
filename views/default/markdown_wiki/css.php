@@ -25,6 +25,34 @@
 .markdown-wiki-search-form {
 	width: 35%;
 }
+.markdown-wiki-object .link-title {
+	float: right;
+	font-size: 32px;
+	font-weight: normal;
+}
+.markdown-wiki-object h3 .link-title {
+	float: none;
+	font-size: 1em;
+}
+.markdown-wiki-object .link-title a:hover {
+	text-decoration: none;
+}
+.elgg-module.contents a {
+	display: inline-block;
+	width: 100%;
+}
+.elgg-module.contents .H1 {
+	color: #111;
+	font-size: 1.1em;
+}
+.elgg-module.contents .H2 {
+	color: #555;
+	margin-left: 7px;
+}
+.elgg-module.contents .H3 {
+	margin-left: 15px;
+	font-size: 0.9em;
+}
 
  /*
   * history

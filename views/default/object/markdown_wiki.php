@@ -64,14 +64,14 @@ if (elgg_in_context('widgets')) {
 if ($full) {
 	$value = unserialize($annotation->value);
 	$content = format_markdown_wiki_hooks($value['text']);
-	
+
 	$body = '';
 	if ($redirect_from) {
 		$redirect_entity = get_entity($redirect_from);
 		system_message(elgg_echo('markdown_wiki:redirected', array($redirect_entity->title)));
 		$body .= "<div class='elgg-subtext'>(" . elgg_echo('markdown_wiki:redirect_from') ." <a href='{$redirect_entity->getURL()}&redirect=no'>{$redirect_entity->title}</a>)</div>";
 	}
-	$body .= elgg_view('output/markdown_wiki_text', array('value' => $content, 'class' => 'markdown-body'));
+	$body .= elgg_view('output/markdown_wiki_text', array('value' => $content, 'class' => 'markdown-body markdown-wiki-object'));
 
 	$params = array(
 		'entity' => $markdown_wiki,

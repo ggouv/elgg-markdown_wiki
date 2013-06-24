@@ -48,7 +48,7 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('markdown_wiki/sidebar/sidebar'),
+	'sidebar' => elgg_view('markdown_wiki/sidebar/sidebar') . elgg_view_module('aside', elgg_echo('markdown_wiki:contents'), '', array('class' => 'contents')),
 ));
 
 echo elgg_view_page($title, $body);

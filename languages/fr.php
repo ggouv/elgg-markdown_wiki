@@ -26,7 +26,7 @@ $french = array(
 	'groups:enable_markdown_wiki' => "Activer le wiki du groupe",
 
 	'markdown_wiki:none' => "Pas de page créée pour l'instant",
-	
+
 	'markdown_wiki:edit' => "Édition de la page \"%s\"",
 	'markdown_wiki:history' => "Historique de la page \"%s\"",
 	'markdown_wiki:discussion' => "Discussion sur la page \"%s\"",
@@ -36,7 +36,7 @@ $french = array(
 	'markdown_wiki:page:history' => "Historique",
 	'markdown_wiki:page:discussion' => "Discussion",
 	'markdown_wiki:page:compare' => "Comparer les révisions",
-	
+
 	'markdown_wiki:search_in_group' => "Chercher une page dans le groupe %s",
 	'markdown_wiki:search_in_group:or_create' => "ou en créer une",
 	'markdown_wiki:search_in_all_group' => "Chercher une page dans tous les groupes",
@@ -49,6 +49,7 @@ $french = array(
 	'markdown_wiki:sidebar:history:50max' => "50 max",
 	'markdown_wiki:sidebar:compare:from' => "Depuis",
 	'markdown_wiki:sidebar:compare:to' => "vers",
+	'markdown_wiki:contents' => 'Sommaire',
 	'markdown_wiki:granularity:character' => "Caractère",
 	'markdown_wiki:granularity:word' => "Mot",
 	'markdown_wiki:granularity:sentence' => "Phrase",
@@ -57,9 +58,9 @@ $french = array(
 	'markdown_wiki:ins' => 'ins',
 	'markdown_wiki:toggle-modification' => "Afficher/masquer les modifications",
 	'markdown_wiki:redirect_from' => "Redirigé depuis",
-	
+
 	'markdown_wiki:compare:button' => "Comparer ces révisions",
-	
+
 	'markdown_wiki:settings' => "Options du wiki",
 	'markdown_wiki:group:settings:title' => "Options du wiki du groupe %s",
 	'markdown_wiki:group:settings:option' => "Afficher toutes les pages au lieu de la page d'accueil",
@@ -82,6 +83,7 @@ $french = array(
 	/**
 	 * Form fields
 	 */
+	'markdown_wiki:title' => "Titre",
 	'markdown_wiki:description' => "Texte",
 	'markdown_wiki:summary' => "Résumé de votre modification",
 	'markdown_wiki:minorchange' => "Changement mineur. Votre modification ne sera pas notifiée dans votre flux et celui du groupe.",
@@ -122,7 +124,8 @@ $french = array(
 	 */
 	'item:object:markdown_wiki' => "Pages",
 	'markdown_wiki:strapline' => "Dernière modification %s par %s dans le groupe %s",
-	
+	'markdown_wiki:link-title:info' => "Lien permanent pour ce titre",
+
 	'markdown_wiki:history:date' => "Par %s le",
 	'markdown_wiki:history:date_format' => "%e %B %Y à %H:%M",
 

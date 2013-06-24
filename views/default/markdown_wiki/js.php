@@ -57,12 +57,42 @@ elgg.markdown_wiki.view.init = function() {
 	var markdownOutput = $('.elgg-output.markdown-body');
 	if (markdownOutput.length) {
 		$.each(markdownOutput, function() {
-			var t = $(this);
-			t.replaceWith($('<div>', {'class': t.attr('class')}).html(ShowdownConvert(t.html())));
-			$('pre code').each(function(i, e) {
+			var t = $(this),
+				h = $('<div>', {'class': t.attr('class')}).data('markdown', t.html()).html(ShowdownConvert(t.html()));
+			t.replaceWith(h);
+			h.find('pre code').each(function(i, e) {
 				if (e.className == '') $(e).addClass('no-highlight');
 				hljs.highlightBlock(e);
 			});
+			// make link for title and contents
+			if (h.hasClass('markdown-wiki-object')) {
+				var sum = $('.elgg-sidebar .elgg-module.contents .elgg-body');
+
+				$.each(h.find('h1, h2, h3'), function(i, e) {
+					var href = '#'+$(e).attr('id');
+					sum.append(
+						$('<a>', {
+							href: href,
+							'class': e.nodeName,
+							onclick: "$(window).scrollTo($('"+ href +"'), 'slow', {offset:-60}); return false;"
+						}).html($(e).html())
+					);
+					$(e).append(
+						$('<span>', {'class': 'elgg-icon hidden link-title pls prm'}).append(
+							$('<a>', {
+								href: href,
+								'class': 'tooltip '+ (e.nodeName == 'H3' ? 'w' : 'e'),
+								title: elgg.echo('markdown_wiki:link-title:info'),
+								onclick: "$(window).scrollTo($('"+ href +"'), 'slow', {offset:-60}); return false;"
+							}).html('U')
+					)).hover(function() {
+						$(this).find('.elgg-icon').removeClass('hidden');
+					},
+					function() {
+						$(this).find('.elgg-icon').addClass('hidden');
+					});
+				});
+			}
 		});
 	}
 
@@ -70,6 +100,7 @@ elgg.markdown_wiki.view.init = function() {
 	if ($('.help-markdown').length) {
 		CloneHelpMarkdown();
 	}
+
 }
 elgg.register_hook_handler('init', 'system', elgg.markdown_wiki.view.init);
 
