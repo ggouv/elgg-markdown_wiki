@@ -70,12 +70,13 @@ elgg.markdown_wiki.view.init = function() {
 
 				$.each(h.find('h1, h2, h3'), function(i, e) {
 					var href = '#'+$(e).attr('id');
+
 					sum.append(
 						$('<a>', {
 							href: href,
 							'class': e.nodeName,
 							onclick: "$(window).scrollTo($('"+ href +"'), 'slow', {offset:-60}); return false;"
-						}).html($(e).html())
+						}).html($.trim($(e).text()))
 					);
 					$(e).append(
 						$('<span>', {'class': 'elgg-icon hidden link-title pls prm'}).append(
