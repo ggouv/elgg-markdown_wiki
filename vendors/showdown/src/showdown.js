@@ -1276,7 +1276,22 @@ var _EncodeBackslashEscapes = function(text) {
 
 var _DoAutoLinks = function(text) {
 
-	text = text.replace(/<((https?|ftp|dict):[^'">\s]+)>/gi,"<a href=\"$1\">$1</a>");
+	text = text.replace(/<((https?|ftp|dict):[^'">\s]+)>/gi,function(match, link) {
+		if (elgg.isNull(link.match(elgg.get_site_url()))) {
+			return '<a rel="nofollow" target="_blank" class="external" href="'+link+'">'+link+'</a>';
+		} else {
+			return '<a href="'+link+'">'+link+'</a>';
+		}
+	});
+
+	text = text.replace(/((^| +|\n)((?:ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)($| |\n))/gi,function(match, link) {
+		link = link.replace('~T', '~');
+		if (elgg.isNull(link.match(elgg.get_site_url()))) {
+			return '<a rel="nofollow" target="_blank" class="external" href="'+link+'">'+link+'</a>';
+		} else {
+			return '<a href="'+link+'">'+link+'</a>';
+		}
+	});
 
 	// Email addresses: <address@domain.foo>
 
