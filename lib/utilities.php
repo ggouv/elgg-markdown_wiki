@@ -20,9 +20,9 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $container_guid 
 	// input names => defaults
 	$values = array(
 		'title' => '',
-		'description' => '',
+		'description' => $_SESSION['convert_markdown_wiki'],
 		'summary' => '',
-		'access_id' => ACCESS_DEFAULT,
+		'access_id' => ACCESS_PUBLIC,
 		'write_access_id' => ACCESS_LOGGED_IN,
 		'tags' => '',
 		'container_guid' => $container_guid ? $container_guid : elgg_get_page_owner_guid(),
@@ -46,6 +46,7 @@ function markdown_wiki_prepare_form_vars($markdown_wiki = null, $container_guid 
 	}
 
 	elgg_clear_sticky_form('markdown_wiki');
+	unset($_SESSION['convert_markdown_wiki']);
 
 	return $values;
 }

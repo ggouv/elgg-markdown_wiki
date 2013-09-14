@@ -281,6 +281,7 @@ function markdown_wiki_write_permission_check($hook, $entity_type, $returnvalue,
 			}
 		}
 	}
+	return $returnvalue;
 }
 
 
@@ -346,7 +347,7 @@ function markdown_wiki_parse_link_plugin_hook($hook, $entity_type, $returnvalue,
 					return '<a href="' . $link .'">' . $matches[1] . '</a>';
 				}
 			} else {
-				if (preg_match('/^wiki\/group\/(\\w+)\/page\/(.*)/', $link, $relative) || preg_match('/^(\\w+):(.*)/', $link, $relative)) {
+				if (preg_match('/^groupe?\/(\\w+)\/page\/(.*)/', $link, $relative) || preg_match('/^(\\w+):(.*)/', $link, $relative)) {
 					if ( is_numeric($relative[1]) ) {
 						if ( is_numeric($relative[2]) ) {
 							$page = get_entity($relative[2]);

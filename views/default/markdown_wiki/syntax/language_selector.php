@@ -10,6 +10,7 @@
  **/
 
 
+// syntax guide
 $user = elgg_get_logged_in_user_entity();
 if (elgg_view_exists("markdown_wiki/syntax/{$user->language}")) {
 	echo elgg_view("markdown_wiki/syntax/{$user->language}");
