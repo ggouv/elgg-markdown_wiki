@@ -4,6 +4,10 @@
     font-size: 13px;
     line-height: 1.4;
 }
+.markdown-body sup {
+    vertical-align: super;
+    font-size: smaller;
+}
 .markdown-body > *:first-child {
     margin-top: 0 !important;
 }
