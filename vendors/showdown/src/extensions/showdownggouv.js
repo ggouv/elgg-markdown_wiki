@@ -93,7 +93,7 @@
 
 					footText = [];
 					footnotes = [];
-					return source + '<div class="footnotes"><ol>' + allNotes + '</ol></div>';
+					return source + '<div class="footnotes"><ol>' + elgg.markdown_wiki.ShowdownConvert(allNotes) + '</ol></div>';
 				} else return source;
 			}}
 
