@@ -1,11 +1,11 @@
 //
 //  Markdown ggouv Extension //
 //
-//  @username   ->  <a title="username" href="#" class="user-info-popup">@username</a>
+//  @username   ->  <a title="username" href="#" class="elgg-user-info-popup info-popup">@username</a>
 //
-//  !group      ->  <a title="group" href="#" class="group-info-popup">!group</a>
+//  !group      ->  <a title="group" href="#" class="group-info-popup info-popup">!group</a>
 //
-//  #hashtag    ->  <a title="#hashtag" href="#" class="hashtag-info-popup">#hashtag</a>
+//  #hashtag    ->  <a title="#hashtag" href="#" class="hashtag-info-popup info-popup">#hashtag</a>
 //
 //  ~~strike-through~~   ->  <del>strike-through</del>
 //
@@ -24,7 +24,7 @@
 	var showdownggouv = function() {
 		var footText = [],
 			footnotes = [],
-			t = {"@":"user","!":"group","#":"hashtag"};
+			t = {"@":"elgg-user","!":"group","#":"hashtag"};
 
 		return [
 			// footnotes
@@ -47,7 +47,7 @@
 				if (leadingSlash === '\\') {
 					return match;
 				} else {
-					return '<a title="' + text + '" href="#" class="' + t[type] + '-info-popup">' + type + text + '</a>';
+					return '<a title="' + text + '" href="#" class="' + t[type] + '-info-popup info-popup">' + type + text + '</a>';
 				}
 			}},
 
@@ -85,8 +85,8 @@
 							});
 
 						if (source.match(reg) && txt.length) {
-							source = source.replace(reg, '<sup id="fnref-' + count + '"><a href="#fn-' + count + '" rel="footnote">' + count + '</a></sup>');
-							allNotes += '<li id="fn-' + count + '"><p><a rev="footnote" href="#fnref-' + count + '">↑</a> ' + txt[0].txt + '</p></li>';
+							source = source.replace(reg, '<sup id="fnref-' + count + '"><a href="'+window.location.href+'#fn-' + count + '" rel="footnote">' + count + '</a></sup>');
+							allNotes += '<li id="fn-' + count + '"><p><a rev="footnote" href="'+window.location.href+'#fnref-' + count + '">↑</a> ' + txt[0].txt + '</p></li>';
 							count++;
 						}
 					});
