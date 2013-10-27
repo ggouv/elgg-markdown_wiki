@@ -17,4 +17,4 @@ $excerpt = elgg_get_excerpt($excerpt, 140);
 $vars['item']->summary = elgg_view('river/elements/summary', array('item' => $vars['item']), FALSE, FALSE, 'default');
 $vars['item']->message = $excerpt;
 
-$jsonexport['activity'][] = $vars['item'];
+$jsonexport['results'][] = $vars['item'];
