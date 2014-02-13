@@ -42,7 +42,7 @@
 
 			// @username syntax !group syntax #hashtag syntax.
 			// Need to parse markdown and add \ on hashtag and reparse html output. This is done to skeep real \#tag and #tag in codeblock
-			{ type: 'html', regex: '\\B(\\\\)?(@|!|#)([a-zA-ZÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ]+)', replace: function(match, leadingSlash, type, text) {
+			{ type: 'html', regex: '\\B(\\\\)?(@|!|#)([a-zA-Z0-9ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ_]+)', replace: function(match, leadingSlash, type, text) {
 				// Check if we matched the leading \ and return nothing changed if so
 				if (leadingSlash === '\\') {
 					return match;
